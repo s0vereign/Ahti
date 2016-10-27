@@ -1,2 +1,9 @@
 # Ahti
-Ahti stands for: Acceleratored High Performance Simulation of the Time Dependent Schrödinger Equation In Various Enviroments
+
+
+**A**cellerated
+**H**igh Performance Simulation of the 
+**T**ime Dependent Schrödinger Equation
+**I**n Various envirounments
+
+ 
