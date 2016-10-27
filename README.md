@@ -7,6 +7,6 @@
 
 ***T***ime Dependent Schrödinger Equation
 
-***I***n Various envirounments
+***I***n Various environments
 
  
