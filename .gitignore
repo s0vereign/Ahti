@@ -3,7 +3,7 @@ utils/graybat
 utils/alpaka
 
 # build folder
-
+build/
 
 # Compiled Object files
 *.slo
