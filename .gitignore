@@ -1,3 +1,10 @@
+# subprojects
+utils/graybat
+utils/alpaka
+
+# build folder
+
+
 # Compiled Object files
 *.slo
 *.lo
