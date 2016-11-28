@@ -11,8 +11,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.3.0)
 
 ######
 set(CMAKE_COLOR_MAKEFILE ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wpedantic")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wnarrowing")
@@ -64,16 +65,26 @@ SET(MAIN_SRC_FILE "main.cu")
 # Find alpaka.
 #-------------------------------------------------------------------------------
 
-SET(ALPAKA_ROOT "${CMAKE_CURRENT_LIST_DIR}/../utils/alpaka" CACHE STRING "The location of the alpaka library")
+SET(ALPAKA_ROOT "${CMAKE_CURRENT_LIST_DIR}/../utils/alpaka/" CACHE STRING "The location of the alpaka library")
 LIST(APPEND CMAKE_MODULE_PATH "${ALPAKA_ROOT}")
 FIND_PACKAGE("alpaka" REQUIRED)
 if(ALPAKA_FOUND)
 message("-- alapaka detected")
 endif(ALPAKA_FOUND)
 
+#INCLUDE_DIRECTORIES(${alpaka_INCLUDE_DIRS})
+
+
+INCLUDE("${ALPAKA_ROOT}cmake/common.cmake")
+INCLUDE("${ALPAKA_ROOT}cmake/dev.cmake")
+
+
+ADD_DEFINITIONS( ${_COMPILE_DEFINITIONS_PRIVATE}
+${alpaka_DEFINITIONS} ${ALPAKA_DEV_COMPILE_OPTIONS})
+
 
 ###############
-# Find Graybar
+# Find Graybat
 ###############
 SET(GRAYBAT_ROOT " ${CMAKE_CURRENT_LIST_DIR}/../utils/graybat/utils/cmake/modules/" CACHE STRING "The location of the graybat library")
 LIST(APPEND CMAKE_PREFIX_PATH "${GRAYBAT_ROOT}")
@@ -82,6 +93,8 @@ FIND_PACKAGE("graybat" REQUIRED)
 if(graybat_FOUND)
 	message("-- Graybat detected")
 endif(graybat_FOUND)
+
+
 
 #############
 # Include directory

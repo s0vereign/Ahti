@@ -1,8 +1,9 @@
 #include <iostream>
+#include <alpaka/alpaka.hpp>
 
 
 int
-main ()
+main()
 {
 	using std::cout;
 	using std::endl;
