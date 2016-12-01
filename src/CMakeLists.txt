@@ -13,7 +13,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.3.0)
 set(CMAKE_COLOR_MAKEFILE ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+##set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wpedantic")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wnarrowing")
@@ -72,7 +72,7 @@ if(ALPAKA_FOUND)
 message("-- alapaka detected")
 endif(ALPAKA_FOUND)
 
-#INCLUDE_DIRECTORIES(${alpaka_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${alpaka_INCLUDE_DIRS})
 
 
 INCLUDE("${ALPAKA_ROOT}cmake/common.cmake")
@@ -92,19 +92,41 @@ SET(graybat_DIR "${CMAKE_CURRENT_LIST_DIR}/../utils/graybat")
 FIND_PACKAGE("graybat" REQUIRED)
 if(graybat_FOUND)
 	message("-- Graybat detected")
+	INCLUDE_DIRECTORIES(${graybat_INCLUDE_DIRS})
 endif(graybat_FOUND)
 
 
 
+
+###############
+# Find Package OpenMPI
+###############
+
+FIND_PACKAGE(MPI)
+if(MPI_FOUND)
+	 set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
+	 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
+	 include_directories(${MPI_INCLUDE_PATH})
+endif(MPI_FOUND)
 #############
 # Include directory
 #############
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_LIST_DIR}/../include/*)
+INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 
 
 
 #############
 # Add executable
 #############
+LIST(REMOVE_DUPLICATES CUDA_NVCC_FLAGS)
+message("${CUDA_NVCC_FLAGS}")
 
+STRING(REPLACE "-std=c++11" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+message("${CMAKE_CXX_FLAGS}")
 ALPAKA_ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE})
+
+TARGET_LINK_LIBRARIES(
+    ahti
+PUBLIC "alpaka"
+${MPI_LIBRARIES}
+)
