@@ -2,9 +2,9 @@
 #include <iostream>
 
 // GRAYBAT
-#include <graybat/Cage.hpp>
-#include <graybat/communicationPolicy/BMPI.hpp>
-#include <graybat/graphPolicy/BGL.hpp>
+//#include <graybat/Cage.hpp>
+//#include <graybat/communicationPolicy/BMPI.hpp>
+//#include <graybat/graphPolicy/BGL.hpp>
 
 
 #include <alpaka/alpaka.hpp>
