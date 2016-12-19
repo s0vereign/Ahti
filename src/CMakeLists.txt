@@ -58,7 +58,7 @@ PROJECT(ahti)
 # Add main source file 
 #############
 
-SET(MAIN_SRC_FILE "main.cu")
+SET(MAIN_SRC_FILE "main.cpp")
 
 
 #-------------------------------------------------------------------------------
@@ -122,6 +122,7 @@ LIST(REMOVE_DUPLICATES CUDA_NVCC_FLAGS)
 message("${CUDA_NVCC_FLAGS}")
 
 STRING(REPLACE "-std=c++11" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+STRING(REPLACE "14" "11" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 message("${CMAKE_CXX_FLAGS}")
 ALPAKA_ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE})
 

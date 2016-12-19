@@ -9,9 +9,8 @@
 
 #include <alpaka/alpaka.hpp>
 #include <mpi.h>
-
-#include "grid/Globalgrid.h"
-#include "grid/Localgrid.h"
+//#include "grid/Globalgrid.h"
+//#include "grid/Localgrid.h"
 
 int
 main()
