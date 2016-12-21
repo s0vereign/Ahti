@@ -10,12 +10,12 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.3.0)
 ############
 
 ######
-set(CMAKE_COLOR_MAKEFILE ON)
+#set(CMAKE_COLOR_MAKEFILE ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-##set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wpedantic")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wpedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wnarrowing")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Waddress")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Warray-bounds")
@@ -33,10 +33,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wstrict-overflow=1")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wswitch")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wtrigraphs")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wuninitialized")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunused-function")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunused-label")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunused-value")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunused-variable")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunused-function")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunused-label")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunused-value")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunused-variable")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wvolatile-register-var")
 
 
@@ -58,7 +58,7 @@ PROJECT(ahti)
 # Add main source file 
 #############
 
-SET(MAIN_SRC_FILE "main.cu")
+SET(MAIN_SRC_FILE "main.cpp")
 
 
 #-------------------------------------------------------------------------------
@@ -102,12 +102,12 @@ endif(graybat_FOUND)
 # Find Package OpenMPI
 ###############
 
-FIND_PACKAGE(MPI)
-if(MPI_FOUND)
-	 set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
-	 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
-	 include_directories(${MPI_INCLUDE_PATH})
-endif(MPI_FOUND)
+#FIND_PACKAGE(MPI)
+#if(MPI_FOUND)
+#	 set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
+#	 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
+#	 include_directories(${MPI_INCLUDE_PATH})
+#endif(MPI_FOUND)
 #############
 # Include directory
 #############
@@ -118,15 +118,16 @@ INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 #############
 # Add executable
 #############
-LIST(REMOVE_DUPLICATES CUDA_NVCC_FLAGS)
-message("${CUDA_NVCC_FLAGS}")
+#LIST(REMOVE_DUPLICATES CUDA_NVCC_FLAGS)
+#STRING(REPLACE "-arch=sm_20" "" CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS})
+#message("${CUDA_NVCC_FLAGS}")
 
-STRING(REPLACE "-std=c++11" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-message("${CMAKE_CXX_FLAGS}")
+#STRING(REPLACE "-std=c++11" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+
+
 ALPAKA_ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE})
-
 TARGET_LINK_LIBRARIES(
     ahti
 PUBLIC "alpaka"
-${MPI_LIBRARIES}
+#${MPI_LIBRARIES}
 )
