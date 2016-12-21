@@ -1,9 +1,9 @@
 #include <iostream>
-
+#include <vector>
 // GRAYBAT
-//#include <graybat/Cage.hpp>
-//#include <graybat/communicationPolicy/BMPI.hpp>
-//#include <graybat/graphPolicy/BGL.hpp>
+#include <graybat/Cage.hpp>
+#include <graybat/communicationPolicy/BMPI.hpp>
+#include <graybat/graphPolicy/BGL.hpp>
 
 
 #include <alpaka/alpaka.hpp>
@@ -14,6 +14,6 @@
 int
 main()
 {
-	
+	std::cout<< "Worked!" << std::endl;
 	return EXIT_SUCCESS;
 }
