@@ -1,26 +1,15 @@
-
-
-// STL
-#include <iostream>   /* std::cout */
-#include <vector>     /* std::vector */
-#include <array>      /* std::array */
-#include <functional> /* std::bind */
-#include <cmath>      /* sqrt */
-#include <cstdlib>    /* atoi */
-#include <numeric>    /* std::accumulate */
+#include <iostream>
 
 // GRAYBAT
-#include <graybat/Cage.hpp>
-#include <graybat/communicationPolicy/BMPI.hpp>
-#include <graybat/graphPolicy/BGL.hpp>
-// GRAYBAT mappings
-#include <graybat/mapping/Consecutive.hpp>
-#include <graybat/mapping/Random.hpp>
-#include <graybat/mapping/Roundrobin.hpp>
-#include <graybat/mapping/Filter.hpp>
-// GRAYBAT pattern
-#include <graybat/pattern/Chain.hpp>
+//#include <graybat/Cage.hpp>
+//#include <graybat/communicationPolicy/BMPI.hpp>
+//#include <graybat/graphPolicy/BGL.hpp>
 
+
+#include <alpaka/alpaka.hpp>
+#include <mpi.h>
+//#include "grid/Globalgrid.h"
+//#include "grid/Localgrid.h"
 
 int
 main()
