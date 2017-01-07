@@ -3,7 +3,7 @@
 
 // GRAYBAT
 #include <graybat/Cage.hpp>
-#include <graybat/communicationPolicy/BMPI.hpp>
+#include <graybat/communicationPolicy/ZMQ.hpp>
 #include <graybat/graphPolicy/BGL.hpp>
 #include <graybat/pattern/GridDiagonal.hpp>
 #include <graybat/mapping/Consecutive.hpp>
@@ -19,7 +19,7 @@ auto
 main()
 ->int
 {
-	typedef graybat::communicationPolicy::BMPI   CommunicationPolicy;
+	typedef graybat::communicationPolicy::ZMQ   CommunicationPolicy;
 	typedef typename CommunicationPolicy::Config Config;
 	typedef graybat::graphPolicy::BGL <> GraphPolicy;
 	typedef graybat::Cage<CommunicationPolicy, GraphPolicy> Cage;
