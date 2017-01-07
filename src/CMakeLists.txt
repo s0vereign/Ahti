@@ -78,34 +78,17 @@ INCLUDE("${ALPAKA_ROOT}cmake/common.cmake")
 INCLUDE("${ALPAKA_ROOT}cmake/dev.cmake")
 
 
-###############
-# Find Graybat
-###############
-SET(GRAYBAT_ROOT " ${CMAKE_CURRENT_LIST_DIR}/../utils/graybat/utils/cmake/modules/" CACHE STRING "The location of the graybat library")
-LIST(APPEND CMAKE_PREFIX_PATH "${GRAYBAT_ROOT}")
-SET(graybat_DIR "${CMAKE_CURRENT_LIST_DIR}/../utils/graybat")
-FIND_PACKAGE("graybat" REQUIRED)
-if(graybat_FOUND)
-	message("-- Graybat detected")
-	INCLUDE_DIRECTORIES(${graybat_INCLUDE_DIRS})
-endif(graybat_FOUND)
 
-###############
-# Find ZeroMQ
-###############
-FIND_PACKAGE(ZMQ REQUIRED)
-INCLUDE_DIRECTORIES(${ZMQ_INCLUDE_DIR})
-MESSAGE(${ZMQ_INCLUDE_DIR})
 ###############
 # Find Package OpenMPI
 ###############
 
-#FIND_PACKAGE(MPI)
-#if(MPI_FOUND)
-#	 set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
-#	 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
-#	 include_directories(${MPI_INCLUDE_PATH})
-#endif(MPI_FOUND)
+FIND_PACKAGE(MPI)
+if(MPI_FOUND)
+	 set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
+	 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
+	 include_directories(${MPI_INCLUDE_PATH})
+endif(MPI_FOUND)
 #############
 # Include directory
 #############
@@ -129,5 +112,6 @@ message(${CMAKE_CXX_FLAGS})
 ALPAKA_ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE})
 TARGET_LINK_LIBRARIES(
     ahti
-	${graybat_LIBRARIES}
+	PUBLIC "alpaka"
+	${MPI_LIBRARIES}
 )
