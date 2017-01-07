@@ -93,9 +93,9 @@ endif(graybat_FOUND)
 ###############
 # Find ZeroMQ
 ###############
-FIND_PACKGE(zmq REQUIRED)
-INCLUDE_DIRECTORIES(${zmq_INCLUDE_DIRS})
-
+FIND_PACKAGE(ZMQ REQUIRED)
+INCLUDE_DIRECTORIES(${ZMQ_INCLUDE_DIR})
+MESSAGE(${ZMQ_INCLUDE_DIR})
 ###############
 # Find Package OpenMPI
 ###############
