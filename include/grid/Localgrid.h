@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef LOCALGRID_H
+#define LOCALGRID_H
 
 #include <stdlib.h>
 
@@ -94,4 +94,5 @@ void destroy_Localgrid3D(Localgrid3D* l)
 	free(l);
 }
 
+#endif
 

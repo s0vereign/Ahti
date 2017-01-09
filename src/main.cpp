@@ -7,6 +7,9 @@
 // MPI
 #include <mpi.h>
 
+// Include Gridinformation
+#include "grid/SimConf.h"
+#include "grid/GridControl.h"
 #include "grid/Globalgrid.h"
 #include "grid/Localgrid.h"
 
