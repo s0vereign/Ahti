@@ -1,28 +1,62 @@
 #ifndef GRIDCONTROL_H
 #define GRIDCONTROL_H
 
+#include <stdlib.h>
+#include <math.h>
 #include "Localgrid.h"
 
 // The master threat distributes parameters 
 // to the corresponding workers
-void control_sim_init(const Sim1D& params, 
+void control_sim_init(const Sim1D* params, 
 					  const int mpi_size,
 					  const int mpi_id)
 {
-	const double dx = (params.xmax - params.xmin)/params.nx;
-	const double xmax = params.xmax;
-	const double xmin = params.xmin;
-	const double nx = params.nx;
-	const double nxloc = params.nx / mpi_size;
 	
-	const double wsize = (xmax - xmin)/ mpi_size;
+	// For convenience copy params in local variables
+	const int nx = params->nx;
+	const double xmax = params->xmax;
+	const double xmin = params->xmin;
 	
+	const double dx = xmax - xmin;
 	
+	// Master Thread is not a worker
+	int nworker = mpi_size - 1;
 	
-	for(int i = 1; i < mpi_size; i++)
+	// Points per worker
+	int ppw = 0;
+	
+	// rest points if unevenly distributed intervalls occur
+	int rp = 0;
+	
+	// Check the given grid parameters
+	double grid_check;
+	
+	if(nx % nworker == 0)
 	{
-		Localgrid1D lg = create_Localgrid1D();
+		ppw = nx / nworker;
+		
 	}
+	else
+	{
+		// Use one worker less as the "modulo worker"
+		nworker--;
+		
+		// Compute the number of Gridpoints for each worker
+		ppw = nx / nworker;
+		rp = nx % nworker;
+		
+		// Distribute the local grids to all workers
+		// 
+		for(int i = 0; i < nworker; i++)
+		{
+			Localgrid1D* l = create_Localgrid1D(ppw,
+												dx * i * ppw,
+												dx * i * ppw + dx * (ppw - 1));
+			
+			
+		}
+	}
+	
 }
 
 

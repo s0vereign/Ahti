@@ -4,35 +4,54 @@
 #include <stdlib.h>
 
 
-struct Localgrid1D
+typedef struct Localgrid1D
 {
 	int nx;
-	int xmin, xmax;
+	double xmin, xmax;
 	const int dim = 1;
-};
+} Localgrid1D;
 
 
-struct Localgrid2D
+typedef struct Localgrid2D
 {
 	int nx, ny;
-	int xmax, xmin;
-	int ymax, ymin;
+	double xmax, xmin;
+	double ymax, ymin;
 	const int dim = 2; 
-};
+} Localgrid2D;
 
 
-struct Localgrid3D
+typedef struct Localgrid3D
 {
 	int nx, ny, nz;
-	int xmax, xmin;
-	int ymax, ymin;
-	int zmax, zmin;
+	double xmax, xmin;
+	double ymax, ymin;
+	double zmax, zmin;
 	const int dim = 3;
-};
+} Localgrid3D;
 
+
+void commit_Localgrid1D(MPI_Datatype* mpi_lg_type)
+{
+	const int nitems = 4;
+	int blength[4] = {1, 1, 1, 1};
+	MPI_Datatype types[4] = {MPI_INT, 
+							MPI_DOUBLE,
+							MPI_DOUBLE,
+							MPI_INT};
+	MPI_Aint offsets[4];
+	offsets[0] = offsetof(Localgrid1D, nx);
+	offsets[1] = offsetof(Localgrid1D, xmin);
+	offsets[2] = offsetof(Localgrid1D, xmax);
+	offsets[3] = offsetof(Localgrid1D, dim);
+	MPI_Type_create_struct(nitems,blength, offsets, types, mpi_lg_type);
+	MPI_Type_commit(mpi_lg_type);
+	
+}
 
 Localgrid1D* create_Localgrid1D(int nx_,
-								int xmax_, int xmin_)
+								double xmax_,
+								double xmin_)
 {
 	Localgrid1D* l = (Localgrid1D*) malloc(sizeof(Localgrid1D));
 	l->nx = nx_;

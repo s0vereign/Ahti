@@ -94,7 +94,11 @@ endif(MPI_FOUND)
 #############
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 
-
+##############
+# Find Boost
+##############
+FIND_PACKAGE(Boost COMPONENTS unit_test_framework REQUIRED)
+include_directories(Boost_INCLUDE_DIRS)
 
 #############
 # Add executable
@@ -116,4 +120,5 @@ TARGET_LINK_LIBRARIES(
     ahti
 	PUBLIC "alpaka"
 	${MPI_LIBRARIES}
+	${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 )
