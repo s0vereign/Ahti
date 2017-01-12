@@ -29,7 +29,7 @@ main(int argc, char **argv)
 	if(rank == 0)
 	{
 	  
-	  Localgrid1D* l = create_Localgrid1D(10, 0.0, 2.0);
+	  Localgrid1D* l = create_Localgrid1D(10, 2.0, 0.0);
 	  MPI_Send(l, 1, LGrid1D, 15, 1, MPI_COMM_WORLD);
 	  printf("Localgrid1D sent! \n");
 	  destroy_Localgrid1D(l);
