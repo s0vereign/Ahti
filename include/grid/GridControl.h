@@ -40,8 +40,16 @@ void control_sim_init(const Sim1D* params,
 			destroy_Localgrid1D(send);
 		}
 
+	  if(nxr == 0)
+	  {
+		// Create a dead worker!
+		send = create_Localgrid1D(-1,-1,-1);
+	  }
 
+	  else
+	  {
 	  send = create_Localgrid1D(nxr, nx-1, nx-nxr);
+	  }
 	  MPI_Send(send, 1, *LGrid1D, mpi_size-1, 0, MPI_COMM_WORLD);
 	  destroy_Localgrid1D(send);
 	
