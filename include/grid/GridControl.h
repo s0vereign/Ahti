@@ -21,26 +21,29 @@ void control_sim_init(const Sim1D* params,
 	
 	if( nx % mpi_size != 0)
 	{
-	
-	  const int nxr = nx % mpi_size;
-	  ppw = (nx - nxr)/mpi_size;
-	  printf("PPW = %i \n", ppw);
+	  // Define number of full workers
+	  int nworker = mpi_size - 1;
 
+	  ppw = (nx - nx%nworker)/nworker;
+	  int nxr = nx % nworker;
+
+	  printf("ppw = %i, nxr = %i \n", ppw, nxr);
 	  mas_LGrid->nx = ppw;
 	  mas_LGrid->xmax = ppw-1;
 	  mas_LGrid->xmin = 0;
 
 
-	  for(int i = 1; i < mpi_size-1; i++)
+	  for(int i = 1; i < nworker; i++)
 		{
 			send = create_Localgrid1D(ppw, i*ppw+ppw-1, i*ppw);
 			MPI_Send(send, 1, *LGrid1D, i, 0, MPI_COMM_WORLD);
 			destroy_Localgrid1D(send);
 		}
-	
-		send = create_Localgrid1D(nxr, nx-1, nx-nxr);
-		MPI_Send(send, 1, *LGrid1D, mpi_size-1, 0, MPI_COMM_WORLD);
-		destroy_Localgrid1D(send);
+
+
+	  send = create_Localgrid1D(nxr, nx-1, nx-nxr);
+	  MPI_Send(send, 1, *LGrid1D, mpi_size-1, 0, MPI_COMM_WORLD);
+	  destroy_Localgrid1D(send);
 	
 	}
 	

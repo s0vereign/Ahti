@@ -33,7 +33,8 @@ main(int argc, char **argv)
 	
   MPI_Comm_size(MPI_COMM_WORLD,&size);
 
-  Sim1D* sim = create_Sim1D(55, 0, 54);
+  size_t nx = 8549;
+  Sim1D* sim = create_Sim1D(nx, nx-1, 0);
 
   if(rank == 0)
   {
