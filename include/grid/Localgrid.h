@@ -7,7 +7,7 @@
 typedef struct Localgrid1D
 {
 	int nx;
-	double xmin, xmax;
+	int xmin, xmax;
 	const int dim = 1;
 } Localgrid1D;
 
@@ -15,19 +15,19 @@ typedef struct Localgrid1D
 typedef struct Localgrid2D
 {
 	int nx, ny;
-	double xmax, xmin;
-	double ymax, ymin;
+	int xmax, xmin;
+    int ymax, ymin;
 	const int dim = 2; 
 } Localgrid2D;
 
 
 typedef struct Localgrid3D
 {
-	int nx, ny, nz;
-	double xmax, xmin;
-	double ymax, ymin;
-	double zmax, zmin;
-	const int dim = 3;
+  int nx, ny, nz;
+  int xmax, xmin;
+  int ymax, ymin;
+  int zmax, zmin;
+  const int dim = 3;
 } Localgrid3D;
 
 
@@ -50,8 +50,8 @@ void commit_Localgrid1D(MPI_Datatype* mpi_lg_type)
 }
 
 Localgrid1D* create_Localgrid1D(int nx_,
-								double xmax_,
-								double xmin_)
+								int xmax_,
+								int xmin_)
 {
 	Localgrid1D* l = (Localgrid1D*) malloc(sizeof(Localgrid1D));
 	l->nx = nx_;

@@ -10,74 +10,55 @@
 void control_sim_init(const Sim1D* params, 
 					  const int mpi_size,
 					  const int mpi_id,
-					  MPI_Datatype* LGrid1D
+					  MPI_Datatype* LGrid1D,
+					  Localgrid1D* mas_LGrid
 					 )
 {
 	
-	// For convenience copy params in local variables
-	const int nx = params->nx;
-	const double xmax = params->xmax;
-	const double xmin = params->xmin;
-	
-	const double dx = xmax - xmin;
-	
-	// Master Thread is not a worker
-	int nworker = mpi_size - 1;
-	
-	// Points per worker
 	int ppw = 0;
+	const int nx = params->nx;
+	Localgrid1D* send;
 	
-	// rest points if unevenly distributed intervalls occur
-	int rp = 0;
-	
-	// Check the given grid parameters
-	double grid_check;
-	
-	if(nx % nworker == 0)
+	if( nx % mpi_size != 0)
 	{
-		ppw = nx / nworker;
-		for(int i = 0; i < nworker-1; i++)
+	
+	  const int nxr = nx % mpi_size;
+	  ppw = (nx - nxr)/mpi_size;
+	  printf("PPW = %i \n", ppw);
+
+	  mas_LGrid->nx = ppw;
+	  mas_LGrid->xmax = ppw-1;
+	  mas_LGrid->xmin = 0;
+
+
+	  for(int i = 1; i < mpi_size-1; i++)
 		{
-			Localgrid1D* l = create_Localgrid1D(ppw,
-												xmin + (i+1) * (ppw-1) * dx,
-												xmin + i * ppw * dx);
-			MPI_Send(l, 1, *LGrid, i+1, 1, MPI_COMM_WORLD);
-			free(l);
+			send = create_Localgrid1D(ppw, i*ppw+ppw-1, i*ppw);
+			MPI_Send(send, 1, *LGrid1D, i, 0, MPI_COMM_WORLD);
+			destroy_Localgrid1D(send);
 		}
-		Localgrid1D* l = create_Localgrid1D(ppw,
-											xmin + nworker * ppw * dx,
-											xmin + (nworker-1) * ppw * dx);
-		MPI_Send(l, 1, *LGrid1D, nworker+1, 1, MPI_COMM_WORLD);
-		free(l);		
+	
+		send = create_Localgrid1D(nxr, nx-1, nx-nxr);
+		MPI_Send(send, 1, *LGrid1D, mpi_size-1, 0, MPI_COMM_WORLD);
+		destroy_Localgrid1D(send);
+	
 	}
-	else
+	
+	else 
 	{
-		// Use one worker less as the "modulo worker"
-		nworker--;
 		
-		// Compute the number of Gridpoints for each worker
-		ppw = nx / nworker;
-		rp = nx % nworker;
+		ppw = params->nx/mpi_size;
+	  	mas_LGrid->nx = ppw;
+	  	mas_LGrid->xmax = ppw-1;
+	  	mas_LGrid->xmin = 0;
 		
-		// Distribute the local grids to all workers
-		
-		for(int i = 0; i < nworker; i++)
+		for(int i = 1; i < mpi_size; ++i)
 		{
-			
-			Localgrid1D* l = create_Localgrid1D(ppw,
-												xmin + dx * i * ppw + dx * (ppw - 1),
-												xmin + dx * i * ppw);
-			MPI_Send(l, 1, *LGrid1D, i+1, 1, MPI_COMM_WORLD);	
-			free(l);
-		
+			send = create_Localgrid1D(ppw, i*ppw+ppw-1, i*ppw);
+			MPI_Send(send, 1, *LGrid1D, i, 0, MPI_COMM_WORLD);
+			destroy_Localgrid1D(send);
 		}
-		
-		Localgrid1D* l = create_Localgrid1D(rp,
-											xmin + dx * nworker * ppw + dx * rp,
-											xmin + dx * nworker * ppw
-											);		
-		MPI_Send(l, 1, *LGrid1D, nworker+1, 1, MPI_COMM_WORLD);
-		free(l);
+
 	}
 	
 }
