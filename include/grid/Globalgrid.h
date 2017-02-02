@@ -2,8 +2,10 @@
 
 #include <stdlib.h>
 
+namespace Grid {
+
 struct Globalgrid1D
-{	
+{
 	const int dim = 1;
 	int nx;
 };
@@ -67,5 +69,4 @@ void destroy_Globalgrid3D(Globalgrid3D* g)
 	free(g);
 }
 
-
-
+} // Namespace Grid

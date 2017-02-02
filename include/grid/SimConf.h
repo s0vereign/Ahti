@@ -1,13 +1,14 @@
-#ifndef SIMCONF_H
-#define SIMCONF_H
+#pragma once 
 
+
+namespace {
 
 typedef struct Simconf1
 {
-	
+
 	int nx;
 	int xmax, xmin;
-	
+
 } Sim1D;
 
 Sim1D* create_Sim1D(int nx_, int xmax_, int xmin_)
@@ -42,7 +43,7 @@ Sim2D* create_Sim2D(int nx_, int ny_,
 	s->xmin = xmin_;
 	s->ymax = ymax_;
 	s->ymin = ymin_;
-	return s; 
+	return s;
 }
 
 
@@ -75,7 +76,8 @@ Sim3D* create_Sim3D(int nx_,int ny_,int nz_,
 	s->ymin = ymin_;
 	s->zmax = zmax_;
 	s->zmin = zmin_;
-	
+
 	return s;
-}		
-#endif
+}
+
+}

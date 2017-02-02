@@ -1,8 +1,8 @@
-#ifndef LOCALGRID_H
-#define LOCALGRID_H
+#pragma once
 
 #include <stdlib.h>
 
+namespace Grid {
 
 typedef struct Localgrid1D
 {
@@ -17,7 +17,7 @@ typedef struct Localgrid2D
 	int nx, ny;
 	int xmax, xmin;
     int ymax, ymin;
-	const int dim = 2; 
+	const int dim = 2;
 } Localgrid2D;
 
 
@@ -35,7 +35,7 @@ void commit_Localgrid1D(MPI_Datatype* mpi_lg_type)
 {
 	const int nitems = 4;
 	int blength[4] = {1, 1, 1, 1};
-	MPI_Datatype types[4] = {MPI_INT, 
+	MPI_Datatype types[4] = {MPI_INT,
 							MPI_DOUBLE,
 							MPI_DOUBLE,
 							MPI_INT};
@@ -46,7 +46,7 @@ void commit_Localgrid1D(MPI_Datatype* mpi_lg_type)
 	offsets[3] = offsetof(Localgrid1D, dim);
 	MPI_Type_create_struct(nitems,blength, offsets, types, mpi_lg_type);
 	MPI_Type_commit(mpi_lg_type);
-	
+
 }
 
 Localgrid1D* create_Localgrid1D(int nx_,
@@ -61,7 +61,7 @@ Localgrid1D* create_Localgrid1D(int nx_,
 };
 
 
-Localgrid2D* create_Localgrid2D(int nx_, int ny_, 
+Localgrid2D* create_Localgrid2D(int nx_, int ny_,
 							    int xmax_, int xmin_,
 							    int ymax_, int ymin_)
 {
@@ -92,7 +92,7 @@ Localgrid3D* create_Localgrid3D(int nx_, int ny_, int nz_,
 	l->zmax = zmax_;
 	l->zmin = zmin_;
 	return l;
-	
+
 };
 
 
@@ -113,5 +113,4 @@ void destroy_Localgrid3D(Localgrid3D* l)
 	free(l);
 }
 
-#endif
-
+}
