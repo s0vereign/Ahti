@@ -52,7 +52,7 @@ namespace Grid{
 
 	  else
 	  {
-	  	send = create_Localgrid1D(nxr, nx-1, nx-nxr);
+			send = create_Localgrid1D(nxr, nx-1, nx-nxr);
 	  }
 
 	  MPI_Send(send, 1, *LGrid1D, mpi_size-1, 0, MPI_COMM_WORLD);
@@ -62,11 +62,10 @@ namespace Grid{
 
 	else
 	{
-
 		ppw = params->nx/mpi_size;
-	  mas_LGrid->nx = ppw;
-	  mas_LGrid->xmax = ppw-1;
-	  mas_LGrid->xmin = 0;
+		mas_LGrid->nx = ppw;
+		mas_LGrid->xmax = ppw-1;
+		mas_LGrid->xmin = 0;
 
 		for(int i = 1; i < mpi_size; ++i)
 		{

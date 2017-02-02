@@ -15,7 +15,7 @@
 #include "grid/Localgrid.h"
 
 // Include Master and Worker
-#include "worker/Master.h"
+#include "master/Master.h"
 #include "worker/Worker.h"
 
 using namespace Grid;
@@ -54,5 +54,5 @@ main(int argc, char **argv)
     MPI_Finalize();
 
     return EXIT_SUCCESS;
-    
+
 }

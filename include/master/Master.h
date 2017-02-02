@@ -11,6 +11,7 @@ namespace Master {
 				  	Sim1D* params,
 				  	int mpi_size,
 				  	int mpi_id)
+
 						{
 
   						Localgrid1D mlgrid = *create_Localgrid1D(0,0,0);

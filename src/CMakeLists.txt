@@ -54,7 +54,7 @@ PROJECT(ahti)
 
 
 #############
-# Add main source file 
+# Add main source file
 #############
 
 SET(MAIN_SRC_FILE "main.cpp")
@@ -89,6 +89,8 @@ if(MPI_FOUND)
 	 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
 	 include_directories(${MPI_INCLUDE_PATH})
 endif(MPI_FOUND)
+
+
 #############
 # Include directory
 #############
