@@ -9,14 +9,17 @@
 #include <mpi.h>
 
 // Include Gridinformation
-#include "grid/SimConf.h"
-#include "grid/GridControl.h"
-#include "grid/Globalgrid.h"
-#include "grid/Localgrid.h"
+#include "grid/SimConf.hpp"
+#include "grid/GridControl.hpp"
+#include "grid/Globalgrid.hpp"
+#include "grid/Localgrid.hpp"
 
 // Include Master and Worker
-#include "master/Master.h"
-#include "worker/Worker.h"
+#include "master/Master.hpp"
+#include "worker/Worker.hpp"
+
+// Include the TimeConf Type
+#include "timeconf/Timeconf.hpp"
 
 using namespace Grid;
 
@@ -31,8 +34,11 @@ main(int argc, char **argv)
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     MPI_Datatype LGrid1D;
-    commit_Localgrid1D(&LGrid1D);
+    MPI_Datatype TimeType;
 
+    
+    commit_Localgrid1D(&LGrid1D);
+    TimeConf::commit_TimeConf(&TimeType);
 
 
     MPI_Comm_size(MPI_COMM_WORLD,&size);
@@ -42,12 +48,12 @@ main(int argc, char **argv)
 
     if(rank == 0)
     {
-	     Master::start_master(&LGrid1D, sim, size, rank);
+	     Master::start_master(&LGrid1D, &TimeType, sim, size, rank);
     }
 
     if(rank != 0)
     {
-	     Worker::start_worker(&LGrid1D, rank);
+         Worker::start_worker(&LGrid1D, &TimeType,rank);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
