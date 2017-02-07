@@ -19,6 +19,6 @@ namespace Master {
                             control_sim_init( params, mpi_size, mpi_id, LGrid1D, &mlgrid);
                             printf("Rank %i, nx = %i, xmax = %i, xmin = %i \n", mpi_id, mlgrid.nx, mlgrid.xmax, mlgrid.xmin);
 
-						}
+                        }
 
 }
