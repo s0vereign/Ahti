@@ -42,7 +42,7 @@ main(int argc, char **argv)
     MPI_Datatype LGrid1D;
     MPI_Datatype TimeType;
 
-    config::Config1D<testfunctions::Gaussian> c(0.0, 1000.0, 0.0, 1000.0, testfunctions::Gaussian());
+    config::Config1D<testfunctions::Gaussian> c(0.0, 100.0, 0.0, 100.0, testfunctions::Gaussian());
 
     commit_Localgrid1D(&LGrid1D);
     TimeConf::commit_TimeConf(&TimeType);
@@ -50,7 +50,7 @@ main(int argc, char **argv)
 
     MPI_Comm_size(MPI_COMM_WORLD,&size);
 
-    size_t nx = 1000;
+    size_t nx = 10000;
     Sim1D* sim = create_Sim1D(nx, nx-1, 0);
 
     if(rank == 0)

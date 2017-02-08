@@ -23,10 +23,11 @@ namespace Worker {
         MPI_Recv(lgrid, 1,*LGrid1D, 0, 0, MPI_COMM_WORLD, &status);
         
         std::vector<std::complex<double>> res(lgrid->nx);
-        double h = (lgrid->xmax - lgrid->xmin)/lgrid->nx;
+        double h = (c.xmax - c.xmin)/lgrid->nx;
         std::complex<double> res1;
-        math::fourier_1D_serial(0.0, lgrid->nx, tf,h, 0.0, res1);
 
+        math::fourier_1D_serial(0.0, lgrid->nx, c.tf,h, 0.0, res1);
+        printf("res = %f \n", res1.real());
     }
 
 

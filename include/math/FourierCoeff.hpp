@@ -21,16 +21,14 @@ namespace math {
         std::complex<double> ic(0,0);
         for(int i = 1; i < nx; i++)
         {
-
             x += h * (double) i;
             std::complex<double> arg1 = j*alpha*i*x;
             std::complex<double> arg2 = j*alpha*i*(x+h);
             std::complex<double> arg3 = x + h;
-            res = res + psi(x) * std::exp(arg1);
-            res = res + psi(arg3) * std::exp(arg2);
+            res += psi(x) * std::exp(arg1) + psi(arg3) * std::exp(arg2);
 
         }
-        res *= h/ (double)2;
+        res *= h / 2.0;
     }
 
 } // MATH
