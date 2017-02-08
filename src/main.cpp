@@ -21,6 +21,12 @@
 // Include the TimeConf Type
 #include "timeconf/Timeconf.hpp"
 
+// Include Config struct
+#include "config/Config1D.hpp"
+
+// Include Gaussian Test functor
+#include "testfunctions/Gaussian.hpp"
+
 using namespace Grid;
 
 
@@ -36,7 +42,8 @@ main(int argc, char **argv)
     MPI_Datatype LGrid1D;
     MPI_Datatype TimeType;
 
-    
+    config::Config1D<testfunctions::Gaussian> c(0.0, 1000.0, 0.0, 1000.0, testfunctions::Gaussian());
+
     commit_Localgrid1D(&LGrid1D);
     TimeConf::commit_TimeConf(&TimeType);
 
@@ -48,12 +55,12 @@ main(int argc, char **argv)
 
     if(rank == 0)
     {
-	     Master::start_master(&LGrid1D, &TimeType, sim, size, rank);
+	     Master::start_master(&LGrid1D, c, sim, size, rank);
     }
 
     if(rank != 0)
     {
-         Worker::start_worker(&LGrid1D, &TimeType,rank);
+         Worker::start_worker(&LGrid1D, c,rank);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
