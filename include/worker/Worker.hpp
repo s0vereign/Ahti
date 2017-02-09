@@ -18,21 +18,22 @@ namespace Worker {
                     std::vector<std::complex<double>>& res,
                     T_CONF& c
                     )
-                    {
-                        std::cout << "Calculating coeff" << std::endl;
-                        double h = (c.xmax - c.xmin)/c.gnx;
+    {
+        DEBUG("Calculating coeff")
+        double h = (c.xmax - c.xmin)/c.gnx;
 
-                        double alpha = 2*M_PI/c.xmax;
+        double alpha = 2*M_PI/c.xmax;
 
-                        int index = 0;
-                        for(int i = lgrid.xmin; i < lgrid.xmax; i++)
-                        {
-                            index = i - c.gnx/2 + 1;
-                            math::fourier_1D_serial(alpha*index, c.gnx, c.tf, h, c.xmin, res[i]);
+        int index = 0;
+        for(int i = lgrid.xmin; i < lgrid.xmax; i++)
+            {
 
-                        }
+                index = i - c.gnx/2 + 1;
+                math::fourier_1D_serial(alpha*index, c.gnx, c.tf, h, c.xmin, res[i-lgrid.xmin]);
 
-                    }
+            }
+
+    }
 
 
     template<typename T_CONF>
@@ -45,10 +46,18 @@ namespace Worker {
         Grid::Localgrid1D* lgrid = Grid::create_Localgrid1D(0,0,0);
         MPI_Recv(lgrid, 1,*LGrid1D, 0, 0, MPI_COMM_WORLD, &status);
 
-        std::vector<std::complex<double>> res(lgrid->nx);
+        DEBUG("Recieved local grid with: " << lgrid->xmax << " "<< lgrid-> xmin<< " " << lgrid->nx)
 
+        if(lgrid->nx == -1)
+        {
+            DEBUG("Terminating..." )
+            return;
+        }
+
+        std::vector<std::complex<double>> res(lgrid->nx);
         calc_coeff(*lgrid, res, c);
-        std::cout << "Worker " << mpi_id << " has finished calculating coefficients!" << std::endl;
+
+        DEBUG("Worker " << mpi_id << " has finished calculating coefficients!");
 
 
 

@@ -2,11 +2,19 @@
 #include <stdlib.h>
 #include <stddef.h>
 
+
+
 // Alpaka for Kernel Acceleration
 #include <alpaka/alpaka.hpp>
 
 // MPI
 #include <mpi.h>
+
+#define DEBUG_ENABLED
+// Use useful debugging output
+#include "debug/DebugDef.h"
+
+
 
 // Include Gaussian Test functor
 #include "testfunctors/Gaussian.hpp"

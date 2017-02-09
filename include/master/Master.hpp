@@ -25,10 +25,13 @@ namespace Master {
 
                             Localgrid1D mlgrid = *create_Localgrid1D(0,0,0);
                             control_sim_init(params, mpi_size, mpi_id, LGrid1D, &mlgrid);
+                            DEBUG("Recieved local grid with: " << mlgrid.xmax << " " << mlgrid.xmin << " " <<mlgrid.nx)
+
                             std::vector<std::complex<double>> res(mlgrid.nx);
 
                             Worker::calc_coeff(mlgrid, res, c);
-                            std::cout << "Master finished" << std::endl;
+                            DEBUG("Master finished")
+
                         }
 
-}
+} // MASTER
