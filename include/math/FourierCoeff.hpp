@@ -1,9 +1,9 @@
 #pragma once
 
 #include <complex>
-#include "potentials/HarmOsc1D.hpp"
-#include "testfunctions/Gaussian.hpp"
+#include "testfunctors/Gaussian.hpp"
 #include "math/COperators.hpp"
+
 namespace math {
 
     template<typename FUNC_PSI>
@@ -14,17 +14,19 @@ namespace math {
                             double x0,
                             std::complex<double>& res)
     {
-        
+
         std::complex<double> x(0,0);
         std::complex<double> h(h_,0);
         std::complex<double> j(0,1.0);
-        std::complex<double> ic(0,0);
-        for(int i = 1; i < nx; i++)
+
+
+        for(int i = 0; i < nx; i++)
         {
-            x += h * (double) i;
-            std::complex<double> arg1 = j*alpha*i*x;
-            std::complex<double> arg2 = j*alpha*i*(x+h);
+            x = x0 + h * (double) i;
+            std::complex<double> arg1 = j*alpha*x;
+            std::complex<double> arg2 = j*alpha*(x+h);
             std::complex<double> arg3 = x + h;
+
             res += psi(x) * std::exp(arg1) + psi(arg3) * std::exp(arg2);
 
         }

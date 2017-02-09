@@ -1,8 +1,14 @@
 #pragma once
 
+#include <complex>
+#include <vector>
+
 #include "grid/Localgrid.hpp"
 #include "grid/GridControl.hpp"
 #include "config/Config1D.hpp"
+#include "worker/Worker.hpp"
+
+
 
 
 namespace Master {
@@ -17,11 +23,12 @@ namespace Master {
                         )
                         {
 
-                            auto tfunk = c.tf;
                             Localgrid1D mlgrid = *create_Localgrid1D(0,0,0);
-                            control_sim_init( params, mpi_size, mpi_id, LGrid1D, &mlgrid);
-                            printf("Rank %i, nx = %i, xmax = %i, xmin = %i \n", mpi_id, mlgrid.nx, mlgrid.xmax, mlgrid.xmin);
+                            control_sim_init(params, mpi_size, mpi_id, LGrid1D, &mlgrid);
+                            std::vector<std::complex<double>> res(mlgrid.nx);
 
+                            Worker::calc_coeff(mlgrid, res, c);
+                            std::cout << "Master finished" << std::endl;
                         }
 
 }

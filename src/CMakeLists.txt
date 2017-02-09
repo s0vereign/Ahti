@@ -124,3 +124,31 @@ TARGET_LINK_LIBRARIES(
 	${MPI_LIBRARIES}
 	${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 )
+
+option(TOTEST "Enable test build!" OFF)
+
+
+IF(TOTEST)
+
+
+enable_testing()
+
+file(GLOB TEST_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../include/tests/*.cpp)
+
+foreach(testSrc ${TEST_SRCS})
+
+  get_filename_component(testName ${testSrc} NAME_WE)
+	
+	ALPAKA_ADD_EXECUTABLE(${testName} ${testSrc})
+	target_link_libraries(${testName}
+												PUBLIC "alpaka"
+												${MPI_LIBRARIES}
+												${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+												)
+	set_target_properties(${testName} PROPERTIES
+																RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/testBin)
+	add_test(NAME ${testName}
+	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/testBin
+COMMAND ${CMAKE_CURRENT_BINARY_DIR}/testBin/${testName})
+endforeach(testSrc)
+ENDIF()
