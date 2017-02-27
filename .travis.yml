@@ -1,0 +1,17 @@
+language: cpp
+
+
+os:
+    - linux
+sudo: required
+dist: trusty
+compiler:
+    - gcc
+script:
+    - cd utils/
+    - git clone https://github.com/ComputationalRadiationPhysics/alpaka.git
+    - cd ..
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make
