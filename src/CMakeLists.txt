@@ -116,13 +116,16 @@ STRING(REPLACE "14" "11" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 ENDIF(CUDA_FOUND)
 message(${CMAKE_CXX_FLAGS})
 #message(${CUDA_NVCC_FLAGS})
-
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 ALPAKA_ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE})
+set_target_properties(ahti PROPERTIES
+	RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/bin)
 TARGET_LINK_LIBRARIES(
     ahti
 	PUBLIC "alpaka"
 	${MPI_LIBRARIES}
 	${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+	
 )
 
 option(TOTEST "Enable test build!" OFF)
@@ -146,9 +149,9 @@ foreach(testSrc ${TEST_SRCS})
 												${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 												)
 	set_target_properties(${testName} PROPERTIES
-																RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/testBin)
+	RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/tests)
 	add_test(NAME ${testName}
-	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/testBin
+	
 COMMAND ${CMAKE_CURRENT_BINARY_DIR}/testBin/${testName})
 endforeach(testSrc)
 ENDIF()

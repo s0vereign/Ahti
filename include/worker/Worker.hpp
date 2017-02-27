@@ -35,6 +35,8 @@ namespace Worker {
 
     }
 
+    void time_evolve(double tmin, double nt, )
+
 
     template<typename T_CONF>
     void start_worker(MPI_Datatype* LGrid1D,
@@ -58,10 +60,10 @@ namespace Worker {
         calc_coeff(*lgrid, res, c);
 
         DEBUG("Worker " << mpi_id << " has finished calculating coefficients!");
-
-
-
+        
     }
+
+
 
 
 

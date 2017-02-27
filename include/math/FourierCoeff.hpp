@@ -1,8 +1,11 @@
 #pragma once
 
 #include <complex>
+#include <math.h>
 #include "testfunctors/Gaussian.hpp"
 #include "math/COperators.hpp"
+#define DEBUG_ENABLED
+#include "debug/DebugDef.h"
 
 namespace math {
 
@@ -14,23 +17,22 @@ namespace math {
                             double x0,
                             std::complex<double>& res)
     {
+        using std::complex;
+        using std::exp;
 
-        std::complex<double> x(0,0);
-        std::complex<double> h(h_,0);
-        std::complex<double> j(0,1.0);
 
+        complex<double> x(x0,0);
+        complex<double> h(h_,0);
+        complex<double> j(0,1);
+
+        auto nx1 = static_cast<double>(nx);
 
         for(int i = 0; i < nx; i++)
-        {
-            x = x0 + h * (double) i;
-            std::complex<double> arg1 = j*alpha*x;
-            std::complex<double> arg2 = j*alpha*(x+h);
-            std::complex<double> arg3 = x + h;
-
-            res += psi(x) * std::exp(arg1) + psi(arg3) * std::exp(arg2);
-
+        {   
+            x = h*i;
+            res += psi(x)*exp(-2*M_PI*alpha*j*x/nx1);
+            
         }
-        res *= h / 2.0;
     }
 
 } // MATH
