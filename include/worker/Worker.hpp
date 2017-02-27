@@ -61,6 +61,7 @@ namespace Worker {
 
         DEBUG("Worker " << mpi_id << " has finished calculating coefficients!");
         
+        
     }
 
 
