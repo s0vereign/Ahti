@@ -6,6 +6,7 @@
 #include "timeconf/Timeconf.hpp"
 #include "math/FourierCoeff.hpp"
 #include "math/CoeffEv.hpp"
+#include "math/ValsEv.hpp"
 #include "testfunctors/Gaussian.hpp"
 #include "config/Config1D.hpp"
 #include "communication/Ring.hpp"

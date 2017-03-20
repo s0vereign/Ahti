@@ -30,18 +30,18 @@ namespace math{
                  int size, 
                  int rank)
     {
-        const int nx = lgrix.nx;
-        const int gnx = T_CONF.gnx;
+        const int nx = lgrid.nx;
+        const int gnx = conf.gnx;
         const double l0 = lgrid.xmax - lgrid.xmin;
-        complex<double> iu(0,1);
+        const complex<double> iu(0,1);
 
         for(int i = 0; i < nx; i++)
         {
             for(int j = 0; i < nx; j++)
             {
-                int n = getn(j, gnx);
-                vals[i] += coeff[j]*exp(iu*2*M_PI/l0*n)
+                int n = get_n(j, gnx);
+                vals[i] += coeff[j]*exp(iu*2*M_PI/l0*n);
             }
         }
     }
-}
+} // MATH
