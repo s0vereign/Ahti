@@ -30,6 +30,7 @@ namespace Master {
                             std::vector<std::complex<double>> res(mlgrid.nx);
 
                             Worker::calc_coeff(mlgrid, res, c);
+                            comm::ring_send(res, mpi_id, mpi_size, mlgrid.nx);
                             DEBUG("Master finished")
 
                         }

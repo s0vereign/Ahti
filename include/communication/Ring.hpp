@@ -11,13 +11,28 @@ namespace comm{
 
     int ring_get_next(int rank, int size)
     {
-        return size - ((rank+1)%size);
+        if(rank == size-1)
+        {
+            return 0;
+        }
+        else 
+        {
+            return rank+1;
+        }
     }
 
     int ring_get_prev(int rank, int size)
     {
-        return (rank + size-1) % size;
+        if(rank == 0)
+        {
+            return size-1;
+        }
+        else 
+        {
+            return rank-1;
+        }
     }
+
 
     
     template<typename T>
@@ -57,6 +72,7 @@ namespace comm{
         using std::array;
         using std::vector;
 
+        DEBUG("Rank is: " << rank)
         vector<complex<double>> tmp_recv(lgridsize);
         
 
@@ -70,7 +86,6 @@ namespace comm{
                 prv  = ring_get_prev(rank, size);
                 MPI_Send(send_buf.data(), lgridsize, MPI::DOUBLE_COMPLEX, nxt, 0, MPI_COMM_WORLD);
                 MPI_Recv(tmp_recv.data(), lgridsize, MPI::DOUBLE_COMPLEX, prv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-                
             }
 
             if(rank%2!=0)
@@ -80,8 +95,44 @@ namespace comm{
                 MPI_Recv(tmp_recv.data(), lgridsize, MPI::DOUBLE_COMPLEX, prv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
                 MPI_Send(send_buf.data(), lgridsize, MPI::DOUBLE_COMPLEX, nxt, 0, MPI_COMM_WORLD);
             }
-            auto recv_it = std::begin(tmp_recv);
-            std::copy(send_buf.begin(), send_buf.end(), recv_it);
         }
+        else 
+        {
+            nxt = ring_get_next(rank, size);
+            prv = ring_get_prev(rank, size);
+
+            DEBUG("nxt="<<nxt)
+            DEBUG("prv="<<prv)
+            
+            if(rank == size-1)
+            {
+                MPI_Recv(tmp_recv.data(), lgridsize, MPI::DOUBLE_COMPLEX, prv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                MPI_Send(send_buf.data(), lgridsize, MPI::DOUBLE_COMPLEX, nxt, 0, MPI_COMM_WORLD);
+            }
+
+            if(rank == 0)
+            {
+                
+                MPI_Send(send_buf.data(), lgridsize, MPI::DOUBLE_COMPLEX, nxt, 0, MPI_COMM_WORLD);
+                MPI_Recv(tmp_recv.data(), lgridsize, MPI::DOUBLE_COMPLEX, prv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            }
+
+            if(rank%2==0 && (rank!=0&&rank!=size-1))
+            {
+                MPI_Recv(tmp_recv.data(), lgridsize, MPI::DOUBLE_COMPLEX, prv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                MPI_Send(send_buf.data(), lgridsize, MPI::DOUBLE_COMPLEX, nxt, 0, MPI_COMM_WORLD);
+                
+            }
+
+            if(rank%2!=0 && (rank!=0&&rank!=size-1))
+            {   
+                MPI_Send(send_buf.data(), lgridsize, MPI::DOUBLE_COMPLEX, nxt, 0, MPI_COMM_WORLD);
+                MPI_Recv(tmp_recv.data(), lgridsize, MPI::DOUBLE_COMPLEX, prv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            }
+        }
+
+        auto recv_it = std::begin(tmp_recv);
+        std::copy(send_buf.begin(), send_buf.end(), recv_it);
+        
     }
 } //COMM

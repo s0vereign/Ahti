@@ -57,6 +57,7 @@ main(int argc, char **argv)
     MPI_Comm_size(MPI_COMM_WORLD,&size);
 
 
+    
     size_t nx = 10000;
     config::Config1D<testfunctions::Gaussian> c(0.0,
                                                 100.0,
@@ -66,7 +67,7 @@ main(int argc, char **argv)
                                                 testfunctions::Gaussian());
 
 
-
+    
     Sim1D* sim = create_Sim1D(nx, nx-1, 0);
 
 
@@ -77,7 +78,7 @@ main(int argc, char **argv)
 
     if(rank != 0)
     {
-         Worker::start_worker(&LGrid1D, c,rank);
+         Worker::start_worker(&LGrid1D, c,rank, size);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);

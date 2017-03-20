@@ -44,7 +44,8 @@ namespace Worker {
     template<typename T_CONF>
     void start_worker(MPI_Datatype* LGrid1D,
                       T_CONF& c,
-                      int mpi_id)
+                      int mpi_id,
+                      int size)
     {
 
         MPI_Status status;
@@ -63,7 +64,9 @@ namespace Worker {
         calc_coeff(*lgrid, res, c);
 
         DEBUG("Worker " << mpi_id << " has finished calculating coefficients!");
-        
+
+        comm::ring_send<std::vector<std::complex<double>>>(res, mpi_id, size, lgrid->nx);
+
         
     }
 
