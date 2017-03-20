@@ -59,11 +59,13 @@ main(int argc, char **argv)
 
     
     size_t nx = 10000;
+    size_t nt = 1000;
     config::Config1D<testfunctions::Gaussian> c(0.0,
                                                 100.0,
                                                 0.0,
                                                 100.0,
                                                 nx,
+                                                nt,
                                                 testfunctions::Gaussian());
 
 

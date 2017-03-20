@@ -61,7 +61,11 @@ namespace Worker {
                  int rank,
                  int size)
     {
-        double tm = c.tmax;
+        const double tmin = c.tmin;
+        const double tmax = c.tmax;
+        const double nt = c.nt;
+
+        
         
     }
 
