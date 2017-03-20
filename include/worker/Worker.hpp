@@ -5,6 +5,7 @@
 #include "grid/Localgrid.hpp"
 #include "timeconf/Timeconf.hpp"
 #include "math/FourierCoeff.hpp"
+#include "math/CoeffEv.hpp"
 #include "testfunctors/Gaussian.hpp"
 #include "config/Config1D.hpp"
 #include "communication/Ring.hpp"
@@ -39,9 +40,9 @@ namespace Worker {
                     )
     {
         DEBUG("Calculating coeff")
-        double h = (c.xmax - c.xmin)/c.gnx;
+        const double h = (c.xmax - c.xmin)/c.gnx;
 
-        double alpha = 2*M_PI/c.xmax;
+        const double alpha = 2*M_PI/c.xmax;
 
         int index = 0;
         for(int i = lgrid.xmin; i < lgrid.xmax; i++)
@@ -51,6 +52,18 @@ namespace Worker {
                 math::fourier_1D_serial(alpha*index, c.gnx, c.tf, h, c.xmin, res[i-lgrid.xmin]);
 
             }
+    }
+
+    template<typename T_CONF>
+    void ev_step(std::vector<std::complex<double>>& val,
+                 std::vector<std::complex<double>>& coef,
+                 const Localgrid1D& lgrid,
+                 const T_CONF& c,
+                 int rank,
+                 int size
+                 )
+    {
+        
     }
 
     template<typename T_CONF>
@@ -64,9 +77,11 @@ namespace Worker {
         const double tmin = c.tmin;
         const double tmax = c.tmax;
         const double nt = c.nt;
-
         
-        
+        for(int i = 0; i < nt; i++)
+        {
+            
+        }
     }
 
     template<typename T_CONF>
