@@ -15,6 +15,24 @@ namespace Worker {
     using namespace Grid;
 
     template<typename T_CONF>
+    void calc_vals(const Localgrid1D& lgrid,
+                   std::vector<std::complex<double>>& res,
+                   T_CONF& c)
+    {
+        double xmax = c.xmax;
+        double xmin = c.xmin;
+        double nx = lgrid.nx;
+        double dx = (xmax - xmin) / nx;
+        double x = 0; 
+        auto tdist = c.tf;
+        for(int i = 0; i < nx; i++)
+        {
+            x += dx;
+            res[i] = tdist(x);
+        }
+    }
+
+    template<typename T_CONF>
     void calc_coeff(const Localgrid1D& lgrid,
                     std::vector<std::complex<double>>& res,
                     T_CONF& c
@@ -33,13 +51,19 @@ namespace Worker {
                 math::fourier_1D_serial(alpha*index, c.gnx, c.tf, h, c.xmin, res[i-lgrid.xmin]);
 
             }
-
     }
 
-
-
-
-
+    template<typename T_CONF>
+    void time_ev(const Localgrid1D& lgrid,
+                 std::vector<std::complex<double>>& val,
+                 std::vector<std::complex<double>>& coef,
+                 T_CONF& c, 
+                 int rank,
+                 int size)
+    {
+        double tm = c.tmax;
+        
+    }
 
     template<typename T_CONF>
     void start_worker(MPI_Datatype* LGrid1D,
@@ -60,14 +84,12 @@ namespace Worker {
             return;
         }
 
-        std::vector<std::complex<double>> res(lgrid->nx);
-        calc_coeff(*lgrid, res, c);
-
-        DEBUG("Worker " << mpi_id << " has finished calculating coefficients!");
-
-        comm::ring_send<std::vector<std::complex<double>>>(res, mpi_id, size, lgrid->nx);
-
+        std::vector<std::complex<double>> vals(lgrid->nx);
+        std::vector<std::complex<double>> coef(lgrid->nx);
+        calc_vals(*lgrid, vals, c);
+        calc_coeff(*lgrid, coef, c);
         
+        DEBUG("Rank " << mpi_id << " finished calculations!")
     }
 
 } // Worker
