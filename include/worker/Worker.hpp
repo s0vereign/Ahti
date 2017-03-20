@@ -7,6 +7,7 @@
 #include "math/FourierCoeff.hpp"
 #include "testfunctors/Gaussian.hpp"
 #include "config/Config1D.hpp"
+#include "communication/Ring.hpp"
 
 
 namespace Worker {
@@ -35,7 +36,9 @@ namespace Worker {
 
     }
 
-    void time_evolve(double tmin, double nt, )
+
+
+
 
 
     template<typename T_CONF>
@@ -63,9 +66,5 @@ namespace Worker {
         
         
     }
-
-
-
-
 
 } // Worker
