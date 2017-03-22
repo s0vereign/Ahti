@@ -30,6 +30,18 @@ namespace config {
     template<typename T_CONF> 
     double get_dx(T_CONF c)
     {
-        return c.xmax - c.xmin;
+        return (c.xmax - c.xmin)/c.gnx;
     }
-}
+
+    template<typename T_CONF>
+    double get_l(T_CONF c)
+    {
+        return (c.xmax - c.xmin);
+    }
+
+    template<typename T_CONF>
+    double get_dt(T_CONF c)
+    {
+        return (c.tmax - c.tmin)/c.nt;
+    }
+} // config

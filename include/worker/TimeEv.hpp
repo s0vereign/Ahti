@@ -18,16 +18,28 @@ namespace Worker {
 
 
     template<typename T_CONF>
-    void ev_step(std::vector<std::complex<double>>& val,
+    void ev_step(std::vector<std::complex<double>>& vals,
                  std::vector<std::complex<double>>& coef,
                  const Localgrid1D& lgrid,
                  const T_CONF& c,
-                 int rank,
-                 int size
+                 int size,
+                 int rank
                  )
     {
-        double dx = config::get_dx(c);
-        
+        const double dx = config::get_dx(c);
+        int n_sends = 0;
+        const double l = config::get_l(c);
+        const double dt = config::get_dt(c);
+        while(n_sends < rank)
+        {
+            n_sends++;
+            math::evolve_coeff(coef, rank, size, c.gnx, l, lgrid, dt);
+            math::vals_ev(vals, coef, lgrid, c, size, rank);
+            comm::ring_send(vals, rank, size, lgrid.nx);
+            
+        }
+
+
     }
 
     template<typename T_CONF>

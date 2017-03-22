@@ -24,7 +24,7 @@ namespace math{
 
     template<typename T_CONF>
     void vals_ev(vector<complex<double> >& vals,
-                 vector<complex<double> >& coeff,
+                 vector<complex<double> >& coef,
                  const Localgrid1D& lgrid,
                  const T_CONF& conf,
                  int size, 
@@ -40,7 +40,7 @@ namespace math{
             for(int j = 0; i < nx; j++)
             {
                 int n = get_n(j, gnx);
-                vals[i] += coeff[j]*exp(iu*2*M_PI/l0*n);
+                vals[i] += coef[j]*exp(iu*2*M_PI/l0*n);
             }
         }
     }

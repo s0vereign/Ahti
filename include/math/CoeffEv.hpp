@@ -18,15 +18,17 @@ namespace math {
     void evolve_coeff(vector<complex<double> >& coef,
                       int rank, 
                       int size,
-                      int n, 
+                      int gnx,
+                      const double l,
                       const Localgrid1D& lgrid,
                       double dt
                       )
     {
+
         const int nx = lgrid.nx;
         const complex<double> j(0,1);
-        const double l = lgrid.xmax-lgrid.xmin;
-        
+
+        int n  = lgrid.xmin - (gnx / 2);
         for(int i = 0; i < nx; i++)
         {
             coef[i] = coef[i] * exp(- j * (dt/2)*(4*M_PI*M_PI/(l*l)*n*n)); 
