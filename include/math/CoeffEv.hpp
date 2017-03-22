@@ -29,6 +29,7 @@ namespace math {
         int n = lgrid.xmin - gnx/2;
         for(int i = 0; i < nx; i++)
         {   
+            
             coef[i] = coef[i] * exp(- j * (dt/2)*(4*M_PI*M_PI/(l*l)*n*n)); 
             n++;
         }
