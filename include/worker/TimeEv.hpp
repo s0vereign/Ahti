@@ -33,7 +33,7 @@ namespace Worker {
         while(n_sends < rank)
         {
             n_sends++;
-            math::evolve_coeff(coef, rank, size, c.gnx, l, lgrid, dt);
+            math::evolve_coeff(coef, c.gnx, l, lgrid, dt);
             math::vals_ev(vals, coef, lgrid, c, size, rank);
             comm::ring_send(vals, rank, size, lgrid.nx);
             
