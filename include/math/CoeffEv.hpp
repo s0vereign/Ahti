@@ -26,7 +26,7 @@ namespace math {
         const int nx = lgrid.nx;
         const complex<double> j(0,1);
         const double l = lgrid.xmax-lgrid.xmin;
-
+        
         for(int i = 0; i < nx; i++)
         {
             coef[i] = coef[i] * exp(- j * (dt/2)*(4*M_PI*M_PI/(l*l)*n*n)); 

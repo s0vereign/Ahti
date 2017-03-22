@@ -51,33 +51,33 @@ namespace Grid {
         MPI_Type_create_struct(nitems,blength, offsets, types, mpi_lg_type);
         MPI_Type_commit(mpi_lg_type);
 
-}
+    }
 
-Localgrid1D* create_Localgrid1D(int nx_,
-								int xmax_,
-								int xmin_)
-{
-	Localgrid1D* l = (Localgrid1D*) malloc(sizeof(Localgrid1D));
-	l->nx = nx_;
-	l->xmax = xmax_;
-	l->xmin = xmin_;
-	return l;
-};
+    Localgrid1D* create_Localgrid1D(int nx_,
+                                    int xmax_,
+                                    int xmin_)
+    {
+    Localgrid1D* l = (Localgrid1D*) malloc(sizeof(Localgrid1D));
+    l->nx = nx_;
+    l->xmax = xmax_;
+    l->xmin = xmin_;
+    return l;
+    };
 
 
-Localgrid2D* create_Localgrid2D(int nx_, int ny_,
-							    int xmax_, int xmin_,
-							    int ymax_, int ymin_)
-{
-	Localgrid2D* l = (Localgrid2D*) malloc(sizeof(Localgrid2D));
-	l->nx = nx_;
-	l->ny = ny_;
-	l->xmax = xmax_;
-	l->xmin = xmin_;
-	l->ymax = ymax_;
-	l->ymin = ymin_;
-	return l;
-};
+    Localgrid2D* create_Localgrid2D(int nx_, int ny_,
+                                   int xmax_, int xmin_,
+                                    int ymax_, int ymin_)
+    {
+        Localgrid2D* l = (Localgrid2D*) malloc(sizeof(Localgrid2D));
+        l->nx = nx_;
+        l->ny = ny_;
+        l->xmax = xmax_;
+        l->xmin = xmin_;
+        l->ymax = ymax_;
+        l->ymin = ymin_;
+        return l;
+    };
 
 
 Localgrid3D* create_Localgrid3D(int nx_, int ny_, int nz_,

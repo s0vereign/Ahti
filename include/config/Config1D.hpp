@@ -27,4 +27,9 @@ namespace config {
                    nt(nt_) {};
     };
 
+    template<typename T_CONF> 
+    double get_dx(T_CONF c)
+    {
+        return c.xmax - c.xmin;
+    }
 }
