@@ -10,34 +10,11 @@
 // MPI
 #include <mpi.h>
 
-#define DEBUG_ENABLED
 // Use useful debugging output
+#define DEBUG_ENABLED
 #include "debug/DebugDef.h"
 
-
-
-// Include Gaussian Test functor
-#include "testfunctors/Gaussian.hpp"
-
-// Include Gridinformation
-#include "grid/SimConf.hpp"
-#include "grid/GridControl.hpp"
-#include "grid/Globalgrid.hpp"
-#include "grid/Localgrid.hpp"
-
-// Include Master and Worker
-#include "master/Master.hpp"
 #include "worker/Worker.hpp"
-
-// Include the TimeConf Type
-#include "timeconf/Timeconf.hpp"
-
-// Include Config struct
-#include "config/Config1D.hpp"
-
-
-using namespace Grid;
-
 
 int
 main(int argc, char **argv)
@@ -50,39 +27,12 @@ main(int argc, char **argv)
     // MPI calls
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
-    MPI_Datatype LGrid1D;
-    MPI_Datatype TimeType;
-    commit_Localgrid1D(&LGrid1D);
-    TimeConf::commit_TimeConf(&TimeType);
     MPI_Comm_size(MPI_COMM_WORLD,&size);
-
-
     
-    size_t nx = 10000;
-    size_t nt = 1000;
-    config::Config1D<testfunctions::Gaussian> c(0.0,
-                                                100.0,
-                                                0.0,
-                                                100.0,
-                                                nx,
-                                                nt,
-                                                testfunctions::Gaussian());
-
-
+    auto in_fun = [] {return 0;};
+    Grid::Grid<1> g(0.0, 100.0, 65536, 0.0, 20.0, 1000);
+    Worker::start_worker(g, size, rank, in_fun);
     
-    Sim1D* sim = create_Sim1D(nx, nx-1, 0);
-
-
-    if(rank == 0)
-    {
-	     Master::start_master(&LGrid1D, c, sim, size, rank);
-    }
-
-    if(rank != 0)
-    {
-         Worker::start_worker(&LGrid1D, c,rank, size);
-    }
-
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
 
