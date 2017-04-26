@@ -101,8 +101,8 @@ namespace comm{
             nxt = ring_get_next(rank, size);
             prv = ring_get_prev(rank, size);
 
-            DEBUG("nxt="<<nxt)
-            DEBUG("prv="<<prv)
+            DEBUG("nxt=" << nxt)
+            DEBUG("prv=" << prv)
             
             if(rank == size-1)
             {

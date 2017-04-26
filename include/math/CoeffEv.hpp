@@ -3,7 +3,7 @@
 #include <complex>
 #include <vector>
 
-#include "grid/Localgrid.hpp"
+#include "grid/LocalGrid.hpp"
 
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
@@ -14,19 +14,19 @@ namespace math {
     using std::vector;
     using std::complex;
     using std::exp;
-    using Grid::Localgrid1D;
+    using Grid::LocalGrid;
     void evolve_coeff(vector<complex<double> >& coef,
                       const int gnx,
                       const double l,
-                      const Localgrid1D& lgrid,
+                      const LocalGrid<1>& lgrid,
                       const double dt
                       )
     {
 
-        const int nx = lgrid.nx;
+        const int nx = lgrid.nx0;
         const complex<double> j(0,1);
 
-        int n = lgrid.xmin - gnx/2;
+        int n = lgrid.x0 - gnx/2 + 1;
         for(int i = 0; i < nx; i++)
         {   
             
