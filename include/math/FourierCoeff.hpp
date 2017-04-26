@@ -1,9 +1,9 @@
 #pragma once
 
 #include <complex>
-#include <math.h>
-#include "testfunctors/Gaussian.hpp"
-#include "math/COperators.hpp"
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #define DEBUG_ENABLED
 #include "debug/DebugDef.h"
 
@@ -29,8 +29,8 @@ namespace math {
 
         for(int i = 0; i < nx; i++)
         {   
-            x = h*i;
-            res += psi(x)*exp(-2*M_PI*alpha*j*x/nx1);
+            x += h;
+            res += psi(x)*exp(-2*M_PI*alpha*j*double(i)/nx1);
             
         }
     }
