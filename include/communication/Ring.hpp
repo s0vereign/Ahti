@@ -72,7 +72,6 @@ namespace comm{
         using std::array;
         using std::vector;
 
-        DEBUG("Rank is: " << rank)
         vector<complex<double>> tmp_recv(lgridsize);
         
 
@@ -92,6 +91,7 @@ namespace comm{
             {
                 nxt = ring_get_next(rank, size);
                 prv = ring_get_prev(rank, size);
+                
                 MPI_Recv(tmp_recv.data(), lgridsize, MPI::DOUBLE_COMPLEX, prv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
                 MPI_Send(send_buf.data(), lgridsize, MPI::DOUBLE_COMPLEX, nxt, 0, MPI_COMM_WORLD);
             }
@@ -101,9 +101,6 @@ namespace comm{
             nxt = ring_get_next(rank, size);
             prv = ring_get_prev(rank, size);
 
-            DEBUG("nxt=" << nxt)
-            DEBUG("prv=" << prv)
-            
             if(rank == size-1)
             {
                 MPI_Recv(tmp_recv.data(), lgridsize, MPI::DOUBLE_COMPLEX, prv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);

@@ -3,7 +3,8 @@
 #include <complex>
 #include <vector>
 
-#include "grid/Localgrid.hpp"
+#include "grid/Grid.hpp"
+#include "grid/LocalGrid.hpp"
 
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
@@ -15,33 +16,44 @@ namespace math{
     using std::complex;
     using std::vector;
     using std::exp;
-    using Grid::Localgrid1D;
+    using Grid::LocalGrid;
+    using Grid::Grid;
 
     int get_n(int n, int gnx)
     {
         return n - gnx/2;
     }
 
-    template<typename T_CONF>
+    template<typename POT>
     void vals_ev(vector<complex<double> >& vals,
                  vector<complex<double> >& coef,
-                 const Localgrid1D& lgrid,
-                 const T_CONF& conf,
-                 int size, 
-                 int rank)
+                 const LocalGrid<1>& lgrid,
+                 Grid<1>& grid,
+                 int ind_s,
+                 POT p
+                 )
     {
-        const int nx = lgrid.nx;
-        const int gnx = conf.gnx;
-        const double l0 = lgrid.xmax - lgrid.xmin;
+        const int nx = lgrid.nx1 - lgrid.nx0;
+        const int gnx = grid.nx;
+        const double l0 = grid.x1 - grid.x0;
         const complex<double> iu(0,1);
+        int n = ind_s - gnx / 2  + 1; 
+        double x = lgrid.x0;
+        double dx = lgrid.dx;
+        double dt = (grid.tmax - grid.tmin)/(grid.nt + 1);
 
-        for(int i = 0; i < nx; i++)
+        for(int i = 0; i < vals.size(); i++)
         {
-            for(int j = 0; i < nx; j++)
+            
+            for(int j = 0; j < coef.size(); j++)
             {
-                int n = get_n(j, gnx);
-                vals[i] += coef[j]*exp(iu*2*M_PI/l0*n);
+
+                vals[i] += coef[j]*exp(iu*2.0*M_PI/l0*double(n)*x);
             }
+
+            vals[i] *= exp(-iu*dt*p(x));
+            n++;
+            x += dx;
         }
     }
 } // MATH

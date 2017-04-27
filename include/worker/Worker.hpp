@@ -32,9 +32,13 @@ namespace Worker
         DEBUG(mpi_r << ": " << lgrid.nx0 << " " << lgrid.nx1);
         std::vector<complex<double> > psi_0(lgrid.nx1 - lgrid.nx0);
         std::vector<complex<double> > psi_coeff(lgrid.nx1 - lgrid.nx0);
+        std::vector<complex<double> > vals(lgrid.nx1 - lgrid.nx0);
+        std::vector<complex<double> > corr_func(grid.nt);
         
         calc_coeff(lgrid, grid, d, psi_coeff);
-        
+        time_evo(lgrid, grid, d, p, vals, psi_0, corr_func, corr_func, mpi_s, mpi_r);
+
+
         DEBUG(mpi_r << ": " << "finished!");
         
         
