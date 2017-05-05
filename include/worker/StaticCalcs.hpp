@@ -11,7 +11,11 @@
 #include "math/CoeffEv.hpp"
 #include "math/ValsEv.hpp"
 #include "communication/Ring.hpp"
+#include "output/SaveStep.hpp"
 
+
+
+#define FILE "wf_out.h5"
 
 namespace Worker 
 {
@@ -76,7 +80,8 @@ namespace Worker
         int ind_curr = n_curr - g.nx/2 + 1;
         const int psize = lgrid.nx1 - lgrid.nx0;
         const double dt = (g.tmax-g.tmin)/(nt);
-        
+        hid_t fl = H5Fcreate(FILE, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+
         for(int i = 0; i < nt; i++)
         {
             math::evolve_coeff(psi_coeff, g.nx, (g.x1-g.x0), lgrid, dt);
@@ -100,9 +105,9 @@ namespace Worker
                 
                 if(ind_curr >= g.nx/2)
                 {
-                    DEBUG("Index was: "<<ind_curr);
+                    //DEBUG("Index was: "<<ind_curr);
                     ind_curr = -g.nx/2+1;
-                    DEBUG("Index now:" << ind_curr);
+                    //DEBUG("Index now:" << ind_curr);
                 }
                 MPI_Barrier(MPI_COMM_WORLD);
                 comm::ring_send(psi_coeff, mpi_r, mpi_s, psi_coeff.size());
@@ -112,9 +117,13 @@ namespace Worker
             // Account for final phase factor
             phase_fac(lgrid, g, p, vals);
 
-            
+            IO::save_step(mpi_r, mpi_s, g,vals,i, fl);
 
+            for(auto& it : vals)
+            {
+                it = 0;
+            }
         }
-        
+        H5Fclose(fl);
     };
 }
