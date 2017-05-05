@@ -28,3 +28,10 @@ before_script:
     - mkdir cmake && travis_retry wget --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
     - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
    
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports # cmake 3.2.3 / doxygen 1.8.3
+    packages:
+      - cmake
+      - cmake-data
