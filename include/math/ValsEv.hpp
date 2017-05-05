@@ -51,7 +51,6 @@ namespace math{
                 vals[i] += coef[j]*exp(iu*2.0*M_PI/l0*double(n)*x);
             }
 
-            vals[i] *= exp(-iu*dt*p(x));
             n++;
             x += dx;
         }

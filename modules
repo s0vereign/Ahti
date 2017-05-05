@@ -13,6 +13,7 @@ module load openmpi/1.8.6
 module load boost/1.62.0
 module load libsodium
 module load zeromq
+module load hdf5-parallel
 
 
 

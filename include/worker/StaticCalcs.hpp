@@ -35,6 +35,28 @@ namespace Worker
         }
         
     };
+
+    template<typename POT>
+    void phase_fac( Grid::LocalGrid<1> lgrid,
+                    Grid::Grid<1> g,
+                    POT p, 
+                    vector<complex<double> >& vals
+                    )
+    {
+
+        double x  = lgrid.x0;
+        const double dx = lgrid.dx;
+        int n = lgrid.nx0;
+        const double dt = (g.tmax - g.tmin)/(g.nt+1); 
+        complex<double> iu(0,1);
+        for(int i = 0; i < vals.size(); i++)
+        {
+            vals[i] *= std::exp(- iu * dt * p(x));
+            x += dx;
+        }
+
+
+    }
     
     template<typename DIST, typename POT>
     void time_evo(  Grid::LocalGrid<1> lgrid, 
@@ -64,10 +86,10 @@ namespace Worker
             {
                 // First evolve coeeficients
 
-                DEBUG(mpi_r << ": Starting to calculate!");
+                //DEBUG(mpi_r << ": Starting to calculate!");
                 math::vals_ev(vals, psi_coeff, lgrid, g, ind_curr, p);
 
-                DEBUG(mpi_r << ": Finished!");
+                //DEBUG(mpi_r << ": Finished!");
                 // Since the index always increases after an send 
                 // except when the coefficients with N/2-1 have been sent
                 // we need to update our current index!
@@ -86,6 +108,12 @@ namespace Worker
                 comm::ring_send(psi_coeff, mpi_r, mpi_s, psi_coeff.size());
                 
             }
+
+            // Account for final phase factor
+            phase_fac(lgrid, g, p, vals);
+
+            
+
         }
         
     };

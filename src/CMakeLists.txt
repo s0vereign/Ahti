@@ -94,6 +94,32 @@ endif(MPI_FOUND)
 #############
 # Include directory
 #############
+
+############
+# Find HDF5
+############
+FIND_PACKAGE(HDF5 REQUIRED)
+if(HDF5_FOUND)
+	include_directories(HDF5_INCLUDE_DIRS)
+	
+endif(HDF5_FOUND)
+
+
+##########
+# Find libsplash
+##########
+
+set(Splash_USE_STATIC_LIBS ON)
+find_package(Splash)
+
+if(Splash_FOUND)
+    include_directories(${Splash_INCLUDE_DIRS})
+    set(LIBS ${LIBS} ${Splash_LIBRARIES})
+endif(Splash_FOUND)
+
+############
+# User the include directories
+############
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 
 ##############
@@ -152,6 +178,7 @@ foreach(testSrc ${TEST_SRCS})
 												PUBLIC "alpaka"
 												${MPI_LIBRARIES}
 												${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+												${HDF5_LIBRARIES}
 												)
 	set_target_properties(${testName} PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/tests)
