@@ -32,12 +32,12 @@ namespace Worker
         
         int ind0 = n0;
         
-        for( complex<double> & c : res)
+        for( int i = 0; i < res.size(); i++)
         {
-            math::fourier_1D_serial(ind0, g.nx, d, dx, lgrid.x0, c);
+            math::fourier_1D_serial(ind0, g.nx, d, dx, lgrid.x0, res[i]);
             ind0 += 1;
+
         }
-        
     };
 
     template<typename POT>
