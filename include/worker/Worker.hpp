@@ -8,6 +8,7 @@
 #include "grid/LocalGrid.hpp"
 #include "StaticCalcs.hpp"
 
+
 namespace Worker
 {
     using std::complex;

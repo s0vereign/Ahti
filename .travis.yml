@@ -22,5 +22,14 @@ before_script:
     - sudo apt-get install -q -y cmake-data cmake
     - sudo apt-get install -qq build-essential
     - sudo apt-get install -qq libhdf5-dev
+    - sudo apt-get install -qq wget
     - gcc --version && g++ --version
-    - pwd
+   
+   
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports # cmake 3.2.3 / doxygen 1.8.3
+    packages:
+      - cmake
+      - cmake-data

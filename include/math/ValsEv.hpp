@@ -6,6 +6,7 @@
 #include "grid/Grid.hpp"
 #include "grid/LocalGrid.hpp"
 
+
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
 #endif
@@ -33,7 +34,7 @@ namespace math{
                  POT p
                  )
     {
-        const int nx = lgrid.nx1 - lgrid.nx0;
+        const int nx = lgridd.nx1 - lgrid.nx0;
         const int gnx = grid.nx;
         const double l0 = grid.x1 - grid.x0;
         const complex<double> iu(0,1);
@@ -49,9 +50,9 @@ namespace math{
             {
 
                 vals[i] += coef[j]*exp(iu*2.0*M_PI/l0*double(n)*x);
+                
             }
-
-            vals[i] *= exp(-iu*dt*p(x));
+            
             n++;
             x += dx;
         }

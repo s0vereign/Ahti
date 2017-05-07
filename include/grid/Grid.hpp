@@ -2,6 +2,7 @@
 
 #include <array>
 
+
 namespace Grid 
 {
     template<int d>
@@ -17,7 +18,8 @@ namespace Grid
         double tmin, tmax;
         int nt;
         Grid(double x0_, double x1_, int nx_, 
-             double tmin_, double tmax_, int nt_) :
+             double tmin_, double tmax_, int nt_
+              ) :
              x0(x0_), x1(x1_), nx(nx_),
              tmin(tmin_), tmax(tmax_), nt(nt_)
              {

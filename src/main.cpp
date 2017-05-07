@@ -27,14 +27,16 @@ main(int argc, char **argv)
     int size;
     int rank;
 
+    const double inv_fthsqrt_pi(0.7511255444649425);
     // MPI calls
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     MPI_Comm_size(MPI_COMM_WORLD,&size);
     
-    auto in_fun = [](std::complex<double> x) {return std::exp(-x*x);};
+    auto in_fun = [inv_fthsqrt_pi](std::complex<double> x) {return inv_fthsqrt_pi*std::exp(-x*x/2.0);};
     auto pot_fun = [](double x) {return x*x/2.0;};
-    Grid::Grid<1> g(0.0, 100.0, 65536/4, 0.0, 20.0, 10);
+
+    Grid::Grid<1> g(-20.0, 20.0, 65536/4, 0.0, 20.0, 10);
     Worker::start_worker(g, size, rank, in_fun, pot_fun);
     
     MPI_Barrier(MPI_COMM_WORLD);
