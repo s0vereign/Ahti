@@ -1,10 +1,26 @@
-language: cpp
+language: 
+        - cpp
 
-
+env:
+    global:
+        - ALPAKA_CI_ANALYSIS=OFF
+        - ALPAKA_DEBUG=0
+        - ALPAKA_ACC_CPU_B_SEQ_T_SEQ_ENABLE=ON
+        - ALPAKA_ACC_CPU_B_SEQ_T_THREADS_ENABLE=ON
+        - ALPAKA_ACC_CPU_B_SEQ_T_FIBERS_ENABLE=ON
+        - ALPAKA_ACC_CPU_B_TBB_T_SEQ_ENABLE=ON
+        - ALPAKA_ACC_CPU_B_OMP2_T_SEQ_ENABLE=ON
+        - ALPAKA_ACC_CPU_B_SEQ_T_OMP2_ENABLE=ON
+        - ALPAKA_ACC_CPU_BT_OMP4_ENABLE=ON
+        - ALPAKA_ACC_GPU_CUDA_ENABLE=OFF
+        - ALPAKA_ACC_GPU_CUDA_ONLY_MODE=OFF
+        - ALPAKA_CLANG_LIBSTDCPP_VERSION=5
+        - CMAKE_VERSION=cmake-3.8.1-Linux-x86_64
 os:
     - linux
 sudo: required
 dist: trusty
+
 compiler:
     - gcc
 
@@ -18,18 +34,32 @@ script:
     - make
 
 before_script:
+    before_install:
+    
+    - echo "${TRAVIS_BRANCH}"
+    - echo "${TRAVIS_BUILD_DIR}"
+    - echo "${TRAVIS_BUILD_ID}"
+    - echo "${TRAVIS_BUILD_NUMBER}"
+    - echo "${TRAVIS_COMMIT}"
+    - echo "${TRAVIS_COMMIT_RANGE}"
+    - echo "${TRAVIS_JOB_ID}"
+    - echo "${TRAVIS_JOB_NUMBER}"
+    - echo "${TRAVIS_PULL_REQUEST}"
+    - echo "${TRAVIS_SECURE_ENV_VARS}"
+    - echo "${TRAVIS_REPO_SLUG}"
+    - echo "${TRAVIS_OS_NAME}"
+    - echo "${TRAVIS_TAG}"
+
+    - ls ${HOME}/cache
     - sudo apt-get update -qq
     - sudo apt-get install -q -y cmake-data cmake
     - sudo apt-get install -qq build-essential
     - sudo apt-get install -qq libhdf5-dev
     - sudo apt-get install -qq wget
     - gcc --version && g++ --version
+    - CMAKE_URL="https://cmake.org/files/v3.8/cmake-3.8.1-Linux-x86_64.tar.gz"
+      && mkdir cmake && travis_retry wget --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+      && export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+             
    
    
-addons:
-  apt:
-    sources:
-      - george-edison55-precise-backports # cmake 3.2.3 / doxygen 1.8.3
-    packages:
-      - cmake
-      - cmake-data
