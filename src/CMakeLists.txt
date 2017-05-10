@@ -66,7 +66,7 @@ SET(MAIN_SRC_FILE "main.cpp")
 
 SET(ALPAKA_ROOT "${CMAKE_CURRENT_LIST_DIR}/../utils/alpaka/" CACHE STRING "The location of the alpaka library")
 LIST(APPEND CMAKE_MODULE_PATH "${ALPAKA_ROOT}")
-FIND_PACKAGE("alpaka" REQUIRED)
+FIND_PACKAGE("alpaka")
 if(ALPAKA_FOUND)
 message("-- alapaka detected")
 endif(ALPAKA_FOUND)
