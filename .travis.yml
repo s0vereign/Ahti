@@ -43,9 +43,9 @@ before_script:
     - gcc --version && g++ --version
     
     - CMAKE_URL="https://cmake.org/files/v3.8/cmake-3.8.1-Linux-x86_64.tar.gz"
-      && wget ${CMAKE_URL}
-      && tar -xvzf cmake-3.8.1-Linux-x86_64.tar.gz
-      && export PATH=cmake-3.8.1-Linux-x86_64/bin:${PATH}
+    - wget ${CMAKE_URL}
+    - tar -xvzf cmake-3.8.1-Linux-x86_64.tar.gz
+    - export PATH=cmake-3.8.1-Linux-x86_64/bin:${PATH}
              
    
    
