@@ -41,12 +41,22 @@ before_script:
     - sudo apt-get install -qq libhdf5-dev
     - sudo apt-get install -qq wget
     - sudo apt-get install -qq libcr-dev mpich2 mpich2-doc
-    - sudo apt-get purge -qq  --auto-remove cmake
     - gcc --version && g++ --version
     - wget ${CMAKE_URL}
     - mkdir cmake
+    - ls
     - tar -xvzf ${CMAKE_VERSION}.tar.gz -C cmake --strip-components 1
     - export PATH=$pwd/cmake/bin:${PATH}
     - cmake --version
-   
+addons:
+  apt:
+    sources:
+    # add PPAs with more up-to-date toolchains
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.6
+    packages:
+    # install toolchains
+    - gcc-5
+    - g++-5
+    - clang-3.6
    
