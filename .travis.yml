@@ -44,6 +44,7 @@ before_script:
     - gcc --version && g++ --version
     - wget ${CMAKE_URL}
     - tar -xvzf ${CMAKE_VERSION}.tar.gz -C cmake --strip-components 1
+    - mkdir cmake
     - export PATH=$pwd/cmake/bin:${PATH}
     - cmake --version
    
