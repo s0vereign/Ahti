@@ -35,8 +35,6 @@ script:
 
 before_script:
 
-
-    - ls ${HOME}/cache
     - sudo apt-get update -qq
     - sudo apt-get install -q -y cmake-data cmake
     - sudo apt-get install -qq build-essential
