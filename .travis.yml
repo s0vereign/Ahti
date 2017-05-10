@@ -43,8 +43,8 @@ before_script:
     - sudo apt-get install -qq libcr-dev mpich2 mpich2-doc
     - gcc --version && g++ --version
       # install cmake
-    - CMAKE_VERSION="3.3.0"
-    - wget "http://www.cmake.org/files/v3.0/cmake-${CMAKE_VERSION}.tar.gz"
+    - CMAKE_VERSION="3.8.1"
+    - wget "http://www.cmake.org/files/v3.8/cmake-${CMAKE_VERSION}.tar.gz"
     - tar xf "cmake-${CMAKE_VERSION}.tar.gz"
     - cd "cmake-${CMAKE_VERSION}"
     - ./bootstrap --prefix=~
