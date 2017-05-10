@@ -42,11 +42,9 @@ before_script:
     - sudo apt-get install -qq wget
     - sudo apt-get install -qq libcr-dev mpich2 mpich2-doc
     - gcc --version && g++ --version
-    
-    - 
     - wget ${CMAKE_URL}
     - tar -xvzf ${CMAKE_VERSION}.tar.gz
     - export PATH=${CMAKE_VERSION}/bin:${PATH}
-             
+    - cmake --version
    
    
