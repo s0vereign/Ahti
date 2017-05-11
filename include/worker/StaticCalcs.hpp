@@ -4,6 +4,7 @@
 #include <complex>
 #include <vector>
 #include <algorithm>
+#include <assert.h>
 
 #include "grid/Grid.hpp"
 #include "grid/LocalGrid.hpp"
@@ -26,7 +27,6 @@ namespace Worker
     void calc_coeff(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, DIST d,vector<complex<double> >& res)
     {
         const int n0 = lgrid.nx0 - g.nx/2 + 1;
-        const int n1 = lgrid.nx1 - g.nx/2 + 1;
         
         double dx = lgrid.dx;
         
@@ -38,6 +38,7 @@ namespace Worker
             ind0 += 1;
 
         }
+        
     };
 
     template<typename POT>
@@ -74,19 +75,20 @@ namespace Worker
                     int mpi_s, 
                     int mpi_r)
     {
-        int t = 0;
         int nt = g.nt;
         int n_curr = lgrid.nx0;
         int ind_curr = n_curr - g.nx/2 + 1;
-        const int psize = lgrid.nx1 - lgrid.nx0;
+        const int psize = lgrid.nx1 - lgrid.nx0 + 1;
+        DEBUG(psize);
         const double dt = (g.tmax-g.tmin)/(nt);
-        hid_t fl = H5Fcreate(FILE, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+        hid_t fl;
+        if(mpi_r == 0)
+            fl = H5Fcreate(FILE, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
         for(int i = 0; i < nt; i++)
         {
             math::evolve_coeff(psi_coeff, g.nx, (g.x1-g.x0), lgrid, dt);
             
-            MPI_Barrier(MPI_COMM_WORLD);
             for(int j = 0; j < mpi_s; j++)
             {
                 // First evolve coeeficients
@@ -115,15 +117,17 @@ namespace Worker
             }
 
             // Account for final phase factor
-            phase_fac(lgrid, g, p, vals);
+            //phase_fac(lgrid, g, p, vals);
 
-            IO::save_step(mpi_r, mpi_s, g,vals,i, fl);
+            IO::save_step(mpi_r, mpi_s, g, vals, i, fl);
 
             for(auto& it : vals)
             {
                 it = 0;
             }
         }
-        H5Fclose(fl);
+
+        if(mpi_r == 0)
+            H5Fclose(fl);
     };
 }

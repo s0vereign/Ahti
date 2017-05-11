@@ -23,7 +23,7 @@ namespace Grid
              x0(x0_), x1(x1_), nx(nx_),
              tmin(tmin_), tmax(tmax_), nt(nt_)
              {
-                dx = (x1-x0)/nx;
+                dx = (x1-x0)/(nx);
              }; 
     };
     
