@@ -34,7 +34,7 @@ namespace Worker
         
         for( int i = 0; i < res.size(); i++)
         {
-            math::fourier_1D_serial(ind0, g.nx, d, dx, lgrid.x0, res[i]);
+            math::fourier_1D_serial(ind0, g.nx, d, dx, g.x0, res[i]);
             ind0 += 1;
 
         }
@@ -79,7 +79,6 @@ namespace Worker
         int n_curr = lgrid.nx0;
         int ind_curr = n_curr - g.nx/2 + 1;
         const int psize = lgrid.nx1 - lgrid.nx0 + 1;
-        DEBUG(psize);
         const double dt = (g.tmax-g.tmin)/(nt);
         hid_t fl;
         if(mpi_r == 0)
@@ -102,7 +101,7 @@ namespace Worker
                 // we need to update our current index!
                 ind_curr += psize;
                 
-                // If the -N/2+1 package will be recieved, we need to reset 
+                // If the - N / 2 + 1 package will be recieved, we need to reset 
                 // our index
                 
                 if(ind_curr >= g.nx/2)
@@ -119,7 +118,7 @@ namespace Worker
             // Account for final phase factor
             //phase_fac(lgrid, g, p, vals);
 
-            IO::save_step(mpi_r, mpi_s, g, vals, i, fl);
+            //IO::save_step(mpi_r, mpi_s, g, vals, i, fl);
 
             for(auto& it : vals)
             {

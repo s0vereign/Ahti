@@ -39,6 +39,10 @@ namespace Worker
         
         calc_coeff(lgrid, grid, d, psi_coeff);
 
+        //if(mpi_r == 3)
+        //{
+        //    IO::save_coeff(mpi_r, psi_coeff);
+        //}
         time_evo(lgrid, grid, d, p, vals, psi_0, corr_func, psi_coeff, mpi_s, mpi_r);
 
         DEBUG(mpi_r << ": " << "finished!");

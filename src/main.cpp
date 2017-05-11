@@ -33,10 +33,10 @@ main(int argc, char **argv)
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     MPI_Comm_size(MPI_COMM_WORLD,&size);
     
-    auto in_fun = [inv_fthsqrt_pi](std::complex<double> x) {return inv_fthsqrt_pi*std::exp(-x*x/2.0);};
+    auto in_fun = [inv_fthsqrt_pi](std::complex<double> x) {return inv_fthsqrt_pi * std::exp(-x*x/2.0);};
     auto pot_fun = [](double x) {return x*x/2.0;};
 
-    Grid::Grid<1> g(-10.0, 10.0, 65536/4, 0.0, 1.0, 10);
+    Grid::Grid<1> g(-3.0, 3.0, 65536/4, 0.0, 1.0, 1);
     Worker::start_worker(g, size, rank, in_fun, pot_fun);
     
     MPI_Barrier(MPI_COMM_WORLD);
