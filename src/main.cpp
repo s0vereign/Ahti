@@ -36,7 +36,7 @@ main(int argc, char **argv)
     auto in_fun = [inv_fthsqrt_pi](std::complex<double> x) {return inv_fthsqrt_pi*std::exp(-x*x/2.0);};
     auto pot_fun = [](double x) {return x*x/2.0;};
 
-    Grid::Grid<1> g(-20.0, 20.0, 65536/4, 0.0, 20.0, 10);
+    Grid::Grid<1> g(-5.0, 5.0, 65536/4, 0.0, 20.0, 10);
     Worker::start_worker(g, size, rank, in_fun, pot_fun);
     
     MPI_Barrier(MPI_COMM_WORLD);

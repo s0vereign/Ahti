@@ -7,6 +7,7 @@
 #include "grid/Grid.hpp"
 #include "grid/LocalGrid.hpp"
 #include "StaticCalcs.hpp"
+#include "output/SaveCoeff.hpp"
 
 
 namespace Worker
@@ -37,8 +38,8 @@ namespace Worker
         std::vector<complex<double> > corr_func(grid.nt);
         
         calc_coeff(lgrid, grid, d, psi_coeff);
-        time_evo(lgrid, grid, d, p, vals, psi_0, corr_func, corr_func, mpi_s, mpi_r);
 
+        time_evo(lgrid, grid, d, p, vals, psi_0, corr_func, psi_coeff, mpi_s, mpi_r);
 
         DEBUG(mpi_r << ": " << "finished!");
         

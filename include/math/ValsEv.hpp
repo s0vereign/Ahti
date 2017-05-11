@@ -34,7 +34,7 @@ namespace math{
                  POT p
                  )
     {
-        const int nx = lgridd.nx1 - lgrid.nx0;
+        const int nx = lgrid.nx1 - lgrid.nx0;
         const int gnx = grid.nx;
         const double l0 = grid.x1 - grid.x0;
         const complex<double> iu(0,1);

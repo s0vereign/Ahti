@@ -51,7 +51,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wvolatile-register-var")
 ############
 
 PROJECT(ahti)
-
+enable_testing()
+include(CTest)
 
 #############
 # Add main source file
@@ -167,14 +168,14 @@ option(TOTEST "Enable test build!" OFF)
 IF(TOTEST)
 
 
-enable_testing()
+
 
 file(GLOB TEST_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../include/tests/*.cpp)
 
 foreach(testSrc ${TEST_SRCS})
 
-  get_filename_component(testName ${testSrc} NAME_WE)
-	
+	get_filename_component(testName ${testSrc} NAME_WE)
+	message(${testName})
 	ALPAKA_ADD_EXECUTABLE(${testName} ${testSrc})
 	target_link_libraries(${testName}
 												PUBLIC "alpaka"
@@ -184,8 +185,8 @@ foreach(testSrc ${TEST_SRCS})
 												)
 	set_target_properties(${testName} PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/tests)
-	add_test(NAME ${testName}
-	
-COMMAND ${CMAKE_CURRENT_BINARY_DIR}/testBin/${testName})
+	add_test(NAME ${testName} COMMAND ${CMAKE_BINARY_DIR}/tests/${testName})
+
 endforeach(testSrc)
-ENDIF()
+
+ENDIF(TOTEST)

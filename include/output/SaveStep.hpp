@@ -28,6 +28,8 @@ namespace IO
                      {
                          *it_real = j.real();
                          *it_imag = j.imag();
+                         it_real++;
+                         it_imag++;
                      }
                  }
 

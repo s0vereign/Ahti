@@ -25,12 +25,14 @@ namespace math {
         complex<double> h(h_,0);
         complex<double> j(0,1);
 
-        auto nx1 = static_cast<double>(nx);
+
+        double nx1 = double(nx);
 
         for(int i = 0; i < nx; i++)
         {   
             x += h;
             res += psi(x)*exp(-2*M_PI*alpha*j*double(i)/nx1);
+            
             
         }
     }
