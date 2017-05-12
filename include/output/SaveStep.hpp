@@ -28,6 +28,8 @@ namespace IO
                      {
                          *it_real = j.real();
                          *it_imag = j.imag();
+                         it_real++;
+                         it_imag++;
                      }
                  }
 
@@ -57,12 +59,10 @@ namespace IO
         {
             real.resize(g.nx);
             imag.resize(g.nx);
-            DEBUG("Saving timestep");
             recast(recv_buf, real, imag);
             string d_name_real = "/dset"+to_string(step)+"real";
             string d_name_imag = "/dset"+to_string(step)+"imag";
             hsize_t size = recv_buf.size();
-            DEBUG("Size is: "<< size);
             H5LTmake_dataset(floc, d_name_real.c_str(), 1, &size, H5T_NATIVE_DOUBLE, real.data());
             
             H5LTmake_dataset(floc, d_name_imag.c_str(), 1, &size, H5T_NATIVE_DOUBLE, imag.data());

@@ -22,7 +22,7 @@ namespace math{
 
     int get_n(int n, int gnx)
     {
-        return n - gnx/2;
+        return n - gnx/2 + 1;
     }
 
     template<typename POT>
@@ -34,15 +34,15 @@ namespace math{
                  POT p
                  )
     {
-        const int nx = lgridd.nx1 - lgrid.nx0;
+        const int nx = lgrid.nx1 - lgrid.nx0;
         const int gnx = grid.nx;
         const double l0 = grid.x1 - grid.x0;
         const complex<double> iu(0,1);
-        int n = ind_s - gnx / 2  + 1; 
+        int n = ind_s - gnx / 2 + 1; 
         double x = lgrid.x0;
-        double dx = lgrid.dx;
-        double dt = (grid.tmax - grid.tmin)/(grid.nt + 1);
-
+        double dx = grid.dx;
+        DEBUG(x << " n = " << n);
+        
         for(int i = 0; i < vals.size(); i++)
         {
             

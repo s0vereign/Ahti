@@ -23,16 +23,15 @@ namespace math {
                       )
     {
 
-        const int nx = lgrid.nx0;
+        //const int nx = lgrid.nx0;
         const complex<double> j(0,1);
 
         int n = lgrid.x0 - gnx/2 + 1;
         for(int i = 0; i < coef.size(); i++)
         {   
             
-            coef[i] = coef[i] * exp(- j * (dt/2)*(4*M_PI*M_PI/(l*l)*n*n)); 
+            coef[i] = coef[i] * exp(- j * (dt/2)*(4*M_PI*M_PI/double(l*l))*double(n*n)); 
             n++;
-            
         }
     }
 }

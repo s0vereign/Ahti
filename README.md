@@ -1,6 +1,6 @@
 # Ahti
 
-[![Build Status](https://travis-ci.org/s0vereign/Ahti.svg?branch=master)](https://travis-ci.org/s0vereign/Ahti)
+[![Build Status](https://travis-ci.org/s0vereign/Ahti.svg?branch=dev_init)](https://travis-ci.org/s0vereign/Ahti)
 
 
 **A**cellerated
