@@ -30,12 +30,12 @@ namespace Worker
         
         double dx = lgrid.dx;
         
-        int ind0 = n0;
+        double ind0 = double(n0);
         
         for( int i = 0; i < res.size(); i++)
         {
             math::fourier_1D_serial(ind0, g.nx, d, dx, g.x0, res[i]);
-            ind0 += 1;
+            ind0++;
 
         }
         
@@ -118,7 +118,7 @@ namespace Worker
             // Account for final phase factor
             //phase_fac(lgrid, g, p, vals);
 
-            //IO::save_step(mpi_r, mpi_s, g, vals, i, fl);
+            IO::save_step(mpi_r, mpi_s, g, vals, i, fl);
 
             for(auto& it : vals)
             {

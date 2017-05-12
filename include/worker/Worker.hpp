@@ -19,7 +19,7 @@ namespace Worker
         // Assumptions: nx%2=0 and mpi_s%2=0, (s=size) so each MPI Rank gets an equal
         // sized chunk out of simplicity reasons(no dynamical scheduling)
         int lgsize = grid.nx/mpi_s;
-        int ind0 =  lgsize * mpi_r;
+        int ind0 = lgsize * mpi_r;
         int ind1 = ind0 + lgsize - 1;
         double x0 = grid.x0 +  ind0 * grid.dx;
         double x1 = grid.x0 + ind1 * grid.dx;
@@ -39,10 +39,11 @@ namespace Worker
         
         calc_coeff(lgrid, grid, d, psi_coeff);
 
-        //if(mpi_r == 3)
-        //{
-        //    IO::save_coeff(mpi_r, psi_coeff);
-        //}
+        if(mpi_r == 1)
+        {
+	      IO::save_coeff(mpi_r, psi_coeff);
+        }
+        
         time_evo(lgrid, grid, d, p, vals, psi_0, corr_func, psi_coeff, mpi_s, mpi_r);
 
         DEBUG(mpi_r << ": " << "finished!");

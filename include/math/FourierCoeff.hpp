@@ -10,7 +10,7 @@
 namespace math {
 
     template<typename FUNC_PSI>
-    void fourier_1D_serial( double alpha,
+    void fourier_1D_serial( double m,
                             int nx,
                             FUNC_PSI& psi,
                             double h_,
@@ -23,7 +23,7 @@ namespace math {
 
         complex<double> x(x0,0);
         complex<double> h(h_,0);
-        complex<double> j(0,1);
+        complex<double> iu(0,1);
 
 
         double nx1 = double(nx);
@@ -31,10 +31,10 @@ namespace math {
         for(int i = 0; i < nx; i++)
         {   
             x += h;
-            res += psi(x)*exp(-2*M_PI*alpha*j*double(i)/nx1);
-            
+            res += psi(x)*exp(-2*M_PI*m*iu*double(i)/nx1);
             
         }
+	
     }
 
 } // MATH
