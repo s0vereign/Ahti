@@ -24,7 +24,7 @@ main(int argc, char **argv)
     auto in_fun = [inv_fthsqrt_pi](std::complex<double> x) {return inv_fthsqrt_pi * 2*x *  std::exp(-x*x/2.0);};
     auto pot_fun = [](double x) {return x*x/2.0;};
 
-    Grid::Grid<1> g(-8.0, 8.0, 65536/8, 0.0, 1.0, 3);
+    Grid::Grid<1> g(-5.0, 5.0, 65536/8, 0.0, 1.0, 3);
     
     Worker::start_serial_worker(g, in_fun, pot_fun);
 
