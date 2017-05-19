@@ -26,7 +26,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wmissing-braces")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wparentheses")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wreturn-type")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsequence-point")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsign-compare")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsign-compare")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wstrict-aliasing")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wstrict-overflow=1")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wswitch")
@@ -58,25 +58,32 @@ include(CTest)
 # Add main source file
 #############
 
+
 SET(MAIN_SRC_FILE "main.cpp")
+file(GLOB HEADER_SRCS "*.hpp")
+
+
+##########
+# Build the include 
+##########
 
 
 #-------------------------------------------------------------------------------
 # Find alpaka.
 #-------------------------------------------------------------------------------
 
-SET(ALPAKA_ROOT "${CMAKE_CURRENT_LIST_DIR}/../utils/alpaka/" CACHE STRING "The location of the alpaka library")
-LIST(APPEND CMAKE_MODULE_PATH "${ALPAKA_ROOT}")
-FIND_PACKAGE("alpaka")
-if(ALPAKA_FOUND)
-message("-- alapaka detected")
-endif(ALPAKA_FOUND)
+#SET(ALPAKA_ROOT "${CMAKE_CURRENT_LIST_DIR}/../utils/alpaka/" CACHE STRING "The location of the alpaka library")
+#LIST(APPEND CMAKE_MODULE_PATH "${ALPAKA_ROOT}")
+#FIND_PACKAGE("alpaka")
+#if(ALPAKA_FOUND)
+#message("-- alapaka detected")
+#endif(ALPAKA_FOUND)
 
-INCLUDE_DIRECTORIES(${alpaka_INCLUDE_DIRS})
+#INCLUDE_DIRECTORIES(${alpaka_INCLUDE_DIRS})
 
 
-INCLUDE("${ALPAKA_ROOT}cmake/common.cmake")
-INCLUDE("${ALPAKA_ROOT}cmake/dev.cmake")
+#INCLUDE("${ALPAKA_ROOT}cmake/common.cmake")
+#INCLUDE("${ALPAKA_ROOT}cmake/dev.cmake")
 
 
 
@@ -86,7 +93,7 @@ INCLUDE("${ALPAKA_ROOT}cmake/dev.cmake")
 
 FIND_PACKAGE(MPI)
 if(MPI_FOUND)
-	 set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
+	set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
 	 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
 	 include_directories(${MPI_INCLUDE_PATH})
 endif(MPI_FOUND)
@@ -136,25 +143,24 @@ include_directories(Boost_INCLUDE_DIRS)
 #STRING(REPLACE "-arch=sm_20" "" CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS})
 #message("${CUDA_NVCC_FLAGS}")
 
-IF(CUDA_FOUND)
-message("${CUDA_NVCC_FLAGS}")
-message("${CMAKE_CXX_FLAGS}")
-STRING(REPLACE "-std=c++11" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-message("Current flags: ")
-message("${CUDA_NVCC_FLAGS}")
-message("${CMAKE_CXX_FLAGS}")
+#IF(CUDA_FOUND)
+#message("${CUDA_NVCC_FLAGS}")
+#message("${CMAKE_CXX_FLAGS}")
+#STRING(REPLACE "-std=c++11" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+#message("Current flags: ")
+#message("${CUDA_NVCC_FLAGS}")
+#message("${CMAKE_CXX_FLAGS}")
 
-ELSE(CUDA_FOUND)
-STRING(REPLACE "14" "11" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-ENDIF(CUDA_FOUND)
+#ELSE(CUDA_FOUND)
+#STRING(REPLACE "14" "11" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+#ENDIF(CUDA_FOUND)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-ALPAKA_ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE})
+ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE} ${HEADER_SRCS})
 set_target_properties(ahti PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/bin)
 TARGET_LINK_LIBRARIES(
     ahti
-	PUBLIC "alpaka"
 	${MPI_LIBRARIES}
 	${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 	${HDF5_LIBRARIES}
@@ -175,14 +181,12 @@ file(GLOB TEST_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../include/tests/*.cpp)
 foreach(testSrc ${TEST_SRCS})
 
 	get_filename_component(testName ${testSrc} NAME_WE)
-	message(${testName})
-	ALPAKA_ADD_EXECUTABLE(${testName} ${testSrc})
+	message("${testName}")
+	ADD_EXECUTABLE(${testName} ${testSrc})
 	target_link_libraries(${testName}
-												PUBLIC "alpaka"
-												${MPI_LIBRARIES}
-												${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
-												
-												)
+							${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+							${MPI_LIBRARIES}
+						)
 	set_target_properties(${testName} PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/tests)
 	add_test(NAME ${testName} COMMAND ${CMAKE_BINARY_DIR}/tests/${testName})

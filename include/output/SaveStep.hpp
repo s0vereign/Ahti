@@ -16,7 +16,7 @@ namespace IO
 {
 
     using namespace std;
-    using namespace Grid;
+    using Grid::Grid;
 
     void recast( vector<complex < double > >& recv_buf, 
                  vector<double>& real, 
@@ -37,7 +37,7 @@ namespace IO
     void save_step       (
                           int mpi_r,
                           int mpi_s,
-                          Grid::Grid<1> g,
+                          Grid<1> g,
                           vector<complex<double>>& lres,
                           int step,
                           hid_t& floc
@@ -70,6 +70,17 @@ namespace IO
 
     };
 
+    void save_step_serial(Grid<1> g, vector<complex<double>>& res, int step, hid_t floc)
+    {
+        vector<double> real(g.nx);
+        vector<double> imag(g.nx);
+        recast(res, real, imag);
+        hsize_t size = res.size();
+        string d_name_real = "/dset"+to_string(step)+"real";
+        string d_name_imag = "/dset"+to_string(step)+"imag";
+        H5LTmake_dataset(floc, d_name_real.c_str(), 1, &size, H5T_NATIVE_DOUBLE, real.data());
+        H5LTmake_dataset(floc, d_name_imag.c_str(), 1, &size, H5T_NATIVE_DOUBLE, imag.data());
+    }
     
 
 }

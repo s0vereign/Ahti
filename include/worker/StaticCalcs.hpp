@@ -11,7 +11,7 @@
 #include "math/FourierCoeff.hpp"
 #include "math/CoeffEv.hpp"
 #include "math/ValsEv.hpp"
-#include "communication/Ring.hpp"
+//#include "communication/Ring.hpp"
 #include "output/SaveStep.hpp"
 
 
@@ -111,7 +111,7 @@ namespace Worker
                     //DEBUG("Index now:" << ind_curr);
                 }
                 MPI_Barrier(MPI_COMM_WORLD);
-                comm::ring_send(psi_coeff, mpi_r, mpi_s, psi_coeff.size());
+                //comm::ring_send(psi_coeff, mpi_r, mpi_s, psi_coeff.size());
                 
             }
 
