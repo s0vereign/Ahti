@@ -49,8 +49,8 @@ before_script:
     #- tar xf "cmake-${CMAKE_VERSION}.tar.gz"
     #- cd "cmake-${CMAKE_VERSION}"
     #//- ./bootstrap --prefix=~
-    - make
-    - make install
-    - export PATH="~/bin:${PATH}"
-    - cd ..
+    #- make
+    #- make install
+    #- export PATH="~/bin:${PATH}"
+    #- cd ..
    
