@@ -48,8 +48,10 @@ namespace Worker
             {
               IO::save_coeff(i,coeff);
             }
-            //math::vals_ev(psi_t, coeff, l, g, index, V);
-            //IO::save_step_serial(g, psi_t, i, fl);
+            std::fill(psi_t.begin(), psi_t.end(), 0);
+
+          //math::vals_ev(psi_t, coeff, l, g, index, V);
+          //  IO::save_step_serial(g, psi_t, i, fl);
         }
         H5Fclose(fl);
     }
