@@ -44,7 +44,7 @@ before_script:
     - sudo apt-get install -y -qq libhdf5-dev
     - sudo apt-get install -y -qq wget
     - sudo apt-get install -y -qq libboost-all-dev cmake-data cmake
-    - sudo apt-get install -y -qq libcr-dev mpich2 mpich2-docv
+    - sudo apt-get install -y -qq openmpi-bin openmpi-doc libopenmpi-dev
     - gcc --version && g++ --version
       # install cmake
     #- CMAKE_VERSION="3.8.1"
