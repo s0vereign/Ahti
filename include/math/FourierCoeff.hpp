@@ -28,12 +28,15 @@ namespace math {
 
         double nx1 = double(nx);
         res = complex<double>(0.0,0.0);
+        
         for(int i = 0; i < nx; i++)
         {   
             x += h;
             res += psi(x)*exp(-2*M_PI*m*iu*double(i)/nx1);
             
         }
+
+        res *= 1/nx1;
 	
     }
 

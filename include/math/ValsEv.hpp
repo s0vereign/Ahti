@@ -38,10 +38,10 @@ namespace math{
         const int gnx = grid.nx;
         const double l0 = grid.x1 - grid.x0;
         const complex<double> iu(0,1);
-        int n = ind_s - gnx / 2 + 1; 
+        int n = ind_s;
         double x = lgrid.x0;
         double dx = grid.dx;
-        DEBUG("x0 = " << x << ", n = " << n);
+
         
         for(unsigned int i = 0; i < vals.size(); i++)
         {
@@ -50,10 +50,9 @@ namespace math{
             {
 
                 vals[i] += coef[j]*exp(iu*2.0*M_PI/l0*double(n)*x);
-                
+                n++;
             }
-            
-            n++;
+            n = ind_s;
             x += dx;
         }
     }

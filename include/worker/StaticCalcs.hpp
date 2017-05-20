@@ -26,7 +26,7 @@ namespace Worker
     template<typename DIST>
     void calc_coeff(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, DIST d,vector<complex<double> >& res)
     {
-        const int n0 = lgrid.nx0 - g.nx/2 + 1;
+        const int n0 = lgrid.nx0  - g.nx/2 + 1;
         DEBUG("n0 = " << n0);
         double dx = lgrid.dx;
         DEBUG("dx = " << dx);
