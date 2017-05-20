@@ -40,13 +40,17 @@ namespace Worker
         hid_t fl;
         fl = H5Fcreate(FILE, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
-        /*
+
         for(int i = 0; i < g.nt; i++)
         {
             math::evolve_coeff(coeff, g.nx, (g.x1-g.x0), l, (g.tmax - g.tmin)/double(g.nt));
-            math::vals_ev(psi_t, coeff, l, g, index, V);
-            IO::save_step_serial(g, psi_t, i, fl);
-        }*/
+            if(i != 0)
+            {
+              IO::save_coeff(i,coeff);
+            }
+            //math::vals_ev(psi_t, coeff, l, g, index, V);
+            //IO::save_step_serial(g, psi_t, i, fl);
+        }
         H5Fclose(fl);
     }
 }
