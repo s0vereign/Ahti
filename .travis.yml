@@ -22,13 +22,14 @@ os:
 sudo: required
 dist: trusty
 
+
 compiler:
     - gcc
 
 script:
-    - cd utils/
-    - git clone https://github.com/ComputationalRadiationPhysics/alpaka.git
-    - cd ..
+    #- cd utils/
+    #- git clone https://github.com/ComputationalRadiationPhysics/alpaka.git
+    #- cd ..
     - mkdir build
     - cd build
     - cmake ..
@@ -36,20 +37,23 @@ script:
 
 before_script:
 
-    - sudo apt-get update -qq
-    - sudo apt-get install -qq build-essential
-    - sudo apt-get install -qq libhdf5-dev
-    - sudo apt-get install -qq wget
-    - sudo apt-get install -qq libcr-dev mpich2 mpich2-doc
+    - sudo apt-get remove -qq cmake cmake-data
+    - sudo apt-get update -y -qq
+
+    - sudo apt-get install -y -qq build-essential
+    - sudo apt-get install -y -qq libhdf5-dev
+    - sudo apt-get install -y -qq wget
+    - sudo apt-get install -y -qq libboost-all-dev cmake-data cmake
+    - sudo apt-get install -y -qq openmpi-bin openmpi-doc libopenmpi-dev
     - gcc --version && g++ --version
       # install cmake
-    - CMAKE_VERSION="3.8.1"
-    - wget "http://www.cmake.org/files/v3.8/cmake-${CMAKE_VERSION}.tar.gz"
-    - tar xf "cmake-${CMAKE_VERSION}.tar.gz"
-    - cd "cmake-${CMAKE_VERSION}"
-    - ./bootstrap --prefix=~
-    - make
-    - make install
-    - export PATH="~/bin:${PATH}"
-    - cd ..
+    #- CMAKE_VERSION="3.8.1"
+    #- wget "http://www.cmake.org/files/v3.8/cmake-${CMAKE_VERSION}.tar.gz"
+    #- tar xf "cmake-${CMAKE_VERSION}.tar.gz"
+    #- cd "cmake-${CMAKE_VERSION}"
+    #//- ./bootstrap --prefix=~
+    #- make
+    #- make install
+    #- export PATH="~/bin:${PATH}"
+    #- cd ..
    
