@@ -41,6 +41,7 @@ before_script:
     - sudo apt-get install -qq libhdf5-dev
     - sudo apt-get install -qq wget
     - sudo apt-get install -qq libcr-dev mpich2 mpich2-doc
+    - sudo apt-get install -qq libboost-dev
     - gcc --version && g++ --version
       # install cmake
     - CMAKE_VERSION="3.8.1"
