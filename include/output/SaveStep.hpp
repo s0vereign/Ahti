@@ -53,7 +53,7 @@ namespace IO
             
             DEBUG("Starting gather opertaion!");
         }
-        MPI_Gather(lres.data(), lres.size(), MPI::DOUBLE_COMPLEX, recv_buf.data(), lres.size(), MPI::DOUBLE_COMPLEX, 0, MPI_COMM_WORLD);
+        //MPI_Gather(lres.data(), lres.size(), MPI::DOUBLE_COMPLEX, recv_buf.data(), lres.size(), MPI::DOUBLE_COMPLEX, 0, MPI_COMM_WORLD);
         
         if(mpi_r == 0)
         {
