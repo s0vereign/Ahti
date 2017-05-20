@@ -41,7 +41,6 @@ namespace math{
         int n = ind_s - gnx / 2 + 1; 
         double x = lgrid.x0;
         double dx = grid.dx;
-        DEBUG(x << " n = " << n);
         
         for(int i = 0; i < vals.size(); i++)
         {

@@ -34,7 +34,7 @@ namespace math {
             res += psi(x)*exp(-2*M_PI*m*iu*double(i)/nx1);
             
         }
-	
+
     }
 
 } // MATH
