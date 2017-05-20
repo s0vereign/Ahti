@@ -30,7 +30,7 @@ namespace math {
         for(int i = 0; i < coef.size(); i++)
         {   
             
-            coef[i] = coef[i] * exp(- j * (dt/2)*(4*M_PI*M_PI/double(l*l))*double(n*n)); 
+            coef[i] *= exp(- j * (dt/2)*(4*M_PI*M_PI/(l*l))*double(n*n)); 
             n++;
         }
     }

@@ -41,12 +41,12 @@ namespace math{
         int n = ind_s - gnx / 2 + 1; 
         double x = lgrid.x0;
         double dx = grid.dx;
-        DEBUG(x << " n = " << n);
+        DEBUG("x0 = " << x << ", n = " << n);
         
-        for(int i = 0; i < vals.size(); i++)
+        for(unsigned int i = 0; i < vals.size(); i++)
         {
             
-            for(int j = 0; j < coef.size(); j++)
+            for(unsigned int j = 0; j < coef.size(); j++)
             {
 
                 vals[i] += coef[j]*exp(iu*2.0*M_PI/l0*double(n)*x);

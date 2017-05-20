@@ -10,12 +10,12 @@ def load_timestep(filepath,nt,t0=0,dtype="wf"):
     Load a timestep from a result file
     and returns it as a complex numpy array.
     """
-
+    print("Using dtype={}".format(dtype))
     file = h5py.File(filepath)
     if dtype=="wf":
         rl = "/dset"+str(nt)+"real"
         im = "/dset"+str(nt)+"imag"
-    if dtype=="co":
+    elif dtype=="co":
         rl = "/dreal"
         im = "/dimag"
     else:

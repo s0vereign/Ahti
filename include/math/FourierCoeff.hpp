@@ -25,7 +25,6 @@ namespace math {
         complex<double> h(h_,0);
         complex<double> iu(0,1);
 
-
         double nx1 = double(nx);
         res = complex<double>(0.0,0.0);
         for(int i = 0; i < nx; i++)
@@ -34,7 +33,7 @@ namespace math {
             res += psi(x)*exp(-2*M_PI*m*iu*double(i)/nx1);
             
         }
-	
+        //res *= 1/nx1;
     }
 
 } // MATH
