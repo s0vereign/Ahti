@@ -40,7 +40,7 @@ namespace math{
         const complex<double> iu(0,1);
         int n = ind_s;
         double x = lgrid.x0;
-        double dx = grid.dx;
+        const double dx = grid.dx;
 
         
         for(unsigned int i = 0; i < vals.size(); i++)
@@ -53,7 +53,9 @@ namespace math{
                 n++;
             }
             n = ind_s;
-            x += dx;
+            vals[i] *= exp(-iu*p(x)*grid.dt);
+            x = lgrid.x0 + double(i) * dx;
         }
+
     }
 } // MATH

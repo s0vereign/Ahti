@@ -36,7 +36,7 @@ namespace Worker
         calc_coeff(l, g, psi ,coeff );
         IO::save_coeff(0, coeff);
         DEBUG("Finished calculating");
-        int index = 0;//- g.nx / 2 + 1;
+        int index = - g.nx / 2 + 1;
         hid_t fl;
         fl = H5Fcreate(FILE, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
