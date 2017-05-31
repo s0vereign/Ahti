@@ -36,7 +36,7 @@ namespace Worker
         calc_coeff(l, g, psi ,coeff );
         IO::save_coeff(0, coeff);
         DEBUG("Finished calculating");
-        int index = - g.nx / 2 + 1;
+        int index = l.nx0 - g.nx / 2 + 1;
         hid_t fl;
         fl = H5Fcreate(FILE, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
@@ -46,6 +46,7 @@ namespace Worker
             math::evolve_coeff(coeff, g.nx, (g.x1-g.x0), l, (g.tmax - g.tmin)/double(g.nt));
             std::fill(psi_t.begin(), psi_t.end(), 0);
             math::vals_ev(psi_t, coeff, l, g, index, V);
+            shift_res(psi_t);
             IO::save_step_serial(g, psi_t, i, fl);
         }
         H5Fclose(fl);

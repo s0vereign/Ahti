@@ -31,7 +31,7 @@ namespace math {
         
         for(int i = 0; i < nx; i++)
         {   
-            x = x0 + i * h;
+            x = x0 + double(i) * h;
             res += psi(x)*exp(-2*M_PI*m*iu*double(i)/nx1);
             
         }

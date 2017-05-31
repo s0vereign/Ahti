@@ -23,10 +23,9 @@ namespace math {
                       )
     {
 
-        //const int nx = lgrid.nx0;
         const complex<double> j(0,1);
 
-        int n = lgrid.x0 - gnx/2 + 1;
+        int n = lgrid.nx0 - gnx/2 + 1;
         for(int i = 0; i < coef.size(); i++)
         {   
             

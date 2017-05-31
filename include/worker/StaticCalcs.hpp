@@ -22,7 +22,18 @@ namespace Worker
 {
     using std::complex;
     using std::vector;
-    
+
+
+    void shift_res(vector<complex<double>>& res)
+    {
+        // This function shifts the real spaced function
+        // to the right index position in 1D
+
+        vector<complex<double>> cpy(res.size());
+        std::copy(res.begin()+res.size()/2, res.end(), cpy.begin());
+        std::copy(res.begin(), res.begin() + res.size()/2 , cpy.begin()+cpy.size()/2);
+        std::copy(cpy.begin(), cpy.end(), res.begin());
+    }
     template<typename DIST>
     void calc_coeff(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, DIST d,vector<complex<double> >& res)
     {
