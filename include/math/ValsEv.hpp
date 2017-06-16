@@ -29,8 +29,8 @@ namespace math{
     void vals_ev(vector<complex<double> >& vals,
                  vector<complex<double> >& coef,
                  const LocalGrid<1>& lgrid,
-                 Grid<1>& grid,
-                 int ind_s,
+                 const Grid<1>& grid,
+                 const int ind_s,
                  POT p
                  )
     {
@@ -41,7 +41,7 @@ namespace math{
         int n = ind_s;
         double x = lgrid.x0;
         const double dx = grid.dx;
-
+		const double c =  2.0*M_PI/l0;
         
         for(unsigned int i = 0; i < vals.size(); i++)
         {
@@ -49,13 +49,34 @@ namespace math{
             for(unsigned int j = 0; j < coef.size(); j++)
             {
 
-                vals[i] += coef[j]*exp(iu*2.0*M_PI/l0*double(n)*x);
+                vals[i] += coef[j]* exp(iu * c * double(n) * x);
                 n++;
             }
             n = ind_s;
-            vals[i] *= exp(-iu*p(x)*grid.dt);
-            x = lgrid.x0 + double(i) * dx;
+            //vals[i] *= exp(-iu*p(x)*grid.dt);
+            x += dx;
         }
 
     }
+
+	template<typename POT>
+	void phase_fac( LocalGrid<1> lgrid,
+					Grid<1> g,
+					POT p,
+					vector<complex<double> >& vals
+				  )
+	{
+
+  		double x  = lgrid.x0;
+  		const double dx = lgrid.dx;
+  		int n = lgrid.nx0;
+  		const double dt = g.dt;
+  		const complex<double> iu(0,1);
+  		for(int i = 0; i < vals.size(); i++)
+  		{
+			vals[i] *= std::exp(- iu * dt * p(x));
+			x += dx;
+		}
+
+	}
 } // MATH

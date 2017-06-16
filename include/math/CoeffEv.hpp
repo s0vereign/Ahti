@@ -26,10 +26,10 @@ namespace math {
         const complex<double> j(0,1);
 
         int n = lgrid.nx0 - gnx/2 + 1;
+	  	double c  = dt/2 * pow(2.0 * M_PI / l, 2.0);
         for(int i = 0; i < coef.size(); i++)
-        {   
-            
-            coef[i] *= exp(- j * (dt/2)*(4*M_PI*M_PI/(l*l))*double(n*n)); 
+        {
+            coef[i] *= exp(- j * c * double(n*n));
             n++;
         }
     }

@@ -33,14 +33,14 @@ namespace Worker
         std::copy(res.begin()+res.size()/2, res.end(), cpy.begin());
         std::copy(res.begin(), res.begin() + res.size()/2 , cpy.begin()+cpy.size()/2);
         std::copy(cpy.begin(), cpy.end(), res.begin());
-    }
+    };
+
+
     template<typename DIST>
     void calc_coeff(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, DIST d,vector<complex<double> >& res)
     {
         const int n0 = lgrid.nx0  - g.nx/2 + 1;
-        DEBUG("n0 = " << n0);
         double dx = lgrid.dx;
-        DEBUG("dx = " << dx);
         double ind0 = double(n0);
         
         for( int i = 0; i < res.size(); i++)
@@ -52,28 +52,10 @@ namespace Worker
         
     };
 
-    template<typename POT>
-    void phase_fac( Grid::LocalGrid<1> lgrid,
-                    Grid::Grid<1> g,
-                    POT p, 
-                    vector<complex<double> >& vals
-                    )
-    {
-
-        double x  = lgrid.x0;
-        const double dx = lgrid.dx;
-        int n = lgrid.nx0;
-        const double dt = (g.tmax - g.tmin)/(g.nt+1); 
-        complex<double> iu(0,1);
-        for(int i = 0; i < vals.size(); i++)
-        {
-            vals[i] *= std::exp(- iu * dt * p(x));
-            x += dx;
-        }
 
 
-    }
-    
+
+
     template<typename DIST, typename POT>
     void time_evo(  Grid::LocalGrid<1> lgrid, 
                     Grid::Grid<1> g,
