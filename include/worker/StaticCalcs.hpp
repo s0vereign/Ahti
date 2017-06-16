@@ -35,6 +35,18 @@ namespace Worker
         std::copy(cpy.begin(), cpy.end(), res.begin());
     };
 
+	void ex_im_rl(vector<complex<double>>& res)
+	{
+	  	// This function is a temporary hack in order to
+	  	// solve the sign question
+
+
+		std::transform(res.begin(), res.end(), res.begin(),
+					   [](complex<double> a)
+					   {
+		  					return complex<double>(a.imag(), a.real());
+						});
+	};
 
     template<typename DIST>
     void calc_coeff(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, DIST d,vector<complex<double> >& res)

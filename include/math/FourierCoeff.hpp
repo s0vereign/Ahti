@@ -32,11 +32,11 @@ namespace math {
         for(int i = 0; i < nx; i++)
         {   
             x = x0 + double(i) * h;
-            res += psi(x)*exp(-2*M_PI*m*iu*double(i)/nx1);
+            res += psi(x)*exp(- 2.0 * M_PI * m * iu * double(i) / nx1);
             
         }
 
-        res *= 1/nx1;
+        res *= 1 / nx1;
 	
     }
 

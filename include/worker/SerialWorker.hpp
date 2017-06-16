@@ -49,6 +49,7 @@ namespace Worker
 		  math::vals_ev(psi_t, coeff, l, g, index, V);
 		  math::phase_fac(l, g, V, psi_t);
 		  shift_res(psi_t);
+		  ex_im_rl(psi_t);
 		  IO::save_step_serial(g, psi_t, i, fl);
 
 		}

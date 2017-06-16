@@ -49,7 +49,7 @@ namespace math{
             for(unsigned int j = 0; j < coef.size(); j++)
             {
 
-                vals[i] += coef[j]* exp(iu * c * double(n) * x);
+                vals[i] += coef[j]* exp( iu * c * double(n) * x);
                 n++;
             }
             n = ind_s;
@@ -69,7 +69,6 @@ namespace math{
 
   		double x  = lgrid.x0;
   		const double dx = lgrid.dx;
-  		int n = lgrid.nx0;
   		const double dt = g.dt;
   		const complex<double> iu(0,1);
   		for(int i = 0; i < vals.size(); i++)
