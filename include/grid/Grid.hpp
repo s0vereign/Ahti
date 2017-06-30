@@ -16,6 +16,7 @@ namespace Grid
         double dx;
         int nx;
         double tmin, tmax;
+        double dt;
         int nt;
         Grid(double x0_, double x1_, int nx_, 
              double tmin_, double tmax_, int nt_
@@ -24,7 +25,8 @@ namespace Grid
              tmin(tmin_), tmax(tmax_), nt(nt_)
              {
                 dx = (x1-x0)/(nx);
-             }; 
+                dt = (tmax - tmin) / (nt);
+             };
     };
     
     template<>

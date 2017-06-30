@@ -1,7 +1,6 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
 
+#include <iostream>
 
 
 // Alpaka for Kernel Acceleration
@@ -18,6 +17,7 @@
 #include "debug/DebugDef.h"
 
 #include "worker/Worker.hpp"
+#include "worker/SerialWorker.hpp"
 
 int
 main(int argc, char **argv)
@@ -29,18 +29,13 @@ main(int argc, char **argv)
 
     const double inv_fthsqrt_pi(0.7511255444649425);
     // MPI calls
-    MPI_Init(&argc, &argv);
-    MPI_Comm_rank(MPI_COMM_WORLD,&rank);
-    MPI_Comm_size(MPI_COMM_WORLD,&size);
     
-    auto in_fun = [inv_fthsqrt_pi](std::complex<double> x) {return inv_fthsqrt_pi * 2*x *  std::exp(-x*x/2.0);};
+    auto in_fun = [inv_fthsqrt_pi](std::complex<double> x) {return inv_fthsqrt_pi   * std::exp(-x*x/2.0);};
     auto pot_fun = [](double x) {return x*x/2.0;};
 
-    Grid::Grid<1> g(-8.0, 8.0, 65536/4, 0.0, 1.0, 3);
-    Worker::start_worker(g, size, rank, in_fun, pot_fun);
+    Grid::Grid<1> g(-8.0, 8.0, 5000, 0.0, 0.01, 10);
     
-    MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Finalize();
+    Worker::start_serial_worker(g, in_fun, pot_fun);
 
     return EXIT_SUCCESS;
 
