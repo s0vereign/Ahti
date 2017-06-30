@@ -11,6 +11,9 @@
 #include "math/FourierCoeff.hpp"
 #include "math/CoeffEv.hpp"
 #include "math/ValsEv.hpp"
+
+
+#include "debug/DebugDef.h"
 //#include "communication/Ring.hpp"
 #include "output/SaveStep.hpp"
 
@@ -51,22 +54,64 @@ namespace Worker
     template<typename DIST>
     void calc_coeff(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, DIST d,vector<complex<double> >& res)
     {
-        const int n0 = lgrid.nx0  - g.nx/2 + 1;
+        const int n0 = lgrid.nx0  - g.nx / 2 + 1;
         double dx = lgrid.dx;
         double ind0 = double(n0);
-        
         for( int i = 0; i < res.size(); i++)
         {
-            math::fourier_1D_serial(ind0, g.nx, d, dx, g.x0, res[i]);
+            math::fourier_1D_init(ind0, g.nx, d, dx, g.x0, res[i]);
             ind0++;
 
         }
-        
     };
 
+    template<typename T_VAL, typename T_IN>
+    void recalc_coeff(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, T_VAL& coef, T_IN psi)
+    {
+        const int n0 = lgrid.nx0 - g.nx / 2 + 1;
+        double dx = lgrid.dx;
+        double ind0 = double(n0);
+
+        for(size_t i = 0; i  < coef.size(); i++)
+        {
+            math::fourier_1D(ind0, g.nx, psi, dx, g.x0, coef[i]);
+            ind0++;
+        }
+    };
+
+    template<typename T_VAL, typename DIST>
+    void init_psi(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, DIST d, T_VAL& psi)
+    {
+        double x = lgrid.x0;
+        double dx = g.dx;
 
 
+        for(size_t i = 0; i < psi.size(); i++)
+        {
+            psi[i] = d(x);
+            x += dx;
+        }
+    };
 
+    void norm_function(vector<complex<double>>& res, Grid::Grid<1> g)
+    {
+        // Uses trapezoidal rule in order to norm res
+        const double dx = g.dx;
+        std::complex<double> vol(0,0);
+        for( unsigned int i = 1; i < res.size()-1; i++)
+        {
+            vol += res[i] * std::conj(res[i]);
+        }
+        vol += 0.5 * (res[0] + res[res.size()-1]);
+        vol *= dx;
+        double v1 = 1/std::sqrt(vol.real());
+
+
+        for(auto& j : res)
+        {
+            j *= v1;
+        }
+    }
 
     template<typename DIST, typename POT>
     void time_evo(  Grid::LocalGrid<1> lgrid, 
