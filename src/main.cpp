@@ -5,7 +5,7 @@
 
 
 // Alpaka for Kernel Acceleration
-#include <alpaka/alpaka.hpp>
+//#include <alpaka/alpaka.hpp>
 
 // MPI
 #include <mpi.h>
