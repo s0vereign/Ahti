@@ -11,7 +11,7 @@
 #include "math/FourierCoeff.hpp"
 #include "math/CoeffEv.hpp"
 #include "math/ValsEv.hpp"
-#include "communication/Ring.hpp"
+//#include "communication/Ring.hpp"
 #include "output/SaveStep.hpp"
 
 
@@ -22,14 +22,37 @@ namespace Worker
 {
     using std::complex;
     using std::vector;
-    
+
+
+    void shift_res(vector<complex<double>>& res)
+    {
+        // This function shifts the real spaced function
+        // to the right index position in 1D
+
+        vector<complex<double>> cpy(res.size());
+        std::copy(res.begin()+res.size()/2, res.end(), cpy.begin());
+        std::copy(res.begin(), res.begin() + res.size()/2 , cpy.begin()+cpy.size()/2);
+        std::copy(cpy.begin(), cpy.end(), res.begin());
+    };
+
+	void ex_im_rl(vector<complex<double>>& res)
+	{
+	  	// This function is a temporary hack in order to
+	  	// solve the sign question
+
+
+		std::transform(res.begin(), res.end(), res.begin(),
+					   [](complex<double> a)
+					   {
+		  					return complex<double>(a.imag(), a.real());
+						});
+	};
+
     template<typename DIST>
     void calc_coeff(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, DIST d,vector<complex<double> >& res)
     {
-        const int n0 = lgrid.nx0 - g.nx/2 + 1;
-        
+        const int n0 = lgrid.nx0  - g.nx/2 + 1;
         double dx = lgrid.dx;
-        
         double ind0 = double(n0);
         
         for( int i = 0; i < res.size(); i++)
@@ -41,28 +64,10 @@ namespace Worker
         
     };
 
-    template<typename POT>
-    void phase_fac( Grid::LocalGrid<1> lgrid,
-                    Grid::Grid<1> g,
-                    POT p, 
-                    vector<complex<double> >& vals
-                    )
-    {
-
-        double x  = lgrid.x0;
-        const double dx = lgrid.dx;
-        int n = lgrid.nx0;
-        const double dt = (g.tmax - g.tmin)/(g.nt+1); 
-        complex<double> iu(0,1);
-        for(int i = 0; i < vals.size(); i++)
-        {
-            vals[i] *= std::exp(- iu * dt * p(x));
-            x += dx;
-        }
 
 
-    }
-    
+
+
     template<typename DIST, typename POT>
     void time_evo(  Grid::LocalGrid<1> lgrid, 
                     Grid::Grid<1> g,
@@ -111,7 +116,7 @@ namespace Worker
                     //DEBUG("Index now:" << ind_curr);
                 }
                 MPI_Barrier(MPI_COMM_WORLD);
-                comm::ring_send(psi_coeff, mpi_r, mpi_s, psi_coeff.size());
+                //comm::ring_send(psi_coeff, mpi_r, mpi_s, psi_coeff.size());
                 
             }
 
