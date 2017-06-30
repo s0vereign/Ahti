@@ -95,7 +95,7 @@ namespace Worker
             
             for(int j = 0; j < mpi_s; j++)
             {
-                // First evolve coeeficients
+                // First evolve coefficients
 
                 //DEBUG(mpi_r << ": Starting to calculate!");
                 math::vals_ev(vals, psi_coeff, lgrid, g, ind_curr, p);

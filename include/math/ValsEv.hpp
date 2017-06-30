@@ -48,10 +48,9 @@ namespace math{
 	  	const int n0 =  - gnx / 2 + 1;
 
 	  	int n = n0;
-        double x = lgrid.x0;
-        const double dx = grid.dx;
-		const double c =  2.0*M_PI/l0;
-
+      double x = lgrid.x0;
+      const double dx = grid.dx;
+  		const double c =  2.0*M_PI/l0;
 	  	for(unsigned int i = 0; i < vals.size(); i++)
         {
             
@@ -61,7 +60,7 @@ namespace math{
                 vals[i] += coef[j]* exp(  iu * c * double(n) * x);
                 n++;
             }
-		    n = n0;
+		        n = n0;
             x += dx;
         }
 
