@@ -2,6 +2,7 @@
 
 #include <complex>
 #include <vector>
+#include <cassert>
 
 #include "grid/Grid.hpp"
 #include "grid/LocalGrid.hpp"
@@ -30,30 +31,37 @@ namespace math{
                  vector<complex<double> >& coef,
                  const LocalGrid<1>& lgrid,
                  const Grid<1>& grid,
-                 const int ind_s,
                  POT p
                  )
     {
+	  	// local number of grid points
         const int nx = lgrid.nx1 - lgrid.nx0;
+
+	  	// Global number of grid points
         const int gnx = grid.nx;
+
+	  	// length of the box
         const double l0 = grid.x1 - grid.x0;
         const complex<double> iu(0,1);
-        int n = ind_s;
+
+	  	// Starting index for each loop (n has to be reset to this after each point calculation)
+	  	const int n0 =  - gnx / 2 + 1;
+
+	  	int n = n0;
         double x = lgrid.x0;
         const double dx = grid.dx;
 		const double c =  2.0*M_PI/l0;
-        
-        for(unsigned int i = 0; i < vals.size(); i++)
+
+	  	for(unsigned int i = 0; i < vals.size(); i++)
         {
             
-            for(unsigned int j = 0; j < coef.size(); j++)
+            for(unsigned int j = 0; j < coef.size() - 1; j++)
             {
 
-                vals[i] += coef[j]* exp( iu * c * double(n) * x);
+                vals[i] += coef[j]* exp(  iu * c * double(n) * x);
                 n++;
             }
-            n = ind_s;
-            //vals[i] *= exp(-iu*p(x)*grid.dt);
+		    n = n0;
             x += dx;
         }
 
