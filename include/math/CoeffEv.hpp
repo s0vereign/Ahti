@@ -5,6 +5,8 @@
 
 #include "grid/LocalGrid.hpp"
 
+#include "debug/DebugDef.h"
+
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
 #endif
@@ -26,7 +28,7 @@ namespace math {
         const complex<double> j(0,1);
 
         int n = lgrid.nx0 - gnx/2 + 1;
-	  	double c  = dt/2 * pow(2.0 * M_PI / l, 2.0);
+	  	double c  = dt/4 * (2.0 * M_PI / l) * (2.0 * M_PI / l);
         for(int i = 0; i < coef.size(); i++)
         {
             coef[i] *= exp(- j * c * double(n*n));
