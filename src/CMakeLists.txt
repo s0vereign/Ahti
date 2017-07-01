@@ -1,7 +1,6 @@
 ############
 # Use CMake 3.3.0
 ############
-
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0)
 
 
@@ -9,16 +8,18 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0)
 # Change the C Flags
 ############
 option(DEBUG_BUILD "Enables debug macros and disables Optimizations" ON)
+
 ######
 #set(CMAKE_COLOR_MAKEFILE ON)
+######
 IF(DEBUG_BUILD)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb")
 else(DEBUG_BUILD)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 	message("-- Using optimization")
-
 ENDIF(DEBUG_BUILD)
+
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wpedantic")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
@@ -90,7 +91,10 @@ file(GLOB HEADER_SRCS "*.hpp")
 #INCLUDE("${ALPAKA_ROOT}cmake/common.cmake")
 #INCLUDE("${ALPAKA_ROOT}cmake/dev.cmake")
 
-
+######
+# Add the CMake custom modules
+######
+LIST(APPEND CMAKE_MODULE_PATH "../utils/cmake")
 
 ###############
 # Find Package OpenMPI
@@ -102,11 +106,6 @@ if(MPI_FOUND)
 	 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
 	 include_directories(${MPI_INCLUDE_PATH})
 endif(MPI_FOUND)
-
-
-#############
-# Include directory
-#############
 
 ############
 # Find HDF5
@@ -139,7 +138,7 @@ endif(FFTW_FOUND)
 #endif(Splash_FOUND)
 
 ############
-# User the include directories
+# User include directories
 ############
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 
@@ -153,6 +152,7 @@ if(Boost_FOUND)
 	ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
 
 endif(Boost_FOUND)
+
 #############
 # Add executable
 #############
@@ -177,7 +177,8 @@ endif(Boost_FOUND)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE} ${HEADER_SRCS})
 set_target_properties(ahti PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/bin)
+							RUNTIME_OUTPUT_DIRECTORY
+							${CMAKE_BINARY_DIR}/bin)
 TARGET_LINK_LIBRARIES(
     ahti
 	${MPI_LIBRARIES}
@@ -185,15 +186,13 @@ TARGET_LINK_LIBRARIES(
 	${HDF5_LIBRARIES}
 	${FFTW_LIBRARIES}
 	${HDF5_HL_LIBRARIES}
+	${FFTW_LIBRARIES}
 )
 
 option(TOTEST "Enable test build!" OFF)
 
 
 IF(TOTEST)
-
-
-
 
 file(GLOB TEST_SRCS ../tests/*.cpp)
 
@@ -202,15 +201,13 @@ foreach(testSrc ${TEST_SRCS})
 	get_filename_component(testName ${testSrc} NAME_WE)
 	message("${testName}")
 	ADD_EXECUTABLE(${testName} ${testSrc})
-	target_link_libraries(${testName}
+	target_link_libraries(  ${testName}
 							${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 							${MPI_LIBRARIES}
-
-						)
+						 )
 	set_target_properties(${testName} PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/tests)
 	add_test(NAME ${testName} COMMAND ${CMAKE_BINARY_DIR}/tests/${testName})
-
 endforeach(testSrc)
 
 ENDIF(TOTEST)

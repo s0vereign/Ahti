@@ -1,9 +1,11 @@
 #include <stdlib.h>
-
+#include <fftw3.h>
 #include <iostream>
-#define DEBUG_ENABLED
 
+
+#define DEBUG_ENABLED
 #include "worker/SerialWorker.hpp"
+
 
 int
 main(int argc, char **argv)
@@ -29,9 +31,8 @@ main(int argc, char **argv)
 
     };
 
-    //auto pot_fun = [](double x) {return std::complex<double>(0,0);};
+
     Grid::Grid<1> g(-8.0, 8.0, 5000, 0.0, 0.90, 20);
-    
     Worker::start_serial_worker(g, in_fun, pot_fun);
 
 

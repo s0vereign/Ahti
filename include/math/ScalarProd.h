@@ -11,7 +11,6 @@ namespace math
 {
 
     using std::complex;
-    using namespace Grid;
 
     template<typename T_CONT, typename T_DIST>
     auto scalar_prod(const T_CONT& psi_t, T_DIST psi, Grid<1> g, LocalGrid<1> l)
