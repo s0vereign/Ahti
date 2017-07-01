@@ -13,6 +13,7 @@
 #include "math/CoeffEv.hpp"
 #include "math/FourierCoeff.hpp"
 #include "math/ValsEv.hpp"
+#include "math/ScalarProd.h"
 #include "worker/StaticCalcs.hpp"
 #include "output/SaveStep.hpp"
 #include "output/SaveCoeff.hpp"
@@ -30,6 +31,9 @@ namespace Worker
     {
         vector<complex<double>> coeff(g.nx);
         vector<complex<double>> psi_t(g.nx);
+
+        vector<complex<double>> corr_fun(g.nt);
+
 
         LocalGrid<1> l(g.x0, g.x1, 0, g.nx);
         DEBUG("Starting to calculate the coefficients...");
@@ -72,10 +76,19 @@ namespace Worker
 			IO::save_step_serial(g, psi_t, i, fl);
 			ex_im_rl(psi_t);
 
+            corr_fun[i] = math::scalar_prod(psi_t, psi, g, l);
 
 		}
 
-	  	DEBUG("Finished, cleaning up.")
+	  	DEBUG("Finished, cleaning up.");
         H5Fclose(fl);
+        DEBUG("Saving Correlation function...");
+        fl = H5Fcreate("corr_fun.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+        IO::save_step_serial(g, corr_fun, 0, fl);
+        H5Fclose(fl);
+        DEBUG("Done!")
+
+
+
     }
 }

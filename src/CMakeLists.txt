@@ -64,7 +64,7 @@ include(CTest)
 #############
 
 
-SET(MAIN_SRC_FILE "main.cpp")
+SET(MAIN_SRC_FILE "main.cpp" ../include/math/ScalarProd.h)
 file(GLOB HEADER_SRCS "*.hpp")
 
 
@@ -117,6 +117,14 @@ if(HDF5_FOUND)
 endif(HDF5_FOUND)
 
 
+###########
+# Find FFTW
+###########
+FIND_PACKAGE(FFTW REQUIRED)
+if(FFTW_FOUND)
+	include_directories(${FFTW_INCLUDES})
+endif(FFTW_FOUND)
+
 ##########
 # Find libsplash (Used later maybe!)
 ##########
@@ -138,9 +146,13 @@ INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 ##############
 # Find Boost
 ##############
-FIND_PACKAGE(Boost COMPONENTS unit_test_framework REQUIRED)
-include_directories(Boost_INCLUDE_DIRS)
+FIND_PACKAGE(Boost REQUIRED unit_test_framework)
+if(Boost_FOUND)
+	message(Boost_INCLUDE_DIRS)
+	include_directories(${Boost_INCLUDE_DIRS})
+	ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
 
+endif(Boost_FOUND)
 #############
 # Add executable
 #############
@@ -171,6 +183,7 @@ TARGET_LINK_LIBRARIES(
 	${MPI_LIBRARIES}
 	${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 	${HDF5_LIBRARIES}
+	${FFTW_LIBRARIES}
 	${HDF5_HL_LIBRARIES}
 )
 
@@ -182,7 +195,7 @@ IF(TOTEST)
 
 
 
-file(GLOB TEST_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../include/tests/*.cpp)
+file(GLOB TEST_SRCS ../tests/*.cpp)
 
 foreach(testSrc ${TEST_SRCS})
 
@@ -192,6 +205,7 @@ foreach(testSrc ${TEST_SRCS})
 	target_link_libraries(${testName}
 							${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 							${MPI_LIBRARIES}
+
 						)
 	set_target_properties(${testName} PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/tests)

@@ -81,6 +81,5 @@ namespace IO
         H5LTmake_dataset(floc, d_name_real.c_str(), 1, &size, H5T_NATIVE_DOUBLE, real.data());
         H5LTmake_dataset(floc, d_name_imag.c_str(), 1, &size, H5T_NATIVE_DOUBLE, imag.data());
     }
-    
 
 }
