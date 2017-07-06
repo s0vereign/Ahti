@@ -37,22 +37,21 @@ main(int argc, char **argv)
 
     auto psi_2 = [inv_fthsqrt_pi, inv_sqrt_eight, psi_0](std::complex<double> x)
     {
-       return std::complex<double>(inv_sqrt_eight * (4.0*x*x - 2.0) * psi_0(x));
+        return std::complex<double>(inv_sqrt_eight * (4.0*x*x - 2.0) * psi_0(x));
     };
     auto phi = [psi_0, psi_1, psi_2, inv_sqrt_two](std::complex<double> x)
     {
         return 0.57735026918962573*(psi_0(x)+psi_1(x)+psi_2(x));
     };
 
-    auto pot_fun = [](double x) {
-
-          return std::complex<double>(x * x / 2.0, 0);
-
-
+    auto pot_fun = [](double x)
+    {
+        return std::complex<double>(x * x / 2.0, 0);
     };
 
-
-    Grid::Grid<1> g(-8.0, 8.0, 3000, 0.0, 20.0, 300);
+    const double dt = 1.256637;
+    const double Nt = 500;
+    Grid::Grid<1> g(-8.0, 8.0, 2000, 0.0, dt*Nt, Nt);
     Worker::start_serial_worker(g, phi, pot_fun);
 
 

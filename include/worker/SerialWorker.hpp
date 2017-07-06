@@ -77,9 +77,9 @@ namespace Worker
 			DEBUG("Currently in timestep " << i);
 			//IO::save_step_serial(g, psi_t, i, fl);
 			//ex_im_rl(psi_t);
-
+            ex_im_rl(psi_t);
             corr_fun[i] = math::scalar_prod(psi_t, psi, g, l);
-
+            ex_im_rl(psi_t);
 		}
 
 	  	DEBUG("Finished, cleaning up.");
