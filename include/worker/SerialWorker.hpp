@@ -3,6 +3,7 @@
 #include <vector>
 #include <complex>
 #include <algorithm>
+#include <fftw3.h>
 
 #include "hdf5.h"
 #include "hdf5_hl.h"
@@ -14,6 +15,7 @@
 #include "math/FourierCoeff.hpp"
 #include "math/ValsEv.hpp"
 #include "math/ScalarProd.h"
+#include "math/TimeFt.h"
 #include "worker/StaticCalcs.hpp"
 #include "output/SaveStep.hpp"
 #include "output/SaveCoeff.hpp"
@@ -71,10 +73,10 @@ namespace Worker
 
 
 			shift_res(psi_t);
-			ex_im_rl(psi_t);
+			//ex_im_rl(psi_t);
 			DEBUG("Currently in timestep " << i);
-			IO::save_step_serial(g, psi_t, i, fl);
-			ex_im_rl(psi_t);
+			//IO::save_step_serial(g, psi_t, i, fl);
+			//ex_im_rl(psi_t);
 
             corr_fun[i] = math::scalar_prod(psi_t, psi, g, l);
 
@@ -85,6 +87,25 @@ namespace Worker
         DEBUG("Saving Correlation function...");
         fl = H5Fcreate("corr_fun.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
         IO::save_step_serial(g, corr_fun, 0, fl);
+        H5Fclose(fl);
+
+        weigh_corr_fun(corr_fun, g);
+        vector<complex<double>> spec_fun(g.nt);
+
+
+        DEBUG("Calculating Spectrum...");
+        // Create Spectral function with FFTW
+        fftw_complex* in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*corr_fun.size());
+        fftw_complex* out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*corr_fun.size());
+        cast_std_to_fftw(corr_fun, in);
+        fftw_plan p = fftw_plan_dft_1d(spec_fun.size(), in, out, FFTW_FORWARD, FFTW_ESTIMATE);
+        fftw_execute(p);
+        fftw_destroy_plan(p);
+        cast_fftwc_to_stdc(out, spec_fun);
+
+        DEBUG("Done! Saving Spectrum...");
+        fl = H5Fcreate("spec_fun.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+        IO::save_step_serial(g, spec_fun, 0, fl);
         H5Fclose(fl);
         DEBUG("Done!")
 

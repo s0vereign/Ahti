@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <assert.h>
+#include <fftw3.h>
 
 #include "grid/Grid.hpp"
 #include "grid/LocalGrid.hpp"
@@ -179,4 +180,33 @@ namespace Worker
         if(mpi_r == 0)
             H5Fclose(fl);
     };
+
+    template<typename T_VAL>
+    void weigh_corr_fun(T_VAL& corr_fun, Grid::Grid<1> g)
+    {
+        for(unsigned int i = 0; i < g.nt; i ++)
+        {
+            corr_fun[i] *= 1 - cos(2*M_PI*g.tmax*i*g.dt);
+        }
+    }
+
+    template<typename T_VAL>
+    void cast_std_to_fftw(const T_VAL& vals, fftw_complex* in)
+    {
+
+        for(unsigned int i = 0; i < vals.size(); i++)
+        {
+            in[i][0] = vals[i].real();
+            in[i][1] = vals[i].imag();
+        }
+    }
+
+    template<typename T_VAL>
+    void cast_fftwc_to_stdc(fftw_complex* out, T_VAL& vals)
+    {
+        for(unsigned int i = 0; i < vals.size(); i++)
+        {
+            vals[i] = std::complex<double>(out[i][0],out[i][1]);
+        }
+    }
 }

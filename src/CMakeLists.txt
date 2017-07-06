@@ -65,7 +65,7 @@ include(CTest)
 #############
 
 
-SET(MAIN_SRC_FILE "main.cpp" ../include/math/ScalarProd.h)
+SET(MAIN_SRC_FILE "main.cpp" ../include/math/ScalarProd.h ../include/math/TimeFt.h)
 file(GLOB HEADER_SRCS "*.hpp")
 
 
