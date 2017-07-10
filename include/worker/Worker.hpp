@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fftw3.h>
 #include <complex>
 #include <vector>
 
@@ -45,6 +46,8 @@ namespace Worker
         }
         
         time_evo(lgrid, grid, d, p, vals, psi_0, corr_func, psi_coeff, mpi_s, mpi_r);
+
+
 
         DEBUG(mpi_r << ": " << "finished!");
         

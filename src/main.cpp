@@ -49,8 +49,8 @@ main(int argc, char **argv)
         return std::complex<double>(x * x / 2.0, 0);
     };
 
-    const double dt = 1.256637;
-    const double Nt = 500;
+    const double dt = 0.3141592653589793;
+    const double Nt = 2000;
     Grid::Grid<1> g(-8.0, 8.0, 2000, 0.0, dt*Nt, Nt);
     Worker::start_serial_worker(g, phi, pot_fun);
 
