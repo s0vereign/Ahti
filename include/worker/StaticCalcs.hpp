@@ -76,7 +76,7 @@ namespace Worker
         for(size_t i = 0; i  < coef.size(); i++)
         {
             math::fourier_1D(ind0, g.nx, psi, dx, g.x0, coef[i]);
-            ind0++;
+            ind0 = n0 + i;
         }
     };
 

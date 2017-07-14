@@ -15,7 +15,7 @@ option(DEBUG_BUILD "Enables debug macros and disables Optimizations" ON)
 IF(DEBUG_BUILD)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb")
 else(DEBUG_BUILD)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 	message("-- Using optimization")
 ENDIF(DEBUG_BUILD)
 
@@ -123,6 +123,17 @@ FIND_PACKAGE(FFTW REQUIRED)
 if(FFTW_FOUND)
 	include_directories(${FFTW_INCLUDES})
 endif(FFTW_FOUND)
+
+
+
+##########
+# Find OpenMP
+##########
+find_package(OpenMP)
+if (OPENMP_FOUND)
+	set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
 
 ##########
 # Find libsplash (Used later maybe!)

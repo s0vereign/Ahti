@@ -29,6 +29,7 @@ namespace math {
 
         int n = lgrid.nx0 - gnx/2 + 1;
 	  	double c  = dt/4 * (2.0 * M_PI / l) * (2.0 * M_PI / l);
+
         for(int i = 0; i < coef.size(); i++)
         {
             coef[i] *= exp(- j * c * double(n*n));
