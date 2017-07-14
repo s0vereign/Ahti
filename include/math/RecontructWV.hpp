@@ -4,7 +4,7 @@
 #include <complex>
 #include <vector>
 
-#include "../Grid/Grid.hpp"
+#include "../grid/Grid.hpp"
 
 
 namespace math
