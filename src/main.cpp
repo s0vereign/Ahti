@@ -50,7 +50,7 @@ main(int argc, char **argv)
     };
 
     const double dt = 0.0156637;
-    const double Nt = 10000;
+    const double Nt = 1000;
     Grid::Grid<1> g(-8.0, 8.0, 1000, 0.0, dt*Nt, Nt);
     Worker::start_serial_worker(g, phi, pot_fun);
 

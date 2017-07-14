@@ -65,7 +65,7 @@ include(CTest)
 #############
 
 
-SET(MAIN_SRC_FILE "main.cpp" ../include/math/ScalarProd.h ../include/math/TimeFt.h)
+SET(MAIN_SRC_FILE "main.cpp" ../include/math/ScalarProd.h ../include/math/TimeFt.h ../include/math/RecontructWV.hpp)
 file(GLOB HEADER_SRCS "*.hpp")
 
 
@@ -193,7 +193,7 @@ set_target_properties(ahti PROPERTIES
 TARGET_LINK_LIBRARIES(
     ahti
 	${MPI_LIBRARIES}
-	${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+	#${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 	${HDF5_LIBRARIES}
 	${FFTW_LIBRARIES}
 	${HDF5_HL_LIBRARIES}

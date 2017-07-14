@@ -76,7 +76,7 @@ namespace Worker
         for(size_t i = 0; i  < coef.size(); i++)
         {
             math::fourier_1D(ind0, g.nx, psi, dx, g.x0, coef[i]);
-            ind0 = n0 + i;
+            ind0++;
         }
     };
 
@@ -190,6 +190,7 @@ namespace Worker
         }
     }
 
+
     template<typename T_VAL>
     void cast_std_to_fftw(const T_VAL& vals, fftw_complex* in)
     {
@@ -201,6 +202,7 @@ namespace Worker
         }
     }
 
+
     template<typename T_VAL>
     void cast_fftwc_to_stdc(fftw_complex* out, T_VAL& vals)
     {
@@ -209,4 +211,13 @@ namespace Worker
             vals[i] = std::complex<double>(out[i][0],out[i][1]);
         }
     }
+
+
+    void save_frame(complex<double>** arr, vector<complex<double>>& res, int step)
+    {
+        for(int j = 0; j < res.size(); j++)
+        {
+            arr[step][j] = res[j];
+        }
+    };
 }
