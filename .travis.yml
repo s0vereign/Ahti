@@ -3,18 +3,6 @@ language:
 
 env:
     global:
-        - ALPAKA_CI_ANALYSIS=OFF
-        - ALPAKA_DEBUG=0
-        - ALPAKA_ACC_CPU_B_SEQ_T_SEQ_ENABLE=OFF
-        - ALPAKA_ACC_CPU_B_SEQ_T_THREADS_ENABLE=OFF
-        - ALPAKA_ACC_CPU_B_SEQ_T_FIBERS_ENABLE=OFF
-        - ALPAKA_ACC_CPU_B_TBB_T_SEQ_ENABLE=OFF
-        - ALPAKA_ACC_CPU_B_OMP2_T_SEQ_ENABLE=OFF
-        - ALPAKA_ACC_CPU_B_SEQ_T_OMP2_ENABLE=OFF
-        - ALPAKA_ACC_CPU_BT_OMP4_ENABLE=OFF
-        - ALPAKA_ACC_GPU_CUDA_ENABLE=OFF
-        - ALPAKA_ACC_GPU_CUDA_ONLY_MODE=OFF
-        - ALPAKA_CLANG_LIBSTDCPP_VERSION=5
         - CMAKE_VERSION=cmake-3.8.1-Linux-x86_64
         - CMAKE_URL="https://cmake.org/files/v3.8/cmake-3.8.1-Linux-x86_64.tar.gz"
 os:
@@ -45,6 +33,7 @@ before_script:
     - sudo apt-get install -y -qq wget
     - sudo apt-get install -y -qq libboost-all-dev cmake-data cmake
     - sudo apt-get install -y -qq openmpi-bin openmpi-doc libopenmpi-dev
+    - sudo apt-get install -y -qq libfftw3-dev
     - gcc --version && g++ --version
       # install cmake
     #- CMAKE_VERSION="3.8.1"

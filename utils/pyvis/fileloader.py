@@ -5,7 +5,7 @@ import time
 import progressbar
 import sys
 
-def load_timestep(filepath,nt,t0=0,dtype="wf"):
+def load_timestep(filepath,nt,dtype="wf"):
     """
     Load a timestep from a result file
     and returns it as a complex numpy array.
