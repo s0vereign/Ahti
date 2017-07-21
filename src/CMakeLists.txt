@@ -66,30 +66,20 @@ include(CTest)
 
 
 SET(MAIN_SRC_FILE "main.cpp")
-file(GLOB HEADER_SRCS "*.hpp")
 
 
-##########
-# Build the include 
-##########
+
+##############
+# Add the Header files to target
+##############
+file(GLOB HEADER_SRCS "../include/communication/Ring.hpp"
+		              "../include/debug/DebugDef.h"
+                      "../include/grid/*.hpp"
+                      "../include/math/*.hpp"
+                      "../include/math/*.h"
+                      "../include/worker/*.hpp")
 
 
-#-------------------------------------------------------------------------------
-# Find alpaka.
-#-------------------------------------------------------------------------------
-
-#SET(ALPAKA_ROOT "${CMAKE_CURRENT_LIST_DIR}/../utils/alpaka/" CACHE STRING "The location of the alpaka library")
-#LIST(APPEND CMAKE_MODULE_PATH "${ALPAKA_ROOT}")
-#FIND_PACKAGE("alpaka")
-#if(ALPAKA_FOUND)
-#message("-- alapaka detected")
-#endif(ALPAKA_FOUND)
-
-#INCLUDE_DIRECTORIES(${alpaka_INCLUDE_DIRS})
-
-
-#INCLUDE("${ALPAKA_ROOT}cmake/common.cmake")
-#INCLUDE("${ALPAKA_ROOT}cmake/dev.cmake")
 
 ######
 # Add the CMake custom modules
