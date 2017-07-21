@@ -21,7 +21,7 @@
 namespace Worker
 {
     using std::complex;
-    using namespace Grid;
+    using Grid::Grid;
     using containers::Array2D;
 
     template<typename T_DIST, typename T_POT>
