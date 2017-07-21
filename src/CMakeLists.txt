@@ -65,7 +65,7 @@ include(CTest)
 #############
 
 
-SET(MAIN_SRC_FILE "main.cpp")
+SET(MAIN_SRC_FILE "main.cpp" ../include/worker/StaticCalcs2D.hpp ../include/containers/Array2D.hpp)
 
 
 
