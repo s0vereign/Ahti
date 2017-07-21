@@ -41,7 +41,7 @@ namespace Worker
         {
             // Execute a forward transformation in order to get psi(p,t)
             fftw_execute(ft);
-            
+
         }
 
 

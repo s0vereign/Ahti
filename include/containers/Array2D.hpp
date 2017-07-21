@@ -78,5 +78,15 @@ namespace containers
             {
                 return data.get();
             }
+
+            int get_nx()
+            {
+                return nx;
+            }
+
+            int get_ny()
+            {
+                return ny;
+            }
     };
 }
