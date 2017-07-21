@@ -22,6 +22,10 @@ cmake-build-debug/
 *.dylib
 *.dll
 
+figures
+cmake-build-debug_tests/
+cmake-build-release/
+
 # Fortran module files
 *.mod
 *.smod
