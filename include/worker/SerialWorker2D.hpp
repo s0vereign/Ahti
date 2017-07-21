@@ -21,11 +21,10 @@
 namespace Worker
 {
     using std::complex;
-    using Grid::Grid;
     using containers::Array2D;
 
     template<typename T_DIST, typename T_POT>
-    void start_serial_worker(Grid<2> g, T_DIST p0, T_POT V)
+    void start_serial_worker(Grid::Grid<2> g, T_DIST p0, T_POT V)
     {
 
         Array2D<complex<double>> psi(g.nx, g.ny);

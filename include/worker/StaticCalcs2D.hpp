@@ -6,10 +6,9 @@
 
 namespace Worker
 {
-    using Grid::Grid;
 
     template <typename T_CONT, typename  T_DIST>
-    void init_psi(T_CONT& vals, T_DIST p, Grid<2> g)
+    void init_psi(T_CONT& vals, T_DIST p, Grid::Grid<2> g)
     {
         double x = g.x0;
         double y = g.y0;
