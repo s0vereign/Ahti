@@ -27,12 +27,22 @@ namespace Worker
     void start_serial_worker(Grid::Grid<2> g, T_DIST p0, T_POT V)
     {
 
-        Array2D<complex<double>> psi(g.nx, g.ny);
-        Array2D<complex<double>> psi_t(g.nx, g.ny);
+        Array2D<fftw_complex> psi(g.nx, g.ny);
+        Array2D<fftw_complex> psi_ks(g.nx, g.ny);
 
+        fftw_plan ft = fftw_plan_dft_2d(g.nx, g.ny, psi.get_raw_ptr(), psi_ks.get_raw_ptr(), FFTW_FORWARD, FFTW_MEASURE);
+        fftw_plan ift = fftw_plan_dft_2d(g.nx, g.ny, psi_ks.get_raw_ptr(), psi.get_raw_ptr(), FFTW_BACKWARD, FFTW_MEASURE);
         DEBUG("Initialing testfunction...");
         init_psi(psi, p0, g);
 
+        const int nt = g.nt;
+
+        for(int i = 0; i < nt;i++)
+        {
+            // Execute a forward transformation in order to get psi(p,t)
+            fftw_execute(ft);
+            
+        }
 
 
     };
