@@ -19,7 +19,7 @@
 #include "math/ScalarProd.h"
 #include "math/TimeFt.h"
 #include "math/RecontructWV.hpp"
-#include "worker/StaticCalcs.hpp"
+#include "worker/StaticCalcs1D.hpp"
 #include "output/SaveStep.hpp"
 #include "output/SaveCoeff.hpp"
 

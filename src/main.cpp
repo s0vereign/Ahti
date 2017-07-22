@@ -4,7 +4,7 @@
 
 
 #define DEBUG_ENABLED
-#include "worker/SerialWorker.hpp"
+#include "worker/SerialWorker2D.hpp"
 
 
 int
@@ -39,22 +39,31 @@ main(int argc, char **argv)
     {
         return std::complex<double>(inv_sqrt_eight * (4.0*x*x - 2.0) * psi_0(x));
     };
-    auto phi = [psi_0, psi_1, psi_2, inv_sqrt_two](std::complex<double> x)
+
+    auto phi = [psi_0](std::complex<double> x, std::complex<double> y)
     {
-        return 0.57735026918962573*(psi_0(x)+psi_1(x)+psi_2(x));
+
+        return psi_0(x) * psi_0(y);
     };
 
-    auto pot_fun = [](double x)
+    auto pot_fun = [](double x, double y)
     {
-        return std::complex<double>(x * x / 2.0, 0);
+        return std::complex<double>(x * x / 2.0 + y*y/2.0, 0);
     };
 
     const double dt = 0.0156637;
-    const double Nt = 1000;
-    Grid::Grid<1> g(-8.0, 8.0, 1000, 0.0, dt*Nt, Nt);
+    const double Nt = 10;
+
+    const double xmax = 6.0;
+    const double xmin = -xmax;
+    const double ymax = xmax;
+    const double ymin = xmin;
+    const int nx = 500;
+    const int ny = 500;
+
+    Grid::Grid<2> g(xmin, xmax, nx, ymin, ymax, ny, 0, Nt*dt, Nt);
+
     Worker::start_serial_worker(g, phi, pot_fun);
-
-
     return EXIT_SUCCESS;
 
 }

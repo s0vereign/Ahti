@@ -7,7 +7,7 @@
 
 #include "grid/Grid.hpp"
 #include "grid/LocalGrid.hpp"
-#include "StaticCalcs.hpp"
+#include "StaticCalcs1D.hpp"
 #include "output/SaveCoeff.hpp"
 
 
