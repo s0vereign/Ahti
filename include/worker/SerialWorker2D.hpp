@@ -39,7 +39,7 @@ namespace Worker
         const int nt = g.nt;
 
         fftw_execute(ft);
-        IO::save_grid_2d(psi,g,"test.h5");
+        IO::save_grid_2d(psi_ks,g,"test.h5");
 
 
 

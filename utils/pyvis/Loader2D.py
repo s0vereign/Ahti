@@ -39,10 +39,10 @@ class CLoader2D(Loader2D):
 
 def main():
 
-    l = CLoader2D(2000,2000,"../../cmake-build-debug_tests/bin/test.h5")
+    l = CLoader2D(1000,1000,"../../cmake-build-debug_tests/bin/test.h5")
     d = l.get_complex_data("/real","/imag")
     x = np.linspace(-6.0,6.0,500,retstep=True)
-    plt.imshow(np.abs(d),interpolation="nearest",extent=[-6.0,6.0,-6.0,6.0])
+    plt.imshow(np.abs(d),interpolation="nearest")
     plt.colorbar()
     plt.legend()
     plt.show()
