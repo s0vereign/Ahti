@@ -38,8 +38,6 @@ namespace IO
         hid_t file = H5Fcreate(fname.c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
         hsize_t dims[1];
         dims[0] = g.nx*g.ny;
-        H5::DataSpace dsprl(1, dims);
-        H5::DataSpace dspim(1, dims);
 
         hid_t dataspace_id = H5Screate_simple(1,dims,NULL);
 
