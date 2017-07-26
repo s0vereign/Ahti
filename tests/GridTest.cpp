@@ -1,4 +1,4 @@
-#include "../include/Grid/Grid.hpp"
+#include "../include/grid/Grid.hpp"
 
 #include "gtest/gtest.h"
 
