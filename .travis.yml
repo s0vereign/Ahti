@@ -20,7 +20,7 @@ script:
     - cd ..
     - mkdir build
     - cd build
-    - cmake .. -DTOTEST=On
+    - cmake .. -DTOTEST=Off
     - make
 
 before_script:
