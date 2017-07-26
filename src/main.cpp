@@ -55,7 +55,7 @@ main(int argc, char **argv)
     const double Nt = 10;
 
     const double xmax = 6.0;
-    const double xmin = -xmax;
+    const double xmin = -6.0;
     const double ymax = xmax;
     const double ymin = xmin;
     const int nx = 1000;
