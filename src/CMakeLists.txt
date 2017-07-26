@@ -65,7 +65,7 @@ include(CTest)
 #############
 
 
-SET(MAIN_SRC_FILE "main.cpp" ../include/worker/StaticCalcs2D.hpp ../include/containers/Array2D.hpp ../include/math/CMultFFTW.hpp ../include/output/SaveGrid2D.hpp)
+SET(MAIN_SRC_FILE "main.cpp" ../include/worker/StaticCalcs2D.hpp ../include/containers/Array2D.hpp ../include/math/CMultFFTW.hpp ../include/output/SaveGrid2D.hpp ../tests/GridTest.cpp)
 
 
 
@@ -175,6 +175,12 @@ endif(Boost_FOUND)
 #STRING(REPLACE "14" "11" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 #ENDIF(CUDA_FOUND)
 
+#########
+# Find GoogleTest
+#########
+include_directories(../utils/googletest/googletest/include)
+
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE} ${HEADER_SRCS})
 set_target_properties(ahti PROPERTIES
@@ -198,17 +204,18 @@ IF(TOTEST)
 file(GLOB TEST_SRCS ../tests/*.cpp)
 
 foreach(testSrc ${TEST_SRCS})
-
 	get_filename_component(testName ${testSrc} NAME_WE)
-	message("${testName}")
-	ADD_EXECUTABLE(${testName} ${testSrc})
-	target_link_libraries(  ${testName}
-							${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
-							${MPI_LIBRARIES}
-						 )
-	set_target_properties(${testName} PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/tests)
-	add_test(NAME ${testName} COMMAND ${CMAKE_BINARY_DIR}/tests/${testName})
+	message("-- ${testName} registered!")
+
 endforeach(testSrc)
+
+ADD_EXECUTABLE(runtests ${TEST_SRCS} ../tests/runtests.cpp)
+target_link_libraries(  runtests
+
+                        gtest_main
+        )
+set_target_properties(runtests PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/tests)
+add_test(NAME runtests COMMAND ${CMAKE_BINARY_DIR}/tests/runtests)
 
 ENDIF(TOTEST)
