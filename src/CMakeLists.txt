@@ -65,7 +65,7 @@ include(CTest)
 #############
 
 
-SET(MAIN_SRC_FILE "main.cpp" ../include/worker/StaticCalcs2D.hpp ../include/containers/Array2D.hpp ../include/math/CMultFFTW.hpp ../include/output/SaveGrid2D.hpp ../tests/GridTest.cpp)
+SET(MAIN_SRC_FILE "main.cpp" ../include/worker/StaticCalcs2D.hpp ../include/containers/Array2D.hpp ../include/math/CMultFFTW.hpp ../include/output/SaveGrid2D.hpp)
 
 
 
@@ -209,7 +209,7 @@ foreach(testSrc ${TEST_SRCS})
 
 endforeach(testSrc)
 
-ADD_EXECUTABLE(runtests ${TEST_SRCS} ../tests/runtests.cpp)
+ADD_EXECUTABLE(runtests ${TEST_SRCS} ../tests/runtests.cpp ../tests/IOTest.cpp)
 target_link_libraries(  runtests
 
                         gtest_main
