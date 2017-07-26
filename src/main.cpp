@@ -58,8 +58,9 @@ main(int argc, char **argv)
     const double xmin = -xmax;
     const double ymax = xmax;
     const double ymin = xmin;
-    const int nx = 500;
-    const int ny = 500;
+    const int nx = 1000;
+    const int ny = 1000;
+
 
     Grid::Grid<2> g(xmin, xmax, nx, ymin, ymax, ny, 0, Nt*dt, Nt);
 
