@@ -211,7 +211,9 @@ endforeach(testSrc)
 
 ADD_EXECUTABLE(runtests ${TEST_SRCS} ../tests/runtests.cpp ../tests/IOTest.cpp)
 target_link_libraries(  runtests
-
+                        ${HDF5_LIBRARIES}
+                        ${FFTW_LIBRARIES}
+                        ${HDF5_HL_LIBRARIES}
                         gtest_main
         )
 set_target_properties(runtests PROPERTIES
