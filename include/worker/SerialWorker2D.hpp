@@ -14,6 +14,7 @@
 #include "../grid/LocalGrid.hpp"
 #include "StaticCalcs2D.hpp"
 #include "../containers/Array2D.hpp"
+#include "../output/SaveGrid2D.hpp"
 
 #define DEBUG_ENABLED
 #include "../debug/DebugDef.h"
@@ -37,13 +38,12 @@ namespace Worker
 
         const int nt = g.nt;
 
-        for(int i = 0; i < nt;i++)
-        {
-            // Execute a forward transformation in order to get psi(p,t)
-            fftw_execute(ft);
+        fftw_execute(ft);
+        fftw_execute(ift);
+        IO::save_grid_2d(psi_ks,g,"test.h5");
 
-        }
-
+        fftw_destroy_plan(ft);
+        fftw_destroy_plan(ift);
 
     };
 

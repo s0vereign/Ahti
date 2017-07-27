@@ -5,7 +5,6 @@
 #include <fftw3.h>
 #include "hdf5.h"
 #include "hdf5_hl.h"
-#include "H5Cpp.h"
 
 
 #include "../grid/Grid.hpp"
@@ -36,12 +35,27 @@ namespace IO
         containers::Array2D<double> imagp(g.nx, g.ny);
 
         cast_fftw_to_double(vals, realp, imagp);
-        H5::H5File file(fname.c_str(), H5F_ACC_TRUNC);
+        hid_t file = H5Fcreate(fname.c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
         hsize_t dims[1];
         dims[0] = g.nx*g.ny;
-        H5::DataSpace dsprl(1, dims);
-        H5::DataSpace dspim(1, dims);
 
-        //@TODO Finish Grid output with C++ Interface
+        hid_t dataspace_id = H5Screate_simple(1,dims,NULL);
+
+        hid_t dataset_id = H5Dcreate2(file, "/real", H5T_NATIVE_DOUBLE, dataspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+
+        herr_t status = H5Dwrite(dataset_id, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, realp.get_raw_ptr());
+
+        status = H5Dclose(dataset_id);
+        status = H5Sclose(dataspace_id);
+
+        dataspace_id = H5Screate_simple(1, dims, NULL);
+        dataset_id = H5Dcreate2(file, "/imag", H5T_NATIVE_DOUBLE, dataspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+        status = H5Dwrite(dataset_id, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, imagp.get_raw_ptr());
+        status = H5Dclose(dataset_id);
+        status = H5Sclose(dataspace_id);
+
+        status = H5Fclose(file);
+
+
     }
 }

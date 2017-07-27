@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <fftw3.h>
 
 namespace containers
 {
@@ -31,6 +32,7 @@ namespace containers
             {
                 return data.get();
             }
+
 
     };
 
