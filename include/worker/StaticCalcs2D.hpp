@@ -71,4 +71,13 @@ namespace Worker
             x += dx;
         }
     };
+
+    template<typename T_ARR, typename T>
+    void shuffle_2D_freq(T_ARR& vals, Grid::Grid<2> g)
+    {
+        for(int i = 0; i < g.nx; i++)
+        {
+
+        }
+    }
 }

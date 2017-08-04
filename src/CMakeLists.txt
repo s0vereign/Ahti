@@ -211,7 +211,7 @@ foreach(testSrc ${TEST_SRCS})
 
 endforeach(testSrc)
 
-ADD_EXECUTABLE(runtests ${TEST_SRCS} ../tests/runtests.cpp ../tests/IOTest.cpp)
+ADD_EXECUTABLE(runtests ${TEST_SRCS} ../tests/runtests.cpp ../tests/IOTest.cpp ../tests/FFTWmultest.cpp)
 target_link_libraries(  runtests
                         ${HDF5_LIBRARIES}
                         ${FFTW_LIBRARIES}

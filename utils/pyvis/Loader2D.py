@@ -46,7 +46,7 @@ def main():
     d = l.get_complex_data("/real","/imag")
     x = np.arange(-6.0,6.0,12.0/1000)
     y = np.arange(-6.0,6.0,12.0/1000)
-    
+
     X,Y = np.meshgrid(x,y)
     print(X.shape)
     print(Y.shape)
