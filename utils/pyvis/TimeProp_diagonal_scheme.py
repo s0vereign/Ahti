@@ -16,17 +16,15 @@ def prop_time(psi0, nt, dt, V, x):
     for i in range(int(n/2),n):
         p[i] = -(n/2)*dp + (i-n/2)*dp
 
-    plt.subplot(121)
-    plt.plot(p)
+
+    #p = np.linspace(p0,p1,n)
 
     for i in range(0, nt):
+        psi *= np.exp(- 1j * dt/2 * V(x))
         psi_ft = np.fft.fft(psi)
-        psi_ft *= np.exp(1j * p**2*dt/4)
+        psi_ft *= np.exp(- 1j * p**2/2 * dt)
         psi = np.fft.ifft(psi_ft)
-        psi *= np.exp(-1j * V(x) * dt)
-        psi_ft = np.fft.fft(psi)
-        psi_ft *= np.exp(1j * p**2*dt/4)
-        psi = np.fft.ifft(psi_ft)
+        psi *= np.exp(-1j * dt/2 * V(x))
 
 
 
@@ -43,13 +41,12 @@ def main():
     print(x[int(n/2)+1:][0])
     res = prop_time(psi, nt, dt, V, x)
     psi_an = psi(x) * np.exp(-1j * 0.5 * dt * nt)
-    plt.subplot(122)
-    plt.plot(x, res.real,label="real")
-    plt.plot(x, res.imag,label="imag")
-    plt.plot(x, np.abs(res)**2,label=r"$\psi^2$")
-    plt.plot(x, psi_an.real, label="real ana")
-    plt.plot(x, psi_an.imag, label="imag ana")
-    plt.legend()
+
+    plt.plot(x,res.imag, label="Real numerical")
+    plt.plot(x,res.real, label="Imag numerical")
+    plt.plot(x,psi_an.real, label="Real analytical")
+    plt.plot(x,psi_an.imag, label="Imag analytical")
+    plt.legend(loc='best')
     plt.show()
 
 if __name__ == '__main__':
