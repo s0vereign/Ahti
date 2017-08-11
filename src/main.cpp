@@ -22,9 +22,7 @@ main(int argc, char **argv)
     
     auto psi_0 = [inv_fthsqrt_pi](std::complex<double> x)
     {
-
-          return std::complex<double>(inv_fthsqrt_pi   * std::exp(-x*x/2.0));
-
+        return std::complex<double>(inv_fthsqrt_pi   * std::exp(-x*x/2.0));
     };
 
 
