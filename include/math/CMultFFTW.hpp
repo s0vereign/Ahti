@@ -23,4 +23,15 @@ namespace math
 
         return(y*a + b*x);
     }
+
+    inline void fftw_mult(fftw_complex c, std::complex<double> z)
+    {
+        c[0] = fftw_mult_real(c[0], c[1], z);
+        c[1] = fftw_mult_imag(c[0], c[1], z);
+    }
+
+    void operator*=(fftw_complex c, std::complex<double> z)
+    {
+        fftw_mult(c, z);
+    }
 }

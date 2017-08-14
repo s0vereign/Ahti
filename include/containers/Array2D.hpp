@@ -33,6 +33,16 @@ namespace containers
                 return data.get();
             }
 
+            int get_nx()
+            {
+                return nx;
+            }
+
+            int get_ny()
+            {
+                return ny;
+            }
+
 
     };
 
@@ -73,12 +83,12 @@ namespace containers
 
             double get_imag(int x, int y)
             {
-                return data[x*nx + y][1];
+                return data[x * nx + y][1];
             }
 
             fftw_complex* get_raw_ptr()
             {
-                return data.get();
+                data.get();
             }
 
             int get_nx()
@@ -89,6 +99,12 @@ namespace containers
             int get_ny()
             {
                 return ny;
+            }
+
+            double* get_val_ptr(int x, int y)
+            {
+                double* ptr = data[nx*x + y];
+                return ptr;
             }
     };
 }
