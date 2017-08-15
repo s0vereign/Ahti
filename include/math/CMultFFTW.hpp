@@ -32,8 +32,10 @@ namespace math
 
     }
 
-    void operator*=(fftw_complex& c, std::complex<double> z)
+    inline void operator*=(fftw_complex& c, std::complex<double> z)
     {
-        fftw_mult(c, z);
+        math::fftw_mult(c, z);
     }
+
 }
+

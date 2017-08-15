@@ -13,14 +13,14 @@ namespace math
     struct FreePropFS
     {
         const double dt;
-        const std::complex<double> iu(0,1);
+        std::complex<double> iu = {0.0,1.0};
         FreePropFS(double dt_) : dt(dt_){};
 
 
         // Follows the time evolution scheme in Bauke et al.
         void operator()(T_DATA& data, double px, double py)
         {
-            data *= std::exp(-iu * dt/2 * (px*px + py*py));
+            data *= std::exp(-iu * dt / 2.0 * (px*px + py*py));
         }
     };
 
@@ -31,7 +31,7 @@ namespace math
         const int nx = g.nx;
         const int ny = g.ny;
         const double dt = g.dt;
-        FreePropFS op(dt);
+        FreePropFS<T_CONT> op(dt);
 
         const double dpx = 2*M_PI/(g.x1 - g.x0);
         const double dpy = 2*M_PI/(g.y1 - g.y0);
