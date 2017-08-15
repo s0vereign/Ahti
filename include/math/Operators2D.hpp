@@ -24,7 +24,7 @@ namespace math
         }
     };
 
-    // Application of the free propagation function
+    // Application of the free propagation function in
     template<typename T_CONT>
     void apply_2D_TEFS_op(T_CONT& data, int step, Grid::Grid<2> g)
     {
