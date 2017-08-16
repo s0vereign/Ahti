@@ -24,7 +24,7 @@ def prop_time(psi0, nt, dt, V, x):
         psi_ft = np.fft.fft(psi)
         psi_ft *= np.exp(- 1j * p**2/2 * dt)
         psi = np.fft.ifft(psi_ft)
-        psi *= np.exp(-1j * dt/2 * V(x))
+        psi *= np.exp(- 1j * dt/2 * V(x))
 
 
 

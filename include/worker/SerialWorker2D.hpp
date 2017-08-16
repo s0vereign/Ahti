@@ -40,7 +40,7 @@ namespace Worker
 
         fftw_execute(ft);
         fftw_execute(ift);
-        IO::save_grid_2d(psi_ks,g,"test.h5");
+        IO::save_grid_2d(psi,g,"test.h5");
 
         fftw_destroy_plan(ft);
         fftw_destroy_plan(ift);

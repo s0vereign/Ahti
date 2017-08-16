@@ -42,7 +42,7 @@ class CLoader2D(Loader2D):
 
 def main():
 
-    l = CLoader2D(1000,1000,"../../cmake-build-debug_tests/bin/test.h5")
+    l = CLoader2D(1000,1000,"../../cmake-build-debug/bin/test.h5")
     d = l.get_complex_data("/real","/imag")
     x = np.arange(-6.0,6.0,12.0/1000)
     y = np.arange(-6.0,6.0,12.0/1000)
