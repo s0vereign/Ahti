@@ -65,7 +65,7 @@ include(CTest)
 #############
 
 
-SET(MAIN_SRC_FILE "main.cpp" ../include/worker/StaticCalcs2D.hpp ../include/containers/Array2D.hpp ../include/math/CMultFFTW.hpp ../include/output/SaveGrid2D.hpp)
+SET(MAIN_SRC_FILE "main.cpp" ../include/worker/StaticCalcs2D.hpp ../include/containers/Array2D.hpp ../include/math/CMultFFTW.hpp ../include/output/SaveGrid2D.hpp ../include/math/Operators2D.hpp)
 
 
 
@@ -211,7 +211,7 @@ foreach(testSrc ${TEST_SRCS})
 
 endforeach(testSrc)
 
-ADD_EXECUTABLE(runtests ${TEST_SRCS} ../tests/runtests.cpp ../tests/IOTest.cpp ../tests/FFTWmultest.cpp)
+ADD_EXECUTABLE(runtests ${TEST_SRCS})
 target_link_libraries(  runtests
                         ${HDF5_LIBRARIES}
                         ${FFTW_LIBRARIES}
