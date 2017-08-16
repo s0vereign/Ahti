@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
 
+
+matplotlib.rcParams['text.usetex'] = True
 
 def prop_time(psi0, nt, dt, V, x):
 
@@ -42,7 +45,9 @@ def main():
     res = prop_time(psi, nt, dt, V, x)
     psi_an = psi(x) * np.exp(-1j * 0.5 * dt * nt)
 
-    plt.plot(x,res.imag, label="Real numerical")
+    plt.xlabel(r"Location ($a.u.$)",size=14)
+    plt.ylabel(r"$\psi$ ($a.u.^{-1}$)",size=14)
+    plt.plot(x,res.imag, label="Real numericals")
     plt.plot(x,res.real, label="Imag numerical")
     plt.plot(x,psi_an.real, label="Real analytical")
     plt.plot(x,psi_an.imag, label="Imag analytical")

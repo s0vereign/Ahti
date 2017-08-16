@@ -13,6 +13,10 @@ namespace containers
             int nx, ny;
 
         public:
+
+            typedef T type;
+            static const type t;
+
             Array2D(int nx_, int ny_)
             : data(new T[nx_*ny_]), nx(nx_), ny(ny_)
             {
@@ -43,6 +47,11 @@ namespace containers
                 return ny;
             }
 
+            T* get_val_ptr(int x, int y)
+            {
+                T* ptr = &data[nx*x+y];
+                return ptr;
+            }
 
     };
 
@@ -54,6 +63,8 @@ namespace containers
             int nx, ny;
 
         public:
+
+
             Array2D(int nx_, int ny_)
             : data(new fftw_complex[nx_*ny_]), nx(nx_), ny(ny_)
             {};
@@ -104,6 +115,12 @@ namespace containers
             double* get_val_ptr(int x, int y)
             {
                 double* ptr = data[nx*x + y];
+                return ptr;
+            }
+
+            fftw_complex* get_arr_ptr(int x, int y)
+            {
+                fftw_complex* ptr = &data[nx*x,y];
                 return ptr;
             }
     };

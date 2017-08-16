@@ -40,7 +40,7 @@ namespace Worker
 
         fftw_execute(ft);
         IO::save_grid_2d(psi,g,"test.h5");
-        
+
 
     };
 
