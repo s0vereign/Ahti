@@ -99,7 +99,7 @@ namespace containers
 
             fftw_complex* get_raw_ptr()
             {
-                data.get();
+                return data.get();
             }
 
             int get_nx()
