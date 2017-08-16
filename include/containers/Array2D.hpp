@@ -53,6 +53,11 @@ namespace containers
                 return ptr;
             }
 
+            T* get_arr_ptr(int x, int y)
+            {
+                return get_val_ptr(x,y);
+            }
+
     };
 
     template <>

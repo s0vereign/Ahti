@@ -32,7 +32,7 @@ TEST(OperatorTests, ApplyOperatorFourierSpaceTest)
     using math::apply_2D_TEFS_op;
     using containers::Array2D;
 
-    int nx(2), ny(2);
+    int nx(4), ny(4);
 
     Array2D<fftw_complex> a(nx,ny);
 
@@ -69,34 +69,10 @@ TEST(OperatorTests, ApplyOperatorFourierSpaceTest)
     px = px_off;
     py = -py_off;
 
-    auto c = tst.get_val_ptr(0,0);
-    *c *= std::exp(-iu * 1.0/2.0 * (px*px + py*py));
-
-    // (0,1)
-    px = px_off;
-    py = -py_off + dpy;
-
-    c = tst.get_val_ptr(0,1);
-    *c *= std::exp(-iu * 1.0/2.0 * (px*px + py*py));
-
-    // (1,1)
-    px = -px_off + dpx;
-    py = py_off + dpy;
-
-    c = tst.get_val_ptr(1,1);
-    *c *= std::exp(-iu * 1.0/2.0 * (px*px + py*py));
-
-    // (1,0)
-    px = -px_off + dpx;
-    py = -py_off;
-    c = tst.get_val_ptr(1,0);
-    *c *= std::exp(-iu * 1.0/2.0 * (px*px + py*py));
-
-
 
 
     apply_2D_TEFS_op(a, 0, g);
-
+    apply_2D_TEFS_op(tst, 0, g);
 
 
     for(int i = 0; i < nx; i++)
@@ -104,12 +80,10 @@ TEST(OperatorTests, ApplyOperatorFourierSpaceTest)
         for(int j = 0; j < nx; j++)
         {
 
-            std::cout << "a = " << a.get_real(i,j) << " + i * " << a.get_imag(i,j) << std::endl;
             ASSERT_EQ(tst.get(i,j).real(), a.get_real(i,j));
             ASSERT_EQ(tst.get(i,j).imag(), a.get_imag(i,j));
         }
     }
-
 
 
 

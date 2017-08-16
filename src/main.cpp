@@ -50,7 +50,7 @@ main(int argc, char **argv)
     };
 
     const double dt = 0.0156637;
-    const double Nt = 10;
+    const double Nt = 1;
 
     const double xmax = 6.0;
     const double xmin = -6.0;

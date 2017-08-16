@@ -34,19 +34,28 @@ namespace Worker
 
         fftw_plan ft = fftw_plan_dft_2d(g.nx, g.ny, psi.get_raw_ptr(), psi_ks.get_raw_ptr(), FFTW_FORWARD, FFTW_ESTIMATE);
         fftw_plan ift = fftw_plan_dft_2d(g.nx, g.ny, psi_ks.get_raw_ptr(), psi.get_raw_ptr(), FFTW_BACKWARD, FFTW_ESTIMATE);
-        DEBUG("Initialing testfunction...");
+        DEBUG("Initializing testfunction...");
 
         init_psi(psi, p0, g);
 
         const int nt = g.nt;
 
-        fftw_execute(ft);
-        math::apply_2D_TEFS_op(psi_ks,0,g);
-        fftw_execute(ift);
+
+
+        for(int i = 0; i < nt; i++)
+        {
+            std::cout << "Currently in step " << i << std::endl;
+            math::apply_spatial_operator(psi, g, V);
+            fftw_execute(ft);
+            math::apply_2D_TEFS_op(psi_ks,i, g);
+            fftw_execute(ift);
+            math::apply_spatial_operator(psi,g,V);
+        }
+
+        IO::save_grid_2d(psi, g, "first.h5");
 
         fftw_destroy_plan(ft);
         fftw_destroy_plan(ift);
-
 
     };
 

@@ -55,7 +55,7 @@ namespace math
          * space values.
          */
 
-        fftw_complex* val;
+        auto *val = data.get_arr_ptr(0,0);
 
 
         for(int i = 0; i < ny/2; i++)
@@ -81,4 +81,32 @@ namespace math
             }
         }
     }
+
+    template<typename T_CONT, typename POT>
+    void apply_spatial_operator(T_CONT& data, Grid::Grid<2> g,POT V)
+    {
+        using std::complex;
+
+        complex<double> iu(0.0,1.0);
+
+        double x = g.x0;
+        double y = g.y0;
+
+        double dx = g.dx;
+        double dy = g.dy;
+        double dt = g.dt;
+
+        for(int i = 0; i < g.nx; i++)
+        {
+
+            for(int j = 0; j < g.nx; j++)
+            {
+                auto v = data.get_arr_ptr(i,j);
+                *v *= std::exp(-iu * V(x,y) * dt/2.0);
+                y += dy;
+            }
+
+            x += dx;
+        }
+    };
 }
