@@ -55,28 +55,28 @@ namespace math
          * space values.
          */
 
-        auto *val = data.get_arr_ptr(0,0);
-
-
-        for(int i = 0; i < ny/2; i++)
+        for(int i = 0; i < nx; i++)
         {
-            py = i * dpy + py_offset;
-            for(int j = 0; j < nx/2; j++)
+            for(int j = 0; j < ny; j++)
             {
-                px = j * dpx + px_offset;
-                val = data.get_arr_ptr(i,j);
-                *val *= std::exp(-iu * dt / 2.0 * (px*px + py*py));
-            }
-        }
+                if(i < nx/2)
+                {
+                    px = i * dpx;
+                }
+                else
+                {
+                    px = (i-nx/2) * dpx - px_offset;
+                }
 
-        for(int i = ny/2; i < ny; i++)
-        {
-            py = -py_offset + i * dpy;
-            for(int j = nx/2; j < nx; j++)
-            {
-                px = -px_offset + j * dpx;
-                val = data.get_arr_ptr(i,j);
-                *val *= std::exp(-iu * dt / 2.0 * (px*px + py*py));
+                if(j < ny/2)
+                {
+                    py = i*dpy;
+                }
+                else
+                {
+                    py = (i-ny/2) * dpy - py_offset;
+                }
+                data.mult_data(i,j,std::exp(-iu * dt/2.0 * (px*px + py*py)));
 
             }
         }
@@ -99,10 +99,9 @@ namespace math
         for(int i = 0; i < g.nx; i++)
         {
 
-            for(int j = 0; j < g.nx; j++)
+            for(int j = 0; j < g.ny; j++)
             {
-                auto v = data.get_arr_ptr(i,j);
-                *v *= std::exp(-iu * V(x,y) * dt/2.0);
+                data.mult_data(i,j,std::exp(-iu*V(x,y)*dt/2.0));
                 y += dy;
             }
 

@@ -134,7 +134,12 @@ namespace containers
 
             void mult_data(int x, int y, std::complex<double> z)
             {
-                math::fftw_mult(data[nx*x+y],z);
+                double a = data[nx*x + y][0];
+                double b = data[nx*x + y][1];
+                x = z.real();
+                y = z.imag();
+                data[nx*x + y][0] = a * x - b * y;
+                data[nx*x + y][1] = y * a + b * x;
             }
     };
 }
