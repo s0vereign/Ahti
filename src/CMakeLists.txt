@@ -65,7 +65,7 @@ include(CTest)
 #############
 
 
-SET(MAIN_SRC_FILE "main.cpp" ../include/worker/StaticCalcs2D.hpp ../include/containers/Array2D.hpp ../include/math/CMultFFTW.hpp ../include/output/SaveGrid2D.hpp ../include/math/Operators2D.hpp)
+SET(MAIN_SRC_FILE "main.cpp" ../include/worker/StaticCalcs2D.hpp ../include/containers/Array2D.hpp ../include/math/CMultFFTW.hpp ../include/output/SaveGrid2D.hpp ../include/math/Operators2D.hpp ../include/math/NormGrid.hpp)
 
 
 

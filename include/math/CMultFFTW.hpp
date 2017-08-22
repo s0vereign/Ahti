@@ -1,9 +1,11 @@
 #pragma once
 
 #include <complex>
+#include <iostream>
 
 namespace math
 {
+
     inline double fftw_mult_real(double a, double b, std::complex<double> z)
     {
         // Returns the real part of a complex multiplication

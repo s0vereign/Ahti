@@ -1,7 +1,10 @@
 #pragma once
 
+#include <complex>
 #include <memory>
 #include <fftw3.h>
+
+#include "../math/CMultFFTW.hpp"
 
 namespace containers
 {
@@ -127,6 +130,11 @@ namespace containers
             {
                 fftw_complex* ptr = &data[nx*x,y];
                 return ptr;
+            }
+
+            void mult_data(int x, int y, std::complex<double> z)
+            {
+                math::fftw_mult(data[nx*x+y],z);
             }
     };
 }

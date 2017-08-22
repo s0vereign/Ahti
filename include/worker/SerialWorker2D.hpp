@@ -16,6 +16,7 @@
 #include "../containers/Array2D.hpp"
 #include "../output/SaveGrid2D.hpp"
 #include "../math/Operators2D.hpp"
+#include "../math/NormGrid.hpp"
 
 #define DEBUG_ENABLED
 #include "../debug/DebugDef.h"
@@ -41,18 +42,20 @@ namespace Worker
         const int nt = g.nt;
 
 
-
+        IO::save_grid_2d(psi, g, "first.h5");
         for(int i = 0; i < nt; i++)
         {
             std::cout << "Currently in step " << i << std::endl;
             math::apply_spatial_operator(psi, g, V);
             fftw_execute(ft);
+            math::norm_grid(g, psi_ks);
             math::apply_2D_TEFS_op(psi_ks,i, g);
+
             fftw_execute(ift);
             math::apply_spatial_operator(psi,g,V);
         }
 
-        IO::save_grid_2d(psi, g, "first.h5");
+
 
         fftw_destroy_plan(ft);
         fftw_destroy_plan(ift);
