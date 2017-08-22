@@ -70,11 +70,11 @@ namespace math
 
                 if(j < ny/2)
                 {
-                    py = i*dpy;
+                    py = j*dpy;
                 }
                 else
                 {
-                    py = (i-ny/2) * dpy - py_offset;
+                    py = (j-ny/2) * dpy - py_offset;
                 }
                 data.mult_data(i,j,std::exp(-iu * dt/2.0 * (px*px + py*py)));
 
@@ -92,9 +92,9 @@ namespace math
         double x = g.x0;
         double y = g.y0;
 
-        double dx = g.dx;
-        double dy = g.dy;
-        double dt = g.dt;
+        const double dx = g.dx;
+        const double dy = g.dy;
+        const double dt = g.dt;
 
         for(int i = 0; i < g.nx; i++)
         {
@@ -104,7 +104,7 @@ namespace math
                 data.mult_data(i,j,std::exp(-iu*V(x,y)*dt/2.0));
                 y += dy;
             }
-
+            y = g.y0;
             x += dx;
         }
     };

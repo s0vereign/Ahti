@@ -32,7 +32,7 @@ def main():
     U = TimeEvolutionOperator2D(1.0, 0.001)
     grid = U.ev(20, grid)
 
-    surf = ax.plot_surface(X,Y,np.abs(grid)**2,cmap=cm.magma_r,linewidth=1,antialiased=False)
+    surf = ax.plot_surface(X,Y,grid.imag,cmap=cm.magma_r,linewidth=1,antialiased=False)
     fig.colorbar(surf, shrink=0.5, aspect=5)
     plt.show()
 

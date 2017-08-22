@@ -61,6 +61,11 @@ namespace containers
                 return get_val_ptr(x,y);
             }
 
+            void mult_data(int x, int y, std::complex<double> z)
+            {
+                data[nx * x + y] *= z;
+            }
+
     };
 
     template <>
@@ -107,7 +112,7 @@ namespace containers
 
             fftw_complex* get_raw_ptr()
             {
-                return data.get();
+                return &data[0];
             }
 
             int get_nx()
@@ -136,10 +141,10 @@ namespace containers
             {
                 double a = data[nx*x + y][0];
                 double b = data[nx*x + y][1];
-                x = z.real();
-                y = z.imag();
-                data[nx*x + y][0] = a * x - b * y;
-                data[nx*x + y][1] = y * a + b * x;
+                double x1 = z.real();
+                double y1 = z.imag();
+                data[nx*x + y][0] = a * x1 - b * y1;
+                data[nx*x + y][1] = y1 * a + b * x1;
             }
     };
 }

@@ -52,15 +52,14 @@ def main():
     print(Y.shape)
     fig = plt.figure()
     ax = fig.gca(projection='3d')
-    surf = ax.plot_surface(X,Y,d.imag,cmap=cm.magma_r,linewidth=1,antialiased=False)
+    surf = ax.plot_surface(X,Y,np.abs(d)**2,cmap=cm.magma_r,linewidth=1,antialiased=False)
     fig.colorbar(surf, shrink=0.5, aspect=5)
 
     ax.set_title(r"Time evolutio for system $ V(x,y) = \frac{1}{2} (x^2+y^2)$")
-    ax.set_xlabel("x $(a.u.)$")
-    ax.set_ylabel("y $(a.u.)$")
-    ax.set_zlabel("$|\psi|^2$")
+    ax.set_xlabel(r"x $(a.u.)$")
+    ax.set_ylabel(r"y $(a.u.)$")
+    ax.set_zlabel(r"$|\psi|^2$")
 
-    # Plot the surface.
 
     plt.show()
 if __name__ == "__main__":
