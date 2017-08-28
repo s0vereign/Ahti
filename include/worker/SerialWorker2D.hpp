@@ -49,13 +49,11 @@ namespace Worker
         {
             std::cout << "Currently in step " << i << std::endl;
             math::apply_spatial_operator(psi,g,V);
-
             fftw_execute(ft);
             math::norm_grid(g, psi_ks);
             math::apply_2D_TEFS_op(psi_ks,i, g);
             fftw_execute(ift);
             math::apply_spatial_operator(psi,g,V);
-
         }
 
 

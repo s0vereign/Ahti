@@ -53,22 +53,18 @@ def main():
 
     analytic = gaussian(X) * gaussian(Y)
     analytic = np.complex128(analytic)
-    analytic *= np.exp(-1j * 0.5 * 0.0001 * 1000)
+    analytic *= np.exp(-1j * 0.0001 * 1000)
 
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     #ax = fig.gca()
-    surf = ax.plot_surface(X,Y, np.abs(analytic.imag ),cmap=cm.magma_r,linewidth=1,antialiased=False)
+    surf = ax.plot_surface(X,Y, np.abs(analytic.imag - d.imag ),cmap=cm.magma_r,linewidth=1,antialiased=False)
 
     #im = plt.imshow(d.real - analytic.real, )
     fig.colorbar(surf, shrink=0.5, aspect=5)
-    #ax.plot(x,(analytic.real)[:, 500],label = "Analytical rl")
-    #ax.plot(x, analytic.imag[:, 500],label = "Analytical IM")
-    #ax.plot(x, (d.real)[:, 500],label="numerical rl")
-    #ax.plot(x, (d.imag)[:, 500],label="numerical IM")
-    ax.set_title(r"Time evolutio for system $ V(x,y) = \frac{1}{2} (x^2+y^2)$")
+    ax.set_title(r"Time evolution for system $ V(x,y) = \frac{1}{2} (x^2+y^2)$ for y = 0")
     ax.set_xlabel(r"x $(a.u.)$")
-    ax.set_ylabel(r"y $(a.u.)$")
+    ax.set_ylabel(r"$\Psi$ $(a.u.)$")
     ax.set_zlabel(r"$|\psi|^2$")
     #plt.legend(loc='best')
 
