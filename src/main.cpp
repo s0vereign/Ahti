@@ -49,8 +49,8 @@ main(int argc, char **argv)
         return std::complex<double>(x * x / 2.0 + y*y/2.0, 0);
     };
 
-    const double dt = 0.0156637;
-    const double Nt = 1;
+    const double dt = 0.0001;
+    const double Nt = 1000;
 
     const double xmax = 6.0;
     const double xmin = -6.0;
@@ -63,6 +63,7 @@ main(int argc, char **argv)
     Grid::Grid<2> g(xmin, xmax, nx, ymin, ymax, ny, 0, Nt*dt, Nt);
 
     Worker::start_serial_worker(g, phi, pot_fun);
+    std::cout << "dt was " << g.dt << std::endl;
     return EXIT_SUCCESS;
 
 }

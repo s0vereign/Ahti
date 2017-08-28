@@ -54,12 +54,12 @@ namespace Worker
             math::norm_grid(g, psi_ks);
             math::apply_2D_TEFS_op(psi_ks,i, g);
             fftw_execute(ift);
-            IO::save_grid_2d(psi, g, "first.h5");
             math::apply_spatial_operator(psi,g,V);
 
         }
 
 
+        IO::save_grid_2d(psi, g, "first.h5");
 
 
         fftw_destroy_plan(ft);

@@ -34,32 +34,43 @@ class Loader2D:
 
 class CLoader2D(Loader2D):
 
-    def get_complex_data(self,idr,idi):
+    def get_complex_data(self, idr, idi):
 
-        data = (self.get_dset(idr) + 1j*  self.get_dset(idi)).reshape((self.nx,self.ny))
+        data = self.get_dset(idr).reshape((self.nx, self.ny)) + 1j * self.get_dset(idi).reshape((self.nx, self.ny))
 
         return data
 
+
+
 def main():
 
-    l = CLoader2D(1000,1000,"../../cmake-build-debug/bin/first.h5")
+    l = CLoader2D(1000,1000,"../../cmake-build-default/bin/first.h5")
     d = l.get_complex_data("/real","/imag")
     x = np.arange(-6.0,6.0,12.0/1000)
     y = np.arange(-6.0,6.0,12.0/1000)
-
+    gaussian = lambda x: 0.7511255444649425*np.exp(-0.5*x**2)
     X,Y = np.meshgrid(x,y)
-    print(X.shape)
-    print(Y.shape)
+
+    analytic = gaussian(X) * gaussian(Y)
+    analytic = np.complex128(analytic)
+    analytic *= np.exp(-1j * 0.5 * 0.0001 * 1000)
+
     fig = plt.figure()
     ax = fig.gca(projection='3d')
-    surf = ax.plot_surface(X,Y,np.abs(d)**2,cmap=cm.magma_r,linewidth=1,antialiased=False)
-    fig.colorbar(surf, shrink=0.5, aspect=5)
+    #ax = fig.gca()
+    surf = ax.plot_surface(X,Y, np.abs(analytic.imag ),cmap=cm.magma_r,linewidth=1,antialiased=False)
 
+    #im = plt.imshow(d.real - analytic.real, )
+    fig.colorbar(surf, shrink=0.5, aspect=5)
+    #ax.plot(x,(analytic.real)[:, 500],label = "Analytical rl")
+    #ax.plot(x, analytic.imag[:, 500],label = "Analytical IM")
+    #ax.plot(x, (d.real)[:, 500],label="numerical rl")
+    #ax.plot(x, (d.imag)[:, 500],label="numerical IM")
     ax.set_title(r"Time evolutio for system $ V(x,y) = \frac{1}{2} (x^2+y^2)$")
     ax.set_xlabel(r"x $(a.u.)$")
     ax.set_ylabel(r"y $(a.u.)$")
     ax.set_zlabel(r"$|\psi|^2$")
-
+    #plt.legend(loc='best')
 
     plt.show()
 if __name__ == "__main__":
