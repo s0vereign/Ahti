@@ -137,7 +137,7 @@ namespace containers
                 return ptr;
             }
 
-            void mult_data(int x, int y, std::complex<double>& z)
+            void mult_data(int& x, int& y, std::complex<double>& z)
             {
                 double a = data[nx*x + y][0];
                 double b = data[nx*x + y][1];
