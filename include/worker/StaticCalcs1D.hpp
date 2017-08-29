@@ -130,7 +130,7 @@ namespace Worker
         int n_curr = lgrid.nx0;
         int ind_curr = n_curr - g.nx/2 + 1;
         const int psize = lgrid.nx1 - lgrid.nx0 + 1;
-        const double dt = (g.tmax-g.tmin)/(nt);
+        const double dt = (g.t1-g.tmin)/(nt);
         hid_t fl;
         if(mpi_r == 0)
             fl = H5Fcreate(FILE, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
@@ -186,7 +186,7 @@ namespace Worker
     {
         for(unsigned int i = 0; i < g.nt; i ++)
         {
-            corr_fun[i] *= 1 - cos(2*M_PI*g.tmax*i*g.dt);
+            corr_fun[i] *= 1 - cos(2*M_PI*g.t1*i*g.dt);
         }
     }
 
