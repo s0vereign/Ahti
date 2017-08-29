@@ -5,14 +5,20 @@ env:
     global:
         - CMAKE_VERSION=cmake-3.8.1-Linux-x86_64
         - CMAKE_URL="https://cmake.org/files/v3.8/cmake-3.8.1-Linux-x86_64.tar.gz"
-os:
-    - linux
+
+os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+    
 sudo: required
 dist: trusty
 
 
-compiler:
-    - gcc
+
 
 script:
     - cd utils/
@@ -20,7 +26,7 @@ script:
     - cd ..
     - mkdir build
     - cd build
-    - cmake .. -DTOTEST=Off
+    - cmake .. -DTOTEST=Off -DCMAKCE_CXX_COMPILER=$(which g++-4.9) -DCMAKE_CC_COMPILER=$(which gcc-4.9)
     - make
 
 before_script:
