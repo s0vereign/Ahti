@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 
-#include "../Grid/Grid.hpp"
+#include "../grid/Grid.hpp"
 #include "../containers/Array3D.hpp"
 
 
