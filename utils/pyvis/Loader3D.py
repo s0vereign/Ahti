@@ -49,7 +49,7 @@ def main():
     X, Y = np.meshgrid(x,y)
     print(d.shape)
     d = d[:,:,249]
-    print(d)
+
 
     fig = plt.figure()
     ax = fig.gca(projection='3d')
@@ -57,8 +57,6 @@ def main():
 
     fig.colorbar(surf, shrink=0.5, aspect=5)
 
-    #ax = fig.gca()
-    #ax.plot(x, np.abs(d[:][249])**2)
 
     plt.show()
 
