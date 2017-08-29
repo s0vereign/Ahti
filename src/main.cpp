@@ -4,7 +4,7 @@
 
 
 #define DEBUG_ENABLED
-#include "worker/SerialWorker2D.hpp"
+#include "worker/SerialWorker3D.hpp"
 
 
 int
@@ -38,15 +38,15 @@ main(int argc, char **argv)
         return std::complex<double>(inv_sqrt_eight * (4.0*x*x - 2.0) * psi_0(x));
     };
 
-    auto phi = [psi_0](std::complex<double> x, std::complex<double> y)
+    auto phi = [psi_0](std::complex<double> x, std::complex<double> y, std::complex<double> z)
     {
 
-        return psi_0(x) * psi_0(y);
+        return psi_0(x) * psi_0(y) * psi_0(z);
     };
 
-    auto pot_fun = [](double x, double y)
+    auto pot_fun = [](double x, double y, double z)
     {
-        return std::complex<double>(x * x / 2.0 + y*y/2.0, 0);
+        return std::complex<double>(x * x / 2.0 + y*y/2.0 + z*z/2.0, 0);
     };
 
     const double dt = 0.0001;
@@ -56,11 +56,14 @@ main(int argc, char **argv)
     const double xmin = -6.0;
     const double ymax = xmax;
     const double ymin = xmin;
-    const int nx = 1000;
-    const int ny = 1000;
+    const double zmax = xmax;
+    const double zmin = xmin;
+    const int nx = 500;
+    const int ny = 500;
+    const int nz = 500;
 
 
-    Grid::Grid<2> g(xmin, xmax, nx, ymin, ymax, ny, 0, Nt*dt, Nt);
+    Grid::Grid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
 
     Worker::start_serial_worker(g, phi, pot_fun);
     std::cout << "dt was " << g.dt << std::endl;

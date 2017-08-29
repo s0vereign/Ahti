@@ -49,7 +49,7 @@ namespace IO
             hsize_t dims[1];
             dims[0] = g.nx*g.ny*g.nz;
 
-            id_t dataspace_id = H5Screate_simple(1,dims,NULL);
+            hid_t dataspace_id = H5Screate_simple(1,dims,NULL);
 
             hid_t dataset_id = H5Dcreate2(file, "/real", H5T_NATIVE_DOUBLE, dataspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 

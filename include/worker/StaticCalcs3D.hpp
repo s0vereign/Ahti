@@ -25,7 +25,7 @@ namespace Worker
         {
             for(int j = 0; j < g.ny; j++)
             {
-                for(int k = 0; k < g.nz; g++)
+                for(int k = 0; k < g.nz; k++)
                 {
                     psi.set_compl(i,j,k, f(x,y,z));
                     z +=  dx;

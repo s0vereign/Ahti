@@ -27,7 +27,7 @@ namespace math
             {
                 for(int k = 0; k < data.getNz(); k++)
                 {
-                    data.mul_by_compl(i,j,k, std::exp(-iu * dt/2 * V(x,y,z)));
+                    data.mul_by_compl(i,j,k, std::exp(-iu * dt/2.0 * V(x,y,z)));
                     z+=dz;
                 }
                 z = g.z0;

@@ -34,10 +34,16 @@ namespace containers
         }
 
 
-        void set_compl(int x, int y, int z, const T& val)
+        void set_compl(int x, int y, int z, T& val)
         {
             (data[nx * ny * x + ny * y + z])[0] = val[0];
             (data[nx * ny * x + ny * y + z])[1] = val[1];
+        }
+
+        void set_compl(int x, int y, int z, std::complex<double> c)
+        {
+            (data[nx * ny * x + ny * y + z])[0] = c.real();
+            (data[nx * ny * x + ny * y + z])[1] = c.imag();
         }
 
         T& get_compl(int x, int y, int z)
