@@ -11,16 +11,25 @@ sudo: required
 dist: trusty
 
 
+
 compiler:
     - gcc
-
+       # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+            
 script:
     - cd utils/
     - git clone https://github.com/google/googletest.git
     - cd ..
     - mkdir build
     - cd build
-    - cmake .. -DTOTEST=Off
+    - cmake .. -DTOTEST=Off -DCMAKCE_CXX_COMPLILER=$(which g++-5) -DCMAKE_CC_COMPILER=$(which gcc-5)
     - make
 
 before_script:
