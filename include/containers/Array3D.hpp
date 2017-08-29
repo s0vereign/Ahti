@@ -4,6 +4,11 @@
 #include <vector>
 #include <fftw3.h>
 
+
+#define DEBUG_ENABLED
+#include "../debug/DebugDef.h"
+
+
 namespace containers
 {
 
@@ -30,13 +35,13 @@ namespace containers
 
         void set_compl(int x, int y, int z, const T& val)
         {
-            data[x*nx+y*ny+z][0] = val[0];
-            data[x*nx+y*ny+z][1] = val[1];
+            (data[nx * ny * x + ny * y + z])[0] = val[0];
+            (data[nx * ny * x + ny * y + z])[1] = val[1];
         }
 
         T& get_compl(int x, int y, int z)
         {
-            return data[x * nx + y * ny + z];
+            return data[nx * ny * x + ny * y + z];
         }
 
         T* get_raw_ptr()
@@ -61,6 +66,42 @@ namespace containers
                 i[0] = a * x - b * y;
                 i[1] = y * a + x * b ;
             }
+        }
+
+    };
+
+    /*
+     * Partial tempate specification for
+     * double to get same interface for 3D
+     * dataextraction
+     */
+    template<>
+    class Array3D<double>
+    {
+        private:
+        const size_t nx,ny,nz;
+        std::vector<double> data;
+
+        public:
+        Array3D(const size_t nx, const size_t ny, const size_t nz) : nx(nx), ny(ny), nz(nz), data(nx*ny*nz)
+        {
+
+        }
+
+        void set(int x, int y, int z, const double& d)
+        {
+            DEBUG("Element " << nx * ny * x + ny * y + z << " set to " << d);
+            data[nx * ny * x + ny * y + z] = d;
+        }
+
+        double get(int x, int y, int z)
+        {
+            return data[nx * ny * x + ny * y + z];
+        }
+
+        double* get_raw_ptr()
+        {
+            return data.data();
         }
     };
 }
