@@ -65,8 +65,6 @@ TEST(IOTest, Casting3DTest)
     Grid::Grid<3> g(0,0,0,0,0,0,nx,ny,nz,0,0,0);
 
     IO::cast_to_double(a, b, c, g);
-    std::cout << (c.get(0,0,0)) << std::endl;
-    std::cout << a.get_compl(0,0,0)[1] << std::endl;
     for(int i = 0; i < nx; i++)
     {
         for(int j = 0; j < ny; j++)

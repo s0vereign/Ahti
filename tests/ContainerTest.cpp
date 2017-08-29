@@ -56,7 +56,7 @@ TEST(ContainerTest, Array3DFFTWTest)
     double N = 3*3*3;
 
     fftw_complex a = {1./N,0.0};
-    f.mult_compl(a);
+    f.norm(a);
 
     for(auto &i : f.get_cont_ref())
     {

@@ -2,6 +2,7 @@
 #include <memory>
 #include <array>
 #include <vector>
+#include <complex>
 #include <fftw3.h>
 
 
@@ -54,7 +55,7 @@ namespace containers
             return data;
         }
 
-        void mult_compl(const T& fak)
+        void norm(const T &fak)
         {
             auto a = fak[0];
             auto b = fak[1];
@@ -67,6 +68,33 @@ namespace containers
                 i[1] = y * a + x * b ;
             }
         }
+
+        void mul_by_compl(int x, int y, int z, std::complex<double> c)
+        {
+            auto a = (data[nx*ny * x + ny * y + z])[0];
+            auto b = (data[nx*ny * x + ny * y +z])[1];
+            auto l = c.real();
+            auto m = c.imag();
+            data[nx*ny * x + ny * y + z][0] = a * l - m * b;
+            data[nx*ny * x + ny * y + z][1] = a * m + b * l;
+
+        }
+
+        const size_t getNx() const
+        {
+            return nx;
+        }
+
+        const size_t getNy() const
+        {
+            return ny;
+        }
+
+        const size_t getNz() const
+        {
+            return nz;
+        }
+
 
     };
 
@@ -83,6 +111,12 @@ namespace containers
         std::vector<double> data;
 
         public:
+        const size_t getNx() const { return nx; };
+        const size_t getNy() const { return ny; };
+        const size_t getNz() const { return nz; };
+
+
+
         Array3D(const size_t nx, const size_t ny, const size_t nz) : nx(nx), ny(ny), nz(nz), data(nx*ny*nz)
         {
 
@@ -90,7 +124,6 @@ namespace containers
 
         void set(int x, int y, int z, const double& d)
         {
-            DEBUG("Element " << nx * ny * x + ny * y + z << " set to " << d);
             data[nx * ny * x + ny * y + z] = d;
         }
 
@@ -104,4 +137,6 @@ namespace containers
             return data.data();
         }
     };
+
+
 }
