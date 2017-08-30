@@ -42,9 +42,9 @@ class CLoader3D(Loader3D):
 
 def main():
 
-    nx = 300
-    ny = 300
-    nz = 300
+    nx = 200
+    ny = 200
+    nz = 200
     l = CLoader3D(nx, ny, nz, "../../cmake-build-debug/bin/test.h5")
     d = (l.get_complex_data("/real", "/imag"))
     x = np.arange(-6.0, 6.0, 12.0/nx)

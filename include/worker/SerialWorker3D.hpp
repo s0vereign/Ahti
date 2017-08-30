@@ -42,16 +42,19 @@ namespace Worker
         {
             std::cout << "Calculating timestep " << i << std::endl;
             math::apply_spatial_op(psi, V, g);
+
             fftw_execute(ft);
             math::apply_FT_op(psi_ks, g);
 
             fftw_execute(ift);
+
             psi.norm(norm);
             math::apply_spatial_op(psi, V, g);
+
         }
 
-        IO::save_grid_3D(psi, g, "test.h5");
 
+        IO::save_grid_3D(psi, g, "test.h5");
         fftw_destroy_plan(ft);
         fftw_destroy_plan(ift);
     };

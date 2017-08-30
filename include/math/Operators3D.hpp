@@ -15,7 +15,7 @@ namespace math
         const double dy = g.dy;
         const double dz = g.dz;
         const double dt = g.dt;
-        const complex<double> iu(0.0,-1.0);
+        const complex<double> iu(0.0,1.0);
 
         double x = g.x0;
         double y = g.y0;
@@ -55,9 +55,9 @@ namespace math
 
         double px(0),py(0),pz(0);
 
-        const double px_offset = nx / 2 * dpx;
-        const double py_offset = ny / 2 * dpy;
-        const double pz_offset = nz / 2 * dpz;
+        const double px_offset = nx / 2.0 * dpx;
+        const double py_offset = ny / 2.0 * dpy;
+        const double pz_offset = nz / 2.0 * dpz;
 
         complex<double> iu(0.0,1.0);
 
@@ -73,7 +73,7 @@ namespace math
                     }
                     else
                     {
-                        px = (i-nx/2) * dpx - px_offset;
+                        px = (i - nx/2) * dpx - px_offset;
                     }
 
                     if(j < ny/2)

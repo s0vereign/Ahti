@@ -81,8 +81,8 @@ namespace containers
             auto b = (data[nx*ny * x + nx * y +z])[1];
             auto l = c.real();
             auto m = c.imag();
-            data[nx*ny * x + nx * y + z][0] = a * l - m * b;
-            data[nx*ny * x + nx * y + z][1] = a * m + b * l;
+            (data[nx*ny * x + nx * y + z])[0] = a * l - m * b;
+            (data[nx*ny * x + nx * y + z])[1] = a * m + b * l;
 
         }
 

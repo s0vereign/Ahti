@@ -49,8 +49,8 @@ main(int argc, char **argv)
         return std::complex<double>(x * x / 2.0 + y*y/2.0 + z*z/2.0, 0);
     };
 
-    const double dt = 0.0001;
-    const double Nt = 2;
+    const double dt = 0.01;
+    const double Nt = 5;
 
     const double xmax = 6.0;
     const double xmin = -6.0;
@@ -58,9 +58,9 @@ main(int argc, char **argv)
     const double ymin = xmin;
     const double zmax = xmax;
     const double zmin = xmin;
-    const int nx = 300;
-    const int ny = 300;
-    const int nz = 300;
+    const int nx = 200;
+    const int ny = 200;
+    const int nz = 200;
 
 
     Grid::Grid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
