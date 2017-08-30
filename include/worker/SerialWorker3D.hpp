@@ -26,13 +26,29 @@ namespace Worker
         Array3D<fftw_complex > psi(g.nx, g.ny, g.nz);
         Array3D<fftw_complex > psi_ks(g.nx, g.ny, g.nz);
 
-        fftw_plan ft = fftw_plan_dft_3d(g.nx, g.ny, g.nz, psi.get_raw_ptr(), psi_ks.get_raw_ptr(), FFTW_FORWARD, FFTW_ESTIMATE);
-        fftw_plan ift = fftw_plan_dft_3d(g.ny, g.ny, g.nz, psi_ks.get_raw_ptr(), psi.get_raw_ptr(), FFTW_BACKWARD, FFTW_ESTIMATE);
+        fftw_complex* a = psi_ks.get_raw_ptr();
+        fftw_complex* b = psi.get_raw_ptr();
+        fftw_plan ft = fftw_plan_dft_3d(g.nx, g.ny, g.nz, b, a, FFTW_FORWARD, FFTW_ESTIMATE);
+        fftw_plan ift = fftw_plan_dft_3d(g.nx, g.ny, g.nz, a, b, FFTW_FORWARD, FFTW_ESTIMATE);
 
         std::cout << "Initializing Psi" << std::endl;
-        init_psi(psi, g, p0);
+        init_psi(psi, g, p0, psi_ks);
         std::cout << "Finished!" << std::endl;
         const int nt = g.nt;
+
+
+        fftw_complex norm = {1.0/(g.nx*g.ny*g.nz),0};
+        for(int i = 0;  i < g.nt; i++)
+        {
+            std::cout << "Calculating timestep " << i << std::endl;
+            math::apply_spatial_op(psi, V, g);
+            fftw_execute(ft);
+            math::apply_FT_op(psi_ks, g);
+
+            fftw_execute(ift);
+            psi.norm(norm);
+            math::apply_spatial_op(psi, V, g);
+        }
 
         IO::save_grid_3D(psi, g, "test.h5");
 

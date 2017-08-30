@@ -6,7 +6,10 @@
 namespace Worker
 {
     template<typename DIST>
-    void init_psi(containers::Array3D<fftw_complex>& psi, Grid::Grid<3> g, DIST f)
+    void init_psi(containers::Array3D<fftw_complex> &psi,
+                      Grid::Grid<3> g,
+                      DIST f,
+                      containers::Array3D<fftw_complex> &psi_ks)
     {
 
         using std::complex;
@@ -28,6 +31,7 @@ namespace Worker
                 for(int k = 0; k < g.nz; k++)
                 {
                     psi.set_compl(i,j,k, f(x,y,z));
+                    psi_ks.set_compl(i,j,k,0.0);
                     z +=  dx;
                 }
                 z = g.z0;

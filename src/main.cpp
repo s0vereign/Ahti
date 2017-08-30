@@ -50,7 +50,7 @@ main(int argc, char **argv)
     };
 
     const double dt = 0.0001;
-    const double Nt = 1000;
+    const double Nt = 2;
 
     const double xmax = 6.0;
     const double xmin = -6.0;
@@ -58,9 +58,9 @@ main(int argc, char **argv)
     const double ymin = xmin;
     const double zmax = xmax;
     const double zmin = xmin;
-    const int nx = 500;
-    const int ny = 500;
-    const int nz = 500;
+    const int nx = 300;
+    const int ny = 300;
+    const int nz = 300;
 
 
     Grid::Grid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);

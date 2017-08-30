@@ -41,16 +41,17 @@ TEST(ContainerTest, Array3DFFTWTest)
 {
     containers::Array3D<fftw_complex> f(3,3,3);
     fftw_complex c = {1.0,2.0};
+
+    containers::Array3D<fftw_complex> ft(3,3,3);
     for(auto* i : f.get_cont_ref())
     {
         i[0] = c[0];
         i[1] = c[1];
     }
-    containers::Array3D<fftw_complex> ft(3,3,3);
     fftw_plan p = fftw_plan_dft_3d(3, 3, 3, f.get_raw_ptr(), ft.get_raw_ptr(), FFTW_FORWARD, FFTW_ESTIMATE);
     fftw_execute(p);
 
-    fftw_plan p_inv = fftw_plan_dft_3d(3,3,3, ft.get_raw_ptr(), f.get_raw_ptr(), FFTW_FORWARD, FFTW_ESTIMATE);
+    fftw_plan p_inv = fftw_plan_dft_3d(3,3,3, ft.get_raw_ptr(), f.get_raw_ptr(), FFTW_BACKWARD, FFTW_ESTIMATE);
     fftw_execute(p_inv);
 
     double N = 3*3*3;

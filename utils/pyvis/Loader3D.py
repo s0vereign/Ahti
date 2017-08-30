@@ -35,25 +35,33 @@ class CLoader3D(Loader3D):
 
     def get_complex_data(self, idr, idi):
 
-        data = self.get_dset(idr).reshape((self.nx,self.ny,self.nz)) +\
+        data = self.get_dset(idr).reshape((self.nx, self.ny, self.nz)) +\
                1j * self.get_dset(idi).reshape((self.nx, self.ny, self.nz))
-
+        print("Data has shape" + str(data.shape))
         return data
 
 def main():
 
-    l = CLoader3D(500, 500, 500, "../../cmake-build-debug/bin/test.h5")
+    nx = 300
+    ny = 300
+    nz = 300
+    l = CLoader3D(nx, ny, nz, "../../cmake-build-debug/bin/test.h5")
     d = (l.get_complex_data("/real", "/imag"))
-    x = np.arange(-6.0, 6.0, 12.0/500)
-    y = np.arange(-6.0, 6.0, 12.0/500)
-    X, Y = np.meshgrid(x,y)
-    print(d.shape)
-    d = d[:,:,249]
+    x = np.arange(-6.0, 6.0, 12.0/nx)
+    y = np.arange(-6.0, 6.0, 12.0/ny)
+    x_mesh, y_mesh = np.meshgrid(x,y)
+    print(x_mesh.shape)
 
+#    x_mesh.reshape((nx, ny))
+#    y_mesh.reshape((nx, ny))
+
+
+    d = d[:,:,int(nz/2)]
+    print(d.shape)
 
     fig = plt.figure()
     ax = fig.gca(projection='3d')
-    surf = ax.plot_surface(X,Y, np.abs(d)**2, cmap=cm.magma_r,linewidth=1,antialiased=False)
+    surf = ax.plot_surface(x_mesh, y_mesh, d.imag, cmap=cm.magma_r,linewidth=1,antialiased=False)
 
     fig.colorbar(surf, shrink=0.5, aspect=5)
 
