@@ -27,7 +27,7 @@ script:
     - cd ..
     - mkdir build
     - cd build
-    - cmake .. -DTOTEST=Off -DCMAKCE_CXX_COMPILER=g++-5 -DCMAKE_CC_COMPILER=gcc-5
+    - cmake .. -DTOTEST=Off -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_CC_COMPILER=gcc-5
     - make
 
 before_script:
