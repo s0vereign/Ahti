@@ -1,6 +1,10 @@
 # Ahti
 
 
+[![Build Status](https://travis-ci.org/s0vereign/Ahti.svg?branch=serial_reference)](https://travis-ci.org/s0vereign/Ahti)
+
+
+
 **A**cellerated
 
 **H**igh Performance Simulation of the 
