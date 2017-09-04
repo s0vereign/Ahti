@@ -67,7 +67,7 @@ def Psi_2(x):
     return (1/np.sqrt(2**2*2)) * H_2(x) * Psi_0(x)
 
 def Psi3D(x,y,z):
-    return Psi_0(x) * Psi_0(y) * Psi_2(z)
+    return Psi_2(x) * Psi_2(y) * Psi_2(z)
 
 def main():
 
@@ -84,7 +84,7 @@ def main():
     x_mesh, y_mesh = np.meshgrid(x,y)
     an = Psi3D(x_mesh, y_mesh, 0) + 0* 1j
 
-    an *= np.exp(-1j * 3.5 * nt * dt)
+    an *= np.exp(-1j * 7.5 * nt * dt)
     d = d[:,:,int(nz/2)]
     print("Maximum numerical: {}".format(np.max(np.abs(d)**2)))
     print("Maximum analytical: {}".format(np.max(np.abs(an)**2)))
@@ -92,7 +92,7 @@ def main():
     fig = plt.figure()
     ax = fig.gca(projection='3d')
 
-    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d.real - an.real),
+    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(an.real - d.real),
                            cmap=cm.magma_r,linewidth=1,antialiased=False)
 
     fig.colorbar(surf, shrink=0.5, aspect=5)
