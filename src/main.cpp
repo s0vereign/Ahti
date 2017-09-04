@@ -38,10 +38,10 @@ main(int argc, char **argv)
         return std::complex<double>(inv_sqrt_eight * (4.0*x*x - 2.0) * psi_0(x));
     };
 
-    auto phi = [psi_0](std::complex<double> x, std::complex<double> y, std::complex<double> z)
+    auto phi = [psi_0,psi_1,psi_2](std::complex<double> x, std::complex<double> y, std::complex<double> z)
     {
 
-        return psi_0(x) * psi_0(y) * psi_0(z);
+        return psi_0(x) * psi_0(y) * psi_2(z);
     };
 
     auto pot_fun = [](double x, double y, double z)

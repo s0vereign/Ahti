@@ -45,6 +45,30 @@ def Gaussian3D(x,y,z):
     return np.exp(-(x**2+y**2+z**2)/2.0)*((1/np.pi)**(3.0/4.0))
 
 
+def H_0(x):
+
+    return 1
+
+def H_1(x):
+
+    return 2 * x
+
+def H_2(x):
+
+    return (4*x**2 - 2)
+
+def Psi_0(x):
+    return (np.pi)**(-0.25) * np.exp(-x**2*0.5)
+
+def Psi_1(x):
+    return 1/np.sqrt(2) * H_1(x) * Psi_0(x)
+
+def Psi_2(x):
+    return (1/np.sqrt(2**2*2)) * H_2(x) * Psi_0(x)
+
+def Psi3D(x,y,z):
+    return Psi_0(x) * Psi_0(y) * Psi_2(z)
+
 def main():
 
     nx = 200
@@ -52,26 +76,23 @@ def main():
     nz = 200
     nt = 100
     dt = 0.01
-    l = CLoader3D(nx, ny, nz, "../../cmake-build-debug/bin/test.h5")
+    l = CLoader3D(nx, ny, nz, "../../cmake-build-default/bin/test.h5")
     d = (l.get_complex_data("/real", "/imag"))
+
     x = np.arange(-6.0, 6.0, 12.0/nx)
     y = np.arange(-6.0, 6.0, 12.0/ny)
     x_mesh, y_mesh = np.meshgrid(x,y)
-    print(x_mesh.shape)
+    an = Psi3D(x_mesh, y_mesh, 0) + 0* 1j
 
-#    x_mesh.reshape((nx, ny))
-#    y_mesh.reshape((nx, ny))
-
-    psi = Gaussian3D(x_mesh,y_mesh,0) + 0*1j
-    psi *= np.exp(-1j * 1.5 * nt * dt)
-    d = d[:,int(ny/2),:]
-    print(d.shape)
+    an *= np.exp(-1j * 3.5 * nt * dt)
+    d = d[:,:,int(nz/2)]
+    print("Maximum numerical: {}".format(np.max(np.abs(d)**2)))
+    print("Maximum analytical: {}".format(np.max(np.abs(an)**2)))
 
     fig = plt.figure()
     ax = fig.gca(projection='3d')
-    print(np.max(d))
-    print(np.max(psi))
-    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d.imag-psi.imag),
+
+    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d.real - an.real),
                            cmap=cm.magma_r,linewidth=1,antialiased=False)
 
     fig.colorbar(surf, shrink=0.5, aspect=5)

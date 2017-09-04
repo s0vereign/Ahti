@@ -49,11 +49,12 @@ def main():
     x = np.arange(-6.0,6.0,12.0/1000)
     y = np.arange(-6.0,6.0,12.0/1000)
     gaussian = lambda x: 0.7511255444649425*np.exp(-0.5*x**2)
+    psi_1 = lambda x,g: g(x) * 1/np.sqrt(2) * 2 * x
     X,Y = np.meshgrid(x,y)
 
     analytic = gaussian(X) * gaussian(Y)
     analytic = np.complex128(analytic)
-    analytic *= np.exp(-1j * 0.0001 * 1000)
+    analytic *= np.exp(-1j *0.0001 * 1000)
 
     fig = plt.figure()
     ax = fig.gca(projection='3d')

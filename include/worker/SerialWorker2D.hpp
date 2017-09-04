@@ -44,7 +44,6 @@ namespace Worker
 
 
 
-
         for(int i = 0; i < nt; i++)
         {
             std::cout << "Currently in step " << i << std::endl;

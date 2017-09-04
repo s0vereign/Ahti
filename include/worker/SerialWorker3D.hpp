@@ -36,6 +36,7 @@ namespace Worker
         std::cout << "Finished!" << std::endl;
         const int nt = g.nt;
 
+        IO::save_grid_3D(psi, g, "init.h5");
 
         fftw_complex norm = {1.0/(g.nx*g.ny*g.nz),0};
         for(int i = 0;  i < g.nt; i++)
