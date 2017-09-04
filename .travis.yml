@@ -27,7 +27,7 @@ script:
     - cd ..
     - mkdir build
     - cd build
-    - cmake .. -DTOTEST=Off -DCMAKCE_CXX_COMPILER=$(which g++-4.9) -DCMAKE_CC_COMPILER=$(which gcc-4.9)
+    - cmake .. -DTOTEST=Off -DCMAKCE_CXX_COMPILER=$(which g++-5) -DCMAKE_CC_COMPILER=$(which gcc-5)
     - make
 
 before_script:
@@ -40,5 +40,5 @@ before_script:
     - sudo apt-get install -y -qq libboost-all-dev cmake-data cmake
     - sudo apt-get install -y -qq openmpi-bin openmpi-doc libopenmpi-dev
     - sudo apt-get install -y -qq libfftw3-dev
-    - gcc --version && g++ --version
+    - gcc-5 --version && g++-5 --version
 
