@@ -47,14 +47,14 @@ namespace qsystems
         {
             V_1D() = default;
             const std::complex<double>
-            operator()(const std::complex<double> &x);
+            operator()(const std::complex<double> &x, const double &t);
         };
 
         struct V_2D
         {
             V_2D() = default;
             const std::complex<double>
-            operator()(const std::complex<double> &x, const std::complex<double> &y);
+            operator()(const std::complex<double> &x, const std::complex<double> &y, const double &t);
         };
 
         struct V_3D
@@ -62,8 +62,9 @@ namespace qsystems
             V_3D() = default;
             const std::complex<double>
             operator()(const std::complex<double> &x,
-                       const std::complex<double> &y,
-                       const std::complex<double> &z);
+                                   const std::complex<double> &y,
+                                   const std::complex<double> &z,
+                                   const double &t);
         };
 
     } // harmosc

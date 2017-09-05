@@ -92,7 +92,7 @@ def main():
     fig = plt.figure(figsize=(10,6))
     ax = fig.gca(projection='3d')
 
-    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d.real - an.real),
+    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d.imag - an.imag),
                            cmap=cm.magma_r,linewidth=1,antialiased=False)
 
     plt.title("Time evolution 3D Harm. Osc.")

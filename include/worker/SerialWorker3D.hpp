@@ -38,11 +38,14 @@ namespace Worker
 
         IO::save_grid_3D(psi, g, "init.h5");
 
+        double t = g.t0;
+        const double dt = g.dt;
+
         fftw_complex norm = {1.0/(g.nx*g.ny*g.nz),0};
         for(int i = 0;  i < g.nt; i++)
         {
             std::cout << "Calculating timestep " << i << std::endl;
-            math::apply_spatial_op(psi, V, g);
+            math::apply_spatial_op(psi, V, g, t);
 
             fftw_execute(ft);
             math::apply_FT_op(psi_ks, g);
@@ -50,8 +53,8 @@ namespace Worker
             fftw_execute(ift);
 
             psi.norm(norm);
-            math::apply_spatial_op(psi, V, g);
-
+            math::apply_spatial_op(psi, V, g, t);
+            t += dt;
         }
 
 
