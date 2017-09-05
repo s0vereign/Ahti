@@ -76,7 +76,7 @@ def main():
     nz = 200
     nt = 100
     dt = 0.01
-    l = CLoader3D(nx, ny, nz, "../../cmake-build-default/bin/test.h5")
+    l = CLoader3D(nx, ny, nz, "../../cmake-build-debug/bin/test.h5")
     d = (l.get_complex_data("/real", "/imag"))
 
     x = np.arange(-6.0, 6.0, 12.0/nx)
@@ -92,8 +92,13 @@ def main():
     fig = plt.figure()
     ax = fig.gca(projection='3d')
 
-    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(an.real - d.real),
+    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d)**2,
                            cmap=cm.magma_r,linewidth=1,antialiased=False)
+
+    plt.title("Time evolution 3D Harm. Osc.")
+    ax.set_xlabel(r"$x \; (a.u.)$")
+    ax.set_xlabel(r"$y \; (a.u.)$")
+    ax.set_zlabel(r"$|\Psi|^2$")
 
     fig.colorbar(surf, shrink=0.5, aspect=5)
 

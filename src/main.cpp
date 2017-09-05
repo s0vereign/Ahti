@@ -5,7 +5,7 @@
 
 #define DEBUG_ENABLED
 #include "worker/SerialWorker3D.hpp"
-
+#include "../include/quantumsystems/Harmonicoscillator.hpp"
 
 int
 main(int argc, char **argv)
@@ -15,42 +15,25 @@ main(int argc, char **argv)
     int size;
     int rank;
 
-    const double inv_fthsqrt_pi(0.7511255444649425);
-    const double inv_sqrt_two(0.70710678118654757);
-    const double inv_sqrt_eight(0.35355339059327379);
-    // MPI calls
-    
-    auto psi_0 = [inv_fthsqrt_pi](std::complex<double> x)
+    using qsystems::harmosc::Psi0;
+    using qsystems::harmosc::Psi1;
+    using qsystems::harmosc::Psi2;
+
+    auto phi = [](const std::complex<double>& x,
+                  const std::complex<double>& y,
+                  const std::complex<double>& z)
     {
-        return std::complex<double>(inv_fthsqrt_pi   * std::exp(-x*x/2.0));
+        Psi2 p2;
+        Psi0 p0;
+
+        return p0(x) * p0(y) * p0(z);
     };
 
+    using V = qsystems::harmosc::V_3D;
 
-
-    auto psi_1 = [inv_fthsqrt_pi, inv_sqrt_two](std::complex<double> x)
-    {
-        return std::complex<double>(inv_sqrt_two * inv_fthsqrt_pi * 2 * x * std::exp(-x*x/2.0));
-    };
-
-
-    auto psi_2 = [inv_fthsqrt_pi, inv_sqrt_eight, psi_0](std::complex<double> x)
-    {
-        return std::complex<double>(inv_sqrt_eight * (4.0*x*x - 2.0) * psi_0(x));
-    };
-
-    auto phi = [psi_0,psi_1,psi_2](std::complex<double> x, std::complex<double> y, std::complex<double> z)
-    {
-
-        return psi_2(x) * psi_2(y) * psi_2(z);
-    };
-
-    auto pot_fun = [](double x, double y, double z)
-    {
-        return std::complex<double>(x * x / 2.0 + y*y/2.0 + z*z/2.0, 0);
-    };
-
+    V pot_fun;
     const double dt = 0.01;
-    const double Nt = 100;
+    const double Nt = 2;
 
     const double xmax = 6.0;
     const double xmin = -6.0;
