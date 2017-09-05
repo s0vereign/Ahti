@@ -48,7 +48,7 @@ TEST(OperatorTests, ApplyOperatorFourierSpaceTest)
 
     std::complex<double> iu(0.0,1.0);
 
-    Grid::Grid<2> g(0.0, 1.0, nx, 0.0, 1.0, ny, 0, 1.0, 1);
+    Grid::Grid<2> g(0.0, 1.0, 0.0, 1.0, nx, ny, 0, 1.0, 1);
 
 
     for(int i = 0; i < nx; i++)

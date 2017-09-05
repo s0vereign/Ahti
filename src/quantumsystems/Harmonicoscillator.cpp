@@ -21,7 +21,9 @@ const std::complex<double> qsystems::harmosc::V_1D::operator()(const std::comple
     return std::complex<double>(0.5 * x.real() * x.real());
 }
 
-const std::complex<double> qsystems::harmosc::V_2D::operator()(const std::complex<double> &x, const std::complex<double> &y, const double &t)
+const std::complex<double> qsystems::harmosc::V_2D::operator()(const std::complex<double> &x,
+                                                               const std::complex<double> &y,
+                                                               const double &t)
 {
     return std::complex<double>(0.5 * (x*x + y*y));
 }

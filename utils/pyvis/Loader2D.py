@@ -54,12 +54,12 @@ def main():
 
     analytic = gaussian(X) * gaussian(Y)
     analytic = np.complex128(analytic)
-    analytic *= np.exp(-1j *0.0001 * 1000)
+    analytic *= np.exp(-1j * 0.01 * 100)
 
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     #ax = fig.gca()
-    surf = ax.plot_surface(X,Y, np.abs(analytic.imag - d.imag ),cmap=cm.magma_r,linewidth=1,antialiased=False)
+    surf = ax.plot_surface(X,Y, np.abs(d.imag - analytic.imag),cmap=cm.magma_r,linewidth=1,antialiased=False)
 
     #im = plt.imshow(d.real - analytic.real, )
     fig.colorbar(surf, shrink=0.5, aspect=5)

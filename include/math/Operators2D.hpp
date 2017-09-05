@@ -82,8 +82,16 @@ namespace math
         }
     }
 
+    template<typename POT>
+    auto
+    V_int(const double& x, const double& y, POT& V,const double& t, const double& dt)
+    -> std::complex<double>
+    {
+        return dt * 0.5 * (V(x,y,t) + V(x,y,t+dt));
+    }
+
     template<typename T_CONT, typename POT>
-    void apply_spatial_operator(T_CONT& data, Grid::Grid<2> g,POT V)
+    void apply_spatial_operator(T_CONT &data, Grid::Grid<2> g, POT V, const double& t)
     {
         using std::complex;
 
@@ -101,7 +109,7 @@ namespace math
 
             for(int j = 0; j < g.ny; j++)
             {
-                data.mult_data(i,j,std::exp(-iu*V(x,y)*dt/2.0));
+                data.mult_data(i,j,std::exp(-iu*0.5*V_int(x,y,V,t,dt)));
                 y += dy;
             }
             y = g.y0;

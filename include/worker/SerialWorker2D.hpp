@@ -39,22 +39,23 @@ namespace Worker
 
         init_psi(psi, p0, g);
 
+
         const int nt = g.nt;
 
-
-
-
+        double t = g.t0;
+        const double dt = g.dt;
+        IO::save_grid_2d(psi, g, "init.h5");
         for(int i = 0; i < nt; i++)
         {
             std::cout << "Currently in step " << i << std::endl;
-            math::apply_spatial_operator(psi,g,V);
+            math::apply_spatial_operator(psi, g, V, t);
             fftw_execute(ft);
             math::norm_grid(g, psi_ks);
             math::apply_2D_TEFS_op(psi_ks,i, g);
             fftw_execute(ift);
-            math::apply_spatial_operator(psi,g,V);
+            math::apply_spatial_operator(psi, g, V, t);
+            t += dt;
         }
-
 
         IO::save_grid_2d(psi, g, "first.h5");
 

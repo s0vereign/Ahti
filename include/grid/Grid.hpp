@@ -18,9 +18,12 @@ namespace Grid
         double t0, t1;
         double dt;
         int nt;
-        Grid(double x0_, double x1_, int nx_, 
-             double tmin_, double tmax_, int nt_
-              ) :
+        Grid(double x0_,
+             double x1_,
+             int nx_,
+             double tmin_,
+             double tmax_,
+             int nt_) :
              x0(x0_), x1(x1_), nx(nx_),
              t0(tmin_), t1(tmax_), nt(nt_)
              {
@@ -38,9 +41,15 @@ namespace Grid
         double t0, t1, dt;
         int nt;
 
-        Grid(double x0_, double x1_, int nx_,
-             double y0_, double y1_, int ny_,
-             double tmin_, double tmax_, int nt_)
+        Grid(double x0_,
+                     double x1_,
+                     double y0_,
+                     double y1_,
+                     int nx_,
+                     int ny_,
+                     double tmin_,
+                     double tmax_,
+                     int nt_)
             : x0(x0_), x1(x1_), nx(nx_),
               y0(y0_), y1(y1_), ny(ny_),
               t0(tmin_), t1(tmax_), nt(nt_)
