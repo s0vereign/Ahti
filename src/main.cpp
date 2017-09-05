@@ -18,22 +18,24 @@ main(int argc, char **argv)
     using qsystems::harmosc::Psi0;
     using qsystems::harmosc::Psi1;
     using qsystems::harmosc::Psi2;
+    using V = qsystems::harmosc::V_3D;
+
 
     auto phi = [](const std::complex<double>& x,
                   const std::complex<double>& y,
                   const std::complex<double>& z)
     {
         Psi2 p2;
+        Psi1 p1;
         Psi0 p0;
 
-        return p0(x) * p0(y) * p0(z);
+        return p2(x) * p2(y) * p2(z);
     };
 
-    using V = qsystems::harmosc::V_3D;
 
     V pot_fun;
     const double dt = 0.01;
-    const double Nt = 2;
+    const double Nt = 100;
 
     const double xmax = 6.0;
     const double xmin = -6.0;

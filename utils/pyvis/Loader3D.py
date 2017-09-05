@@ -76,7 +76,7 @@ def main():
     nz = 200
     nt = 100
     dt = 0.01
-    l = CLoader3D(nx, ny, nz, "../../cmake-build-debug/bin/test.h5")
+    l = CLoader3D(nx, ny, nz, "../../cmake-build-default/bin/test.h5")
     d = (l.get_complex_data("/real", "/imag"))
 
     x = np.arange(-6.0, 6.0, 12.0/nx)
@@ -89,10 +89,10 @@ def main():
     print("Maximum numerical: {}".format(np.max(np.abs(d)**2)))
     print("Maximum analytical: {}".format(np.max(np.abs(an)**2)))
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(10,6))
     ax = fig.gca(projection='3d')
 
-    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d)**2,
+    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d.real - an.real),
                            cmap=cm.magma_r,linewidth=1,antialiased=False)
 
     plt.title("Time evolution 3D Harm. Osc.")
