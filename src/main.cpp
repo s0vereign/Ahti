@@ -4,7 +4,7 @@
 
 
 #define DEBUG_ENABLED
-#include "worker/SerialWorker2D.hpp"
+#include "worker/SerialWorker1D.hpp"
 #include "../include/quantumsystems/Harmonicoscillator.hpp"
 
 int
@@ -18,7 +18,7 @@ main(int argc, char **argv)
     using qsystems::harmosc::Psi0;
     using qsystems::harmosc::Psi1;
     using qsystems::harmosc::Psi2;
-    using V = qsystems::harmosc::V_2D;
+    using V = qsystems::harmosc::V_1D;
 
 
     auto phi = [](const std::complex<double>& x,
@@ -42,6 +42,12 @@ main(int argc, char **argv)
         return p0(x) * p0(y);
     };
 
+    auto psi1D = [](const std::complex<double>& x)
+    {
+        Psi0 p0;
+        return p0(x);
+    };
+
     V pot_fun;
     const double dt = 0.01;
     const double Nt = 100;
@@ -58,8 +64,9 @@ main(int argc, char **argv)
 
 
 //    Grid::Grid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
-    Grid::Grid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
-    Worker::start_serial_worker(g, phi2D, pot_fun);
+//    Grid::Grid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
+    Grid::Grid<1> g(xmin, xmax, nx, 0, dt*Nt, Nt);
+    Worker::start_serial_worker(g, psi1D, pot_fun);
     std::cout << "dt was " << g.dt << std::endl;
     return EXIT_SUCCESS;
 

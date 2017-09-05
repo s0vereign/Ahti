@@ -83,6 +83,7 @@ namespace math
     }
 
     template<typename POT>
+    inline
     auto
     V_int(const double& x, const double& y, POT& V,const double& t, const double& dt)
     -> std::complex<double>
