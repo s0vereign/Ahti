@@ -131,17 +131,6 @@ endif()
 ############
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 
-##############
-# Find Boost
-##############
-FIND_PACKAGE(Boost REQUIRED unit_test_framework)
-if(Boost_FOUND)
-	message(Boost_INCLUDE_DIRS)
-	include_directories(${Boost_INCLUDE_DIRS})
-	ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
-
-endif(Boost_FOUND)
-
 
 #########
 # Find GoogleTest
