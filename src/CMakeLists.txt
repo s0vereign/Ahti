@@ -142,26 +142,6 @@ if(Boost_FOUND)
 
 endif(Boost_FOUND)
 
-#############
-# Add executable
-#############
-#LIST(REMOVE_DUPLICATES CUDA_NVCC_FLAGS)
-#STRING(REPLACE "-arch=sm_20" "" CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS})
-#message("${CUDA_NVCC_FLAGS}")
-
-
-
-#IF(CUDA_FOUND)
-#message("${CUDA_NVCC_FLAGS}")
-#message("${CMAKE_CXX_FLAGS}")
-#STRING(REPLACE "-std=c++11" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-#message("Current flags: ")
-#message("${CUDA_NVCC_FLAGS}")
-#message("${CMAKE_CXX_FLAGS}")
-
-#ELSE(CUDA_FOUND)
-#STRING(REPLACE "14" "11" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-#ENDIF(CUDA_FOUND)
 
 #########
 # Find GoogleTest
