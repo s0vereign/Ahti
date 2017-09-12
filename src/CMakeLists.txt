@@ -90,12 +90,12 @@ LIST(APPEND CMAKE_MODULE_PATH "../utils/cmake")
 # Find Package OpenMPI
 ###############
 
-FIND_PACKAGE(MPI)
-if(MPI_FOUND)
-	 set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
-	 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
-	 include_directories(${MPI_INCLUDE_PATH})
-endif(MPI_FOUND)
+#FIND_PACKAGE(MPI)
+#if(MPI_FOUND)
+#	 set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
+#	 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
+#	 include_directories(${MPI_INCLUDE_PATH})
+#endif(MPI_FOUND)
 
 ############
 # Find HDF5
@@ -125,18 +125,6 @@ if (OPENMP_FOUND)
 	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
 
-##########
-# Find libsplash (Used later maybe!)
-##########
-#set(CMAKE_MODULE_PATH  ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/../utils/cmake)
-
-#set(Splash_USE_STATIC_LIBS ON)
-#find_package(Splash)
-
-#if(Splash_FOUND)
-#    include_directories(${Splash_INCLUDE_DIRS})
-#    set(LIBS ${LIBS} ${Splash_LIBRARIES})
-#endif(Splash_FOUND)
 
 ############
 # User include directories

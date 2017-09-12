@@ -53,9 +53,9 @@ qsystems::distosc::VD_lin_3D::VD_lin_3D(double w1, double l1, double w2, double 
     : w1(w1), l1(l1), w2(w2), l2(l2), w3(w3), l3(l3) {}
 
 inline auto qsystems::distosc::VD_lin_3D::operator()(const std::complex<double> &x,
-                                              const std::complex<double> &y,
-                                              const std::complex<double> &z,
-                                              double &t)
+                                                     const std::complex<double> &y,
+                                                     const std::complex<double> &z,
+                                                     const double &t)
 -> std::complex<double>
 {
     return 0.5 * (x * x + y * y + z * z) - l1 * x * cos(w1 * t) - l2 * y * cos(w2 * t) - l3 * z * cos(w3 * t);

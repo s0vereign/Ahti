@@ -85,7 +85,7 @@ namespace qsystems
             VD_lin_3D(double w1, double l1, double w2, double l2, double w3, double l3);
             inline auto operator()(const std::complex<double> &x,
                                    const std::complex<double> &y,
-                                   const std::complex<double> &z
+                                   const std::complex<double> &z,
                                    const double &t)
             -> std::complex<double>;
         };
