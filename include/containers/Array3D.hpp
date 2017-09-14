@@ -144,7 +144,7 @@ namespace containers
         }
     };
 
-
+/*
     template<>
     class Array3D<fftw_complex >
     {
@@ -228,5 +228,5 @@ namespace containers
 
 
     };
-
+*/
 }

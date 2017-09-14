@@ -61,7 +61,7 @@ namespace Worker
             t += dt;
         }
 
-        //IO::save_grid_2d(psi, g, "first.h5");
+        IO::save_grid_2d(psi, g, "first.h5");
 
 
         fftw_destroy_plan(ft);

@@ -15,6 +15,8 @@
 #   FFTW_LIBRARY            ... fftw library to use
 #   FFTW_INCLUDE_DIR        ... fftw include directory
 #
+#
+#
 
 #If environment variable FFTWDIR is specified, it has same effect as FFTW_ROOT
 if( NOT FFTW_ROOT AND DEFINED ENV{FFTWDIR} )
