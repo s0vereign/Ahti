@@ -2,7 +2,9 @@
 
 #include <complex>
 #include <memory>
+#include <omp.h>
 #include <fftw3.h>
+
 
 #include "../grid/Grid.hpp"
 #include "CMultFFTW.hpp"
