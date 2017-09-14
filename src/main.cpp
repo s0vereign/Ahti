@@ -49,9 +49,9 @@ main(int argc, char **argv)
         return p0(x);
     };
 
-    V pot_fun(2*M_PI/10, 2*M_PI/10, 1.0, 1.0);
-    const double dt = 0.01;
-    const double Nt = 100;
+    V pot_fun(2.0*M_PI/1000.0, 2.0*M_PI/1000.0, 0.01, 0.01);
+    const double dt = 0.001;
+    const double Nt = 1000;
 
     const double xmax = 6.0;
     const double xmin = -6.0;
