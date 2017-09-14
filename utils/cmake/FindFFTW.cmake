@@ -121,4 +121,4 @@ find_package_handle_standard_args(FFTW DEFAULT_MSG
 
 mark_as_advanced(FFTW_INCLUDES FFTW_LIBRARIES FFTW_LIB FFTWF_LIB FFTWL_LIB)
 
-set(FFTW_OMP_FLAGS "-lfftw3_omp -lfftw3 -lm")
+set(FFTW_OMP_FLAGS "-lfftw3_threads -lfftw3 -lm")
