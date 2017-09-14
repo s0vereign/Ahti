@@ -121,9 +121,16 @@ find_package_handle_standard_args(FFTW DEFAULT_MSG
 
 mark_as_advanced(FFTW_INCLUDES FFTW_LIBRARIES FFTW_LIB FFTWF_LIB FFTWL_LIB)
 
+OPTION(THREADS "Enable parallel build if threads" OFF)
+if(THREADS)
+set(FFTW_OMP_FLAGS "-lfftw3_threads -lfftw3 -lm")
+endif()
 
+OPTION(OPENMP "Build using OpenMP parallelization" OFF)
+if(OPENMP)
 set(FFTW_OMP_FLAGS "-lfftw3_omp -lfftw3 -lm")
 
 if(APPLE)
     set(FFTW_OMP_FLAGS "-L/usr/local/Cellar/fftw/3.3.6-pl2/lib ${FFTW_OMP_FLAGS}")
-    endif()
+endif()
+endif()
