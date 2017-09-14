@@ -3,11 +3,13 @@
 #include <vector>
 #include <complex>
 #include <algorithm>
-#include <fftw3.h>
 #include <cstdlib>
 #include <array>
 #include <memory>
 
+
+#include <omp.h>
+#include <fftw3.h>
 
 
 #include "../grid/Grid.hpp"
@@ -30,6 +32,8 @@ namespace Worker
     void start_serial_worker(Grid::Grid<2> g, T_DIST p0, T_POT V)
     {
 
+        fftw_init_threads();
+        fftw_plan_with_nthreads(2);
         Array2D<fftw_complex> psi(g.nx, g.ny);
         Array2D<fftw_complex> psi_ks(g.nx, g.ny);
 
@@ -62,6 +66,7 @@ namespace Worker
 
         fftw_destroy_plan(ft);
         fftw_destroy_plan(ift);
+        fftw_cleanup_threads();
 
     };
 

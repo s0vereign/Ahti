@@ -143,16 +143,15 @@ namespace containers
             return data.data();
         }
     };
-    /*
-     *  This is a just in case partial template specialization
-     *  which uses fftw_malloc instead of an std::vector
+
+
     template<>
     class Array3D<fftw_complex >
     {
         public:
-        Array3D(int nx, int ny, int nz) : nx(nx), ny(ny), nz(nz)
+        Array3D(int nx, int ny, int nz) : nx(nx), ny(ny), nz(nz), data(new fftw_complex[nx*ny*nz])
         {
-            data = (fftw_complex*) fftw_malloc(nx * ny * nz * sizeof(fftw_complex));
+
         }
         ~Array3D()
         {
@@ -224,10 +223,10 @@ namespace containers
 
         private:
         int nx, ny, nz;
-        fftw_complex* data;
+        std::unique_ptr<fftw_complex> data;
 
 
 
-    };*/
+    };
 
 }
