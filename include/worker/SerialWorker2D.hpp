@@ -33,7 +33,7 @@ namespace Worker
     {
 
         fftw_init_threads();
-        fftw_plan_with_nthreads(2);
+        fftw_plan_with_nthreads(1);
         Array2D<fftw_complex> psi(g.nx, g.ny);
         Array2D<fftw_complex> psi_ks(g.nx, g.ny);
 
@@ -61,7 +61,7 @@ namespace Worker
             t += dt;
         }
 
-        IO::save_grid_2d(psi, g, "first.h5");
+        //IO::save_grid_2d(psi, g, "first.h5");
 
 
         fftw_destroy_plan(ft);

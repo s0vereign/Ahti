@@ -50,7 +50,7 @@ main(int argc, char **argv)
 
     V pot_fun;
     const double dt = 0.01;
-    const double Nt = 100;
+    const double Nt = 10;
 
     const double xmax = 6.0;
     const double xmin = -6.0;
@@ -58,8 +58,8 @@ main(int argc, char **argv)
     const double ymin = xmin;
     const double zmax = xmax;
     const double zmin = xmin;
-    const int nx = 1000;
-    const int ny = 1000;
+    const int nx = 5000;
+    const int ny = 5000;
     const int nz = 200;
 
 
