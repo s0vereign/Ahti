@@ -56,7 +56,9 @@ namespace math
          * thus adding the offset to the momentum
          * space values.
          */
-
+#pragma omp parallel
+        {
+#pragma omp for
         for(int i = 0; i < nx; i++)
         {
             for(int j = 0; j < ny; j++)
@@ -82,6 +84,9 @@ namespace math
 
             }
         }
+
+        }; // OMP PARALLEL
+
     }
 
     template<typename POT>
@@ -94,29 +99,36 @@ namespace math
     }
 
     template<typename T_CONT, typename POT>
-    void apply_spatial_operator(T_CONT &data, Grid::Grid<2> g, POT V, const double& t)
+    void apply_spatial_operator(T_CONT &data, Grid::Grid<2> g, POT V, const double &t)
     {
         using std::complex;
 
         complex<double> iu(0.0,1.0);
 
-        double x = g.x0;
-        double y = g.y0;
+
 
         const double dx = g.dx;
         const double dy = g.dy;
         const double dt = g.dt;
 
-        for(int i = 0; i < g.nx; i++)
+#pragma omp parallel
         {
+            int id = omp_get_thread_num();
+            double x = g.x0;
+            double y = g.y0;
 
-            for(int j = 0; j < g.ny; j++)
+#pragma omp for
+            for (int i = 0; i < g.nx; i++)
             {
-                data.mult_data(i,j,std::exp(-iu*0.5*V_int(x,y,V,t,dt)));
-                y += dy;
+                x = i * dx + g.x0;
+                for (int j = 0; j < g.ny; j++)
+                {
+                    data.mult_data(i, j, std::exp(-iu * 0.5 * V_int(x, y, V, t, dt)));
+                    y += dy;
+                }
+                y = g.y0;
+
             }
-            y = g.y0;
-            x += dx;
-        }
+        }; // OMP PARALLEL
     };
 }

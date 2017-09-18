@@ -15,7 +15,6 @@
 
 
 #include "debug/DebugDef.h"
-//#include "communication/Ring.hpp"
 #include "output/SaveStep.hpp"
 
 

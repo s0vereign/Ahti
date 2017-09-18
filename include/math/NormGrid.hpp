@@ -15,7 +15,7 @@ namespace math
         const int nx = g.nx;
         const int ny = g.ny;
         const std::complex<double> z(1.0/(nx*ny),0);
-
+        #pragma omp parallel for
         for(int i = 0; i < nx; i++)
         {
             for(int j = 0; j < ny; j++)

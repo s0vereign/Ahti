@@ -33,7 +33,7 @@ namespace solvers
 
 
     template <typename DIST, typename POT>
-    void solve(Grid<1> g, DIST psi, POT V)
+    void solve(Grid::Grid<2> g, T_DIST psi, T_POT V, int num_threads)
     {
         vector<complex<double>> coeff(g.nx);
         vector<complex<double>> psi_t(g.nx);

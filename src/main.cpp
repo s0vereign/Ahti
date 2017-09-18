@@ -1,10 +1,11 @@
 #include <stdlib.h>
 #include <fftw3.h>
 #include <iostream>
+#include <cstdlib>
 
 
 #define DEBUG_ENABLED
-#include "solvers/Split_Solver_3D.hpp"
+#include "solvers/Split_Solver_2D.hpp"
 #include "../include/quantumsystems/Harmonicoscillator.hpp"
 #include "../include/quantumsystems/dist-harm-osc.hpp"
 
@@ -13,13 +14,26 @@ main(int argc, char **argv)
 {
 
 
-    int size;
-    int rank;
+    int num_threads = 0;
+
+    if(argc < 2)
+    {
+        num_threads = 1;
+        std::cout << "Using serial execution" << std::endl;
+        omp_set_num_threads(num_threads);
+    }
+    else
+    {
+        num_threads = atoi(argv[1]);
+        std::cout << "Using parallel execution with " << num_threads << " threads" << std::endl;
+        omp_set_dynamic(0);
+        omp_set_num_threads(num_threads);
+    }
 
     using qsystems::harmosc::Psi0;
     using qsystems::harmosc::Psi1;
     using qsystems::harmosc::Psi2;
-    using V = qsystems::distosc::VD_lin_3D;
+    using V = qsystems::harmosc::V_2D;
 
 
     auto phi = [](const std::complex<double>& x,
@@ -49,7 +63,8 @@ main(int argc, char **argv)
         return p0(x);
     };
 
-    V pot_fun(0.01, 0.01, 0.01, 0.01, 0.01, 0.01);
+    double def = 0.01;
+    V pot_fun;
     const double dt = 0.001;
     const double Nt = 1000;
 
@@ -59,15 +74,15 @@ main(int argc, char **argv)
     const double ymin = xmin;
     const double zmax = xmax;
     const double zmin = xmin;
-    const int nx = 1000;
-    const int ny = 1000;
+    const int nx = 2000;
+    const int ny = 2000;
     const int nz = 200;
 
 
-    Grid::Grid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
-//    Grid::Grid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
+//    Grid::Grid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
+    Grid::Grid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
 //    Grid::Grid<1> g(xmin, xmax, nx, 0, dt*Nt, Nt);
-    solvers::solve(g, phi, pot_fun);
+    solvers::solve(g, phi2D, pot_fun, 0);
     std::cout << "dt was " << g.dt << std::endl;
     return EXIT_SUCCESS;
 

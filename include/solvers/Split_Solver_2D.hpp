@@ -29,7 +29,7 @@ namespace solvers
     using containers::Array2D;
 
     template<typename T_DIST, typename T_POT>
-    void solve(Grid::Grid<2> g, T_DIST p0, T_POT V)
+    void solve(Grid::Grid<2> g, T_DIST p0, T_POT V, int num_threads)
     {
 
         fftw_init_threads();

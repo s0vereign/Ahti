@@ -21,7 +21,7 @@ namespace solvers
     using containers::Array3D;
 
     template<typename T_DIST, typename T_POT>
-    void solve(Grid::Grid<3> g, T_DIST p0, T_POT V)
+    void solve(Grid::Grid<2> g, T_DIST p0, T_POT V, int num_threads)
     {
         Array3D<fftw_complex > psi(g.nx, g.ny, g.nz);
         Array3D<fftw_complex > psi_ks(g.nx, g.ny, g.nz);
