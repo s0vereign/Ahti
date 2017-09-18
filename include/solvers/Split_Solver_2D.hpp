@@ -23,13 +23,13 @@
 #define DEBUG_ENABLED
 #include "../debug/DebugDef.h"
 
-namespace Worker
+namespace solvers
 {
     using std::complex;
     using containers::Array2D;
 
     template<typename T_DIST, typename T_POT>
-    void start_serial_worker(Grid::Grid<2> g, T_DIST p0, T_POT V)
+    void solve(Grid::Grid<2> g, T_DIST p0, T_POT V)
     {
 
         fftw_init_threads();

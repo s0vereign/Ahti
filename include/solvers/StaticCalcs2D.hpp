@@ -9,7 +9,7 @@
 #define DEBUG_ENABLED
 #include "../debug/DebugDef.h"
 
-namespace Worker
+namespace solvers
 {
 
     template <typename T_CONT, typename  T_DIST>

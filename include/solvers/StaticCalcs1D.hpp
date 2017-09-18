@@ -22,7 +22,7 @@
 
 #define FILE "wf_out.h5"
 
-namespace Worker 
+namespace solvers
 {
     using std::complex;
     using std::vector;

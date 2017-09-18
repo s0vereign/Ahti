@@ -67,7 +67,7 @@ include(CTest)
 
 
 SET(MAIN_SRC_FILE 				main.cpp
-								../include/worker/StaticCalcs2D.hpp
+		../include/solvers/StaticCalcs2D.hpp
 								../include/containers/Array2D.hpp
 								../include/math/CMultFFTW.hpp
 								../include/output/SaveGrid2D.hpp
@@ -76,8 +76,8 @@ SET(MAIN_SRC_FILE 				main.cpp
 								../include/containers/Array3D.hpp
 								../include/output/SaveGrid3D.hpp
 								../include/math/Operators3D.hpp
-								../include/worker/StaticCalcs3D.hpp
-								../include/worker/SerialWorker3D.hpp
+		../include/solvers/StaticCalcs3D.hpp
+		../include/solvers/Split_Solver_3D.hpp
 								../include/quantumsystems/Harmonicoscillator.hpp
 								quantumsystems/Harmonicoscillator.cpp
 								../include/quantumsystems/dist-harm-osc.hpp
@@ -93,7 +93,7 @@ file(GLOB HEADER_SRCS "../include/communication/Ring.hpp"
                       "../include/grid/*.hpp"
                       "../include/math/*.hpp"
                       "../include/math/*.h"
-                      "../include/worker/*.hpp")
+                      "../include/solvers/*.hpp")
 
 
 

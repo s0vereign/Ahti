@@ -3,7 +3,7 @@
 #include "../grid/Grid.hpp"
 #include "../containers/Array3D.hpp"
 
-namespace Worker
+namespace solvers
 {
     template<typename DIST>
     void init_psi(containers::Array3D<fftw_complex> &psi,

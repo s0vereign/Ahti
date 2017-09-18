@@ -15,13 +15,13 @@
 #include "../math/Operators3D.hpp"
 
 
-namespace Worker
+namespace solvers
 {
     using std::complex;
     using containers::Array3D;
 
     template<typename T_DIST, typename T_POT>
-    void start_serial_worker(Grid::Grid<3> g, T_DIST p0, T_POT V)
+    void solve(Grid::Grid<3> g, T_DIST p0, T_POT V)
     {
         Array3D<fftw_complex > psi(g.nx, g.ny, g.nz);
         Array3D<fftw_complex > psi_ks(g.nx, g.ny, g.nz);

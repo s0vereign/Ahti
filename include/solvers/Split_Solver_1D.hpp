@@ -19,12 +19,12 @@
 #include "math/ScalarProd.h"
 #include "math/TimeFt.h"
 #include "math/RecontructWV.hpp"
-#include "worker/StaticCalcs1D.hpp"
+#include "solvers/StaticCalcs1D.hpp"
 #include "output/SaveStep.hpp"
 #include "output/SaveCoeff.hpp"
 #include <iostream>
 
-namespace Worker
+namespace solvers
 {
     using std::complex;
     using std::vector;
@@ -33,7 +33,7 @@ namespace Worker
 
 
     template <typename DIST, typename POT>
-    void start_serial_worker(Grid<1> g, DIST psi, POT V)
+    void solve(Grid<1> g, DIST psi, POT V)
     {
         vector<complex<double>> coeff(g.nx);
         vector<complex<double>> psi_t(g.nx);
