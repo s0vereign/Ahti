@@ -7,13 +7,13 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0)
 ############
 # Change the C Flags
 ############
-option(DEBUG_BUILD "Enables debug macros and disables Optimizations" ON)
+option(DEBUG_BUILD "Enables debug macros and disables Optimizations" On)
 
 ######
 #set(CMAKE_COLOR_MAKEFILE ON)
 ######
 IF(DEBUG_BUILD)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O3")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O0")
 	message(-- Using Debug configuration)
 else(DEBUG_BUILD)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")

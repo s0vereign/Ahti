@@ -23,9 +23,11 @@ namespace solvers
         double x = g.x0;
         double y = g.y0;
         double z = g.z0;
-
+#pragma omp parallel private(x,y,z)
+        {
         for(int i = 0; i < g.nx; i++)
         {
+            x = i * dx + g.x0;
             for(int j = 0; j < g.ny; j++)
             {
                 for(int k = 0; k < g.nz; k++)
@@ -38,7 +40,8 @@ namespace solvers
                 y += dy;
             }
             y  = g.y0;
-            x += dy;
+
         }
+        } // OMP PARALLEL
     }
 }

@@ -67,16 +67,16 @@ def Psi_2(x):
     return (1/np.sqrt(2**2*2)) * H_2(x) * Psi_0(x)
 
 def Psi3D(x,y,z):
-    return Psi_2(x) * Psi_2(y) * Psi_2(z)
+    return Psi_0(x) * Psi_0(y) * Psi_0(z)
 
 def main():
 
-    nx = 200
-    ny = 200
+    nx = 500
+    ny = 500
     nz = 200
-    nt = 100
-    dt = 0.01
-    l = CLoader3D(nx, ny, nz, "../../cmake-build-default/bin/test.h5")
+    nt = 10
+    dt = 0.001
+    l = CLoader3D(nx, ny, nz, "../../cmake-build-debug/bin/test.h5")
     d = (l.get_complex_data("/real", "/imag"))
 
     x = np.arange(-6.0, 6.0, 12.0/nx)
@@ -84,7 +84,7 @@ def main():
     x_mesh, y_mesh = np.meshgrid(x,y)
     an = Psi3D(x_mesh, y_mesh, 0) + 0* 1j
 
-    an *= np.exp(-1j * 7.5 * nt * dt)
+    an *= np.exp(-1j * 1.5 * nt * dt)
     d = d[:,:,int(nz/2)]
     print("Maximum numerical: {}".format(np.max(np.abs(d)**2)))
     print("Maximum analytical: {}".format(np.max(np.abs(an)**2)))

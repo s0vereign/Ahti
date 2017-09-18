@@ -33,7 +33,7 @@ namespace solvers
     {
 
         fftw_init_threads();
-        fftw_plan_with_nthreads(1);
+        fftw_plan_with_nthreads(omp_get_num_threads());
         Array2D<fftw_complex> psi(g.nx, g.ny);
         Array2D<fftw_complex> psi_ks(g.nx, g.ny);
 
