@@ -44,8 +44,8 @@ before_script:
     - sudo apt-get install -y -qq openmpi-bin openmpi-doc libopenmpi-dev
     - git clone $FFTW_REPO
     - cd fftw3
-    - ./bootstrap.sh
-    - ./configure $FFTW3_BUILD_FLAGS
+    - ./bootstrap.sh 
+    - ./configure $FFTW3_BUILD_FLAGS CC=gcc-5
     - make
     - sudo make install
     - cd ..
