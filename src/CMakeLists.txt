@@ -9,6 +9,12 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0)
 ############
 option(DEBUG_BUILD "Enables debug macros and disables Optimizations" On)
 
+option(CI_BUILD "Tavis CI Build" Off)
+if(CI_BUILD)
+SET(CMAKE_EXE_LINKER_FLAGS 
+          "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath -Wl,/usr/local/lib")
+	  endif()
+
 ######
 #set(CMAKE_COLOR_MAKEFILE ON)
 ######
@@ -125,7 +131,7 @@ endif(HDF5_FOUND)
 ###########
 # Find FFTW
 ###########
-FIND_LIBRARY(FFTW3_LIBRARIES NAMES fftw3 libfftw3 PATHS /usr/local/lib/ REQUIRED)
+FIND_LIBRARY(fftw REQUIRED NAMES fftw3 libfftw3 PATHS /usr/local/lib/ )
 if(FFTW_FOUND)
 	include_directories(${FFTW_INCLUDES})
 endif(FFTW_FOUND)
