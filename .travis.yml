@@ -42,7 +42,8 @@ before_script:
     - sudo apt-get install -y -qq wget
     - sudo apt-get install -y -qq libboost-all-dev cmake-data cmake
     - sudo apt-get install -y -qq openmpi-bin openmpi-doc libopenmpi-dev
-    - git clone $FFTW_REP && cd fftw3
+    - git clone $FFTW_REPO
+    - cd fftw3
     - ./bootstrap.sh
     - ./configure $FFTW3_BUILD_FLAGS
     - make
