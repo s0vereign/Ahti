@@ -35,7 +35,6 @@ script:
     - ./configure CC="gcc-5" --prefix=$(pwd)/fftw3 $FFTW3_BUILD_FLAGS 
     - make
     - sudo make install
-    - cd ..
     - mkdir build
     - cd build
     - cmake .. -DTOTEST=Off -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_C_COMPILER=gcc-5 -DCI_BUILD=On
