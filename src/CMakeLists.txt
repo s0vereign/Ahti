@@ -125,7 +125,7 @@ endif(HDF5_FOUND)
 ###########
 # Find FFTW
 ###########
-FIND_PACKAGE(FFTW REQUIRED)
+FIND_LIBRARY(FFTW3_LIBRARIES NAMES fftw3 libfftw3 PATHS /usr/lib <other paths>)
 if(FFTW_FOUND)
 	include_directories(${FFTW_INCLUDES})
 endif(FFTW_FOUND)
