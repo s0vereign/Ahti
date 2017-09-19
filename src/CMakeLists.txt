@@ -9,11 +9,6 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0)
 ############
 option(DEBUG_BUILD "Enables debug macros and disables Optimizations" On)
 
-option(CI_BUILD "Tavis CI Build" Off)
-if(CI_BUILD)
-SET(CMAKE_EXE_LINKER_FLAGS 
-          "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath -Wl,/usr/local/lib")
-	  endif()
 
 ######
 #set(CMAKE_COLOR_MAKEFILE ON)
@@ -107,7 +102,7 @@ file(GLOB HEADER_SRCS "../include/communication/Ring.hpp"
 # Add the CMake custom modules
 ######
 LIST(APPEND CMAKE_MODULE_PATH "../utils/cmake")
-
+LIST(APPEND CMAKE_PREFIX_PATH "../utils/fftw3")
 ###############
 # Find Package OpenMPI
 ###############
@@ -131,10 +126,29 @@ endif(HDF5_FOUND)
 ###########
 # Find FFTW
 ###########
-FIND_PACKAGE(FFTW PATHS /usr/local/lib/  /home/boehme03/libs/ )
-if(FFTW_FOUND)
+
+option(custom_FFTW "Use a custom FFTW version compiled with --enable-openmp in utils folder" ON)
+if(custom_FFTW)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/../utils/fftw3/include)
+
+ADD_LIBRARY(libfftw3 STATIC IMPORTED)
+SET_PROPERTY(TARGET libfftw3 PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../utils/fftw3/lib/libfftw3.a)
+
+ADD_LIBRARY(libfftw3_omp STATIC IMPORTED)
+SET_PROPERTY(TARGET libfftw3_omp PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../utils/fftw3/lib/libfftw3_omp.a)
+
+SET(FFTW_LIBRARIES "")
+SET(FFTW_OMP_FLAGS "")
+else(custom_FFTW)
+
+FIND_PACKAGE(FFTW REQUIRED)
 	include_directories(${FFTW_INCLUDES})
-endif(FFTW_FOUND)
+	
+	SET(FFTW_OMP_FLAGS "-lfftw3_omp -lfftw3 -lm")
+	if(APPLE)
+     		set(FFTW_OMP_FLAGS "-L/usr/local/Cellar/fftw/3.3.6-pl2/lib ${FFTW_OMP_FLAGS}")
+     	endif()
+endif(custom_FFTW)
 
 
 
@@ -168,14 +182,15 @@ set_target_properties(ahti PROPERTIES
 TARGET_LINK_LIBRARIES(
     ahti
 	${MPI_LIBRARIES}
-	#${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 	${HDF5_LIBRARIES}
 	${HDF5_CXX_LIBRARIES}
 	${HDF5_C_LIBRARIES}
 	${FFTW_LIBRARIES}
 	${HDF5_HL_LIBRARIES}
+	libfftw3
+	libfftw3_omp
 	${FFTW_LIBRARIES}
-		${FFTW_OMP_FLAGS}
+	${FFTW_OMP_FLAGS}
 )
 
 option(TOTEST "Enable test build!" OFF)
