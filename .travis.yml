@@ -39,6 +39,6 @@ before_script:
     - sudo apt-get install -y -qq wget
     - sudo apt-get install -y -qq libboost-all-dev cmake-data cmake
     - sudo apt-get install -y -qq openmpi-bin openmpi-doc libopenmpi-dev
-    - sudo apt-get install -y -qq libfftw3-mpi-dev
+    - sudo apt-get install -y -qq libfftw3-bin libfftw3-dev
     - gcc-5 --version && g++-5 --version
 
