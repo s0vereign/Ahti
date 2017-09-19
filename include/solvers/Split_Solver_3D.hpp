@@ -43,6 +43,7 @@ namespace solvers
         double t = g.t0;
         const double dt = g.dt;
 
+
         fftw_complex norm = {1.0/(g.nx*g.ny*g.nz),0};
         for(int i = 0;  i < g.nt; i++)
         {
@@ -58,9 +59,11 @@ namespace solvers
             t += dt;
         }
 
-
         IO::save_grid_3D(psi, g, "test.h5");
+
         fftw_destroy_plan(ft);
         fftw_destroy_plan(ift);
+        fftw_cleanup_threads();
+
     };
 }

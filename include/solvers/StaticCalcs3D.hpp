@@ -20,11 +20,13 @@ namespace solvers
         const double dt = g.dt;
         const complex<double> iu(0.0,-1.0);
 
-        double x = g.x0;
-        double y = g.y0;
-        double z = g.z0;
-#pragma omp parallel private(x,y,z)
+
+#pragma omp parallel
         {
+            double x = g.x0;
+            double y = g.y0;
+            double z = g.z0;
+        #pragma omp for
         for(int i = 0; i < g.nx; i++)
         {
             x = i * dx + g.x0;
@@ -34,7 +36,7 @@ namespace solvers
                 {
                     psi.set_compl(i,j,k, f(x,y,z));
                     psi_ks.set_compl(i,j,k,0.0);
-                    z +=  dx;
+                    z +=  dz;
                 }
                 z = g.z0;
                 y += dy;
