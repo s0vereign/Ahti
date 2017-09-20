@@ -19,7 +19,7 @@ main(int argc, char **argv)
 
     if(argc < 2)
     {
-        num_threads = 4;
+        num_threads = 1;
         std::cout << "Using serial execution" << std::endl;
         omp_set_num_threads(num_threads);
     }

@@ -141,13 +141,14 @@ SET(FFTW_LIBRARIES "")
 SET(FFTW_OMP_FLAGS "")
 else(custom_FFTW)
 
-FIND_PACKAGE(FFTW REQUIRED)
+FIND_LIBRARY(FFTW REQUIRED)
 	include_directories(${FFTW_INCLUDES})
 	
 	SET(FFTW_OMP_FLAGS "-lfftw3_omp -lfftw3 -lm")
 	if(APPLE)
      		set(FFTW_OMP_FLAGS "-L/usr/local/Cellar/fftw/3.3.6-pl2/lib ${FFTW_OMP_FLAGS}")
      	endif()
+	message("FFTW LINKS = ${FFTW_LIBRARIES}")
 endif(custom_FFTW)
 
 
@@ -179,6 +180,7 @@ ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE} ${HEADER_SRCS})
 set_target_properties(ahti PROPERTIES
 							RUNTIME_OUTPUT_DIRECTORY
 							${CMAKE_BINARY_DIR}/bin)
+if(custom_FFTW)
 TARGET_LINK_LIBRARIES(
     ahti
 	${MPI_LIBRARIES}
@@ -189,10 +191,20 @@ TARGET_LINK_LIBRARIES(
 	${HDF5_HL_LIBRARIES}
 	libfftw3
 	libfftw3_omp
-	${FFTW_LIBRARIES}
-	${FFTW_OMP_FLAGS}
 )
-
+else(custom_FFTW)
+    TARGET_LINK_LIBRARIES(
+            ahti
+            ${MPI_LIBRARIES}
+            ${HDF5_LIBRARIES}
+            ${HDF5_CXX_LIBRARIES}
+            ${HDF5_C_LIBRARIES}
+            ${FFTW_LIBRARIES}
+            ${HDF5_HL_LIBRARIES}
+            ${FFTW_LIBRARIES}
+            ${FFTW_OMP_FLAGS}
+    )
+endif(custom_FFTW)
 option(TOTEST "Enable test build!" OFF)
 
 
