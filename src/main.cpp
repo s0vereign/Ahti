@@ -6,6 +6,7 @@
 
 
 #define DEBUG_ENABLED
+#include "../include/grid/Grid.hpp"
 #include "solvers/Split_Solver_3D.hpp"
 #include "../include/quantumsystems/Harmonicoscillator.hpp"
 #include "../include/quantumsystems/dist-harm-osc.hpp"
@@ -34,7 +35,7 @@ main(int argc, char **argv)
     using qsystems::harmosc::Psi0;
     using qsystems::harmosc::Psi1;
     using qsystems::harmosc::Psi2;
-    using V = qsystems::harmosc::V_3D;
+    using V = qsystems::distosc::VD_3D;
 
 
     auto phi = [](const std::complex<double>& x,
@@ -64,8 +65,9 @@ main(int argc, char **argv)
         return p0(x);
     };
 
-    double def = 0.01;
-    V pot_fun;
+    double a1 = 0.1;
+    double w1 = 2 * M_PI/1000;
+    V pot_fun(w1, w1, w1, a1, a1, a1);
     const double dt = 0.001;
     const double Nt = 1000;
 
