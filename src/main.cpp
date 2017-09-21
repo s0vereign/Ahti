@@ -6,7 +6,7 @@
 
 
 #define DEBUG_ENABLED
-#include "solvers/Split_Solver_2D.hpp"
+#include "solvers/Split_Solver_3D.hpp"
 #include "../include/quantumsystems/Harmonicoscillator.hpp"
 #include "../include/quantumsystems/dist-harm-osc.hpp"
 
@@ -34,7 +34,7 @@ main(int argc, char **argv)
     using qsystems::harmosc::Psi0;
     using qsystems::harmosc::Psi1;
     using qsystems::harmosc::Psi2;
-    using V = qsystems::harmosc::V_2D;
+    using V = qsystems::harmosc::V_3D;
 
 
     auto phi = [](const std::complex<double>& x,
@@ -75,15 +75,15 @@ main(int argc, char **argv)
     const double ymin = xmin;
     const double zmax = xmax;
     const double zmin = xmin;
-    const int nx = 500;
-    const int ny = 500;
-    const int nz = 500;
+    const int nx = 200;
+    const int ny = 200;
+    const int nz = 200;
 
 
-    //Grid::Grid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
-    Grid::Grid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
-//    Grid::Grid<1> g(xmin, xmax, nx, 0, dt*Nt, Nt);
-    solvers::solve(g, phi2D, pot_fun, num_threads);
+    Grid::Grid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
+    //Grid::Grid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
+    //Grid::Grid<1> g(xmin, xmax, nx, 0, dt*Nt, Nt);
+    solvers::solve(g, phi, pot_fun, num_threads);
     std::cout << "dt was " << g.dt << std::endl;
     return EXIT_SUCCESS;
 

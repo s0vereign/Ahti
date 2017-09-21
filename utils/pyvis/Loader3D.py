@@ -71,19 +71,21 @@ def Psi3D(x,y,z):
 
 def main():
 
-    nx = 500
-    ny = 500
+    nx = 200
+    ny = 200
     nz = 200
-    nt = 10
+    nt = 100
     dt = 0.001
-    l = CLoader3D(nx, ny, nz, "../../cmake-build-debug/bin/test.h5")
+    l = CLoader3D(nx, ny, nz, "../../cmake-build-default/bin/test.h5")
     d = (l.get_complex_data("/real", "/imag"))
 
-    x = np.arange(-6.0, 6.0, 12.0/nx)
-    y = np.arange(-6.0, 6.0, 12.0/ny)
+    x = np.linspace(-6.0, 6.0, nx, endpoint=False)
+    y = np.linspace(-6.0, 6.0, ny, endpoint=False)
+    
     x_mesh, y_mesh = np.meshgrid(x,y)
     an = Psi3D(x_mesh, y_mesh, 0) + 0* 1j
 
+    
     an *= np.exp(-1j * 1.5 * nt * dt)
     d = d[:,:,int(nz/2)]
     print("Maximum numerical: {}".format(np.max(np.abs(d)**2)))
@@ -91,8 +93,8 @@ def main():
 
     fig = plt.figure(figsize=(10,6))
     ax = fig.gca(projection='3d')
-
-    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d.imag- an.imag),
+    
+    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d.imag - an.imag),
                            cmap=cm.magma_r,linewidth=1,antialiased=False)
 
     plt.title("Time evolution 3D Harm. Osc.")

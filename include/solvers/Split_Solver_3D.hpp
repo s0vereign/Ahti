@@ -43,7 +43,7 @@ namespace solvers
         double t = g.t0;
         const double dt = g.dt;
 
-
+        IO::save_grid_3D(psi, g, "init.h5");
         fftw_complex norm = {1.0/(g.nx*g.ny*g.nz),0};
         for(int i = 0;  i < g.nt; i++)
         {
