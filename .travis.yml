@@ -3,11 +3,11 @@ sudo: required
 services:
   - docker
 
-matrix:
-  - DOCKER_IMG_PATH=Docker/deb
-  - DOCKER_IMG_PATH=Docker/ubuntu
-  - DOCKER_IMG_NAME=Ahti
+env:
+  - DOCKER_IMG_PATH="Docker/deb"
+  - DOCKER_IMG_PATH="Docker/ubuntu"
+  - DOCKER_IMG_NAME="Ahti"
 script:
-  docker build -t DOCKER_IMG_NAME DOCKER_IMG_PATH
+  docker build -t $DOCKER_IMG_NAME $DOCKER_IMG_PATH
 
 notifications: false
