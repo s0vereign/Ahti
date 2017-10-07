@@ -5,7 +5,7 @@ services:
 language:
   cpp
 
-env:
+matrix:
   - DOCKER_IMG_PATH: Docker/deb
   - DOCKER_IMG_PATH: Docker/ubuntu
   - DOCKER_IMG_NAME: Ahti
