@@ -3,11 +3,13 @@
 #include <vector>
 #include <complex>
 #include <algorithm>
-#include <fftw3.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <array>
 #include <memory>
 
+
+#include <omp.h>
+#include <fftw3.h>
 
 
 #include "../grid/Grid.hpp"
@@ -21,15 +23,17 @@
 #define DEBUG_ENABLED
 #include "../debug/DebugDef.h"
 
-namespace Worker
+namespace solvers
 {
     using std::complex;
     using containers::Array2D;
 
     template<typename T_DIST, typename T_POT>
-    void start_serial_worker(Grid::Grid<2> g, T_DIST p0, T_POT V)
+    void solve(Grid::Grid<2> g, T_DIST p0, T_POT V, int num_threads)
     {
 
+        fftw_init_threads();
+        fftw_plan_with_nthreads(omp_get_num_threads());
         Array2D<fftw_complex> psi(g.nx, g.ny);
         Array2D<fftw_complex> psi_ks(g.nx, g.ny);
 
@@ -39,28 +43,30 @@ namespace Worker
 
         init_psi(psi, p0, g);
 
+
         const int nt = g.nt;
 
-
-
-
+        double t = g.t0;
+        const double dt = g.dt;
+        IO::save_grid_2d(psi, g, "init.h5");
         for(int i = 0; i < nt; i++)
         {
             std::cout << "Currently in step " << i << std::endl;
-            math::apply_spatial_operator(psi,g,V);
+            math::apply_spatial_operator(psi, g, V, t);
             fftw_execute(ft);
             math::norm_grid(g, psi_ks);
             math::apply_2D_TEFS_op(psi_ks,i, g);
             fftw_execute(ift);
-            math::apply_spatial_operator(psi,g,V);
+            math::apply_spatial_operator(psi, g, V, t);
+            t += dt;
         }
-
 
         IO::save_grid_2d(psi, g, "first.h5");
 
 
         fftw_destroy_plan(ft);
         fftw_destroy_plan(ift);
+        fftw_cleanup_threads();
 
     };
 

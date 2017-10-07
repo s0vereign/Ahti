@@ -15,14 +15,13 @@
 
 
 #include "debug/DebugDef.h"
-//#include "communication/Ring.hpp"
 #include "output/SaveStep.hpp"
 
 
 
 #define FILE "wf_out.h5"
 
-namespace Worker 
+namespace solvers
 {
     using std::complex;
     using std::vector;
@@ -130,7 +129,7 @@ namespace Worker
         int n_curr = lgrid.nx0;
         int ind_curr = n_curr - g.nx/2 + 1;
         const int psize = lgrid.nx1 - lgrid.nx0 + 1;
-        const double dt = (g.t1-g.tmin)/(nt);
+        const double dt = (g.t1-g.t0)/(nt);
         hid_t fl;
         if(mpi_r == 0)
             fl = H5Fcreate(FILE, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);

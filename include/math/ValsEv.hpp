@@ -68,11 +68,15 @@ namespace math{
     }
 
 	template<typename POT>
-	void phase_fac( LocalGrid<1> lgrid,
-					Grid<1> g,
-					POT p,
-					vector<complex<double> >& vals
-				  )
+	auto
+    V_INT(const double& x, const double& t, const double& dt,POT& V)
+    -> std::complex<double>
+    {
+        return dt/2.0 * (V(x,t) + V(x,t+dt));
+    }
+
+	template<typename POT>
+	void phase_fac(LocalGrid<1> lgrid, Grid<1> g, POT p, vector <complex<double>> &vals, const double &t)
 	{
 
   		double x  = lgrid.x0;
@@ -81,7 +85,7 @@ namespace math{
   		const complex<double> iu(0,1);
   		for(int i = 0; i < vals.size(); i++)
   		{
-			vals[i] *= std::exp(- iu * dt * p(x));
+			vals[i] *= std::exp(- iu * dt * V_INT(x, t, dt, p));
 			x += dx;
 		}
 

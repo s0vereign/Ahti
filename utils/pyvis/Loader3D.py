@@ -67,7 +67,7 @@ def Psi_2(x):
     return (1/np.sqrt(2**2*2)) * H_2(x) * Psi_0(x)
 
 def Psi3D(x,y,z):
-    return Psi_0(x) * Psi_0(y) * Psi_2(z)
+    return Psi_0(x) * Psi_0(y) * Psi_0(z)
 
 def main():
 
@@ -75,25 +75,32 @@ def main():
     ny = 200
     nz = 200
     nt = 100
-    dt = 0.01
+    dt = 0.001
     l = CLoader3D(nx, ny, nz, "../../cmake-build-default/bin/test.h5")
     d = (l.get_complex_data("/real", "/imag"))
 
-    x = np.arange(-6.0, 6.0, 12.0/nx)
-    y = np.arange(-6.0, 6.0, 12.0/ny)
+    x = np.linspace(-6.0, 6.0, nx, endpoint=False)
+    y = np.linspace(-6.0, 6.0, ny, endpoint=False)
+    
     x_mesh, y_mesh = np.meshgrid(x,y)
     an = Psi3D(x_mesh, y_mesh, 0) + 0* 1j
 
-    an *= np.exp(-1j * 3.5 * nt * dt)
+    
+    an *= np.exp(-1j * 1.5 * nt * dt)
     d = d[:,:,int(nz/2)]
     print("Maximum numerical: {}".format(np.max(np.abs(d)**2)))
     print("Maximum analytical: {}".format(np.max(np.abs(an)**2)))
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(10,6))
     ax = fig.gca(projection='3d')
-
-    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d.real - an.real),
+    
+    surf = ax.plot_surface(x_mesh, y_mesh, np.abs(d.imag - an.imag),
                            cmap=cm.magma_r,linewidth=1,antialiased=False)
+
+    plt.title("Time evolution 3D Harm. Osc.")
+    ax.set_xlabel(r"$x \; (a.u.)$")
+    ax.set_xlabel(r"$y \; (a.u.)$")
+    ax.set_zlabel(r"$|\Psi|^2$")
 
     fig.colorbar(surf, shrink=0.5, aspect=5)
 

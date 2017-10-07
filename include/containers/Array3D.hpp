@@ -36,19 +36,21 @@ namespace containers
 
         void set_compl(int x, int y, int z, T& val)
         {
-            (data[nx * ny * x + nx * y + z])[0] = val[0];
-            (data[nx * ny * x + nx * y + z])[1] = val[1];
+            (data[nz * ny * x + nz * y + z])[0] = val[0];
+            (data[nz * ny * x + nz * y + z])[1] = val[1];
         }
 
         void set_compl(int x, int y, int z, std::complex<double> c)
         {
-            (data[nx * ny * x + nx * y + z])[0] = c.real();
-            (data[nx * ny * x + nx * y + z])[1] = c.imag();
+            int debug_index = nx * ny * x + nx * y + z;
+            size_t vec_size = data.size();
+            (data[nz * ny * x + nz * y + z])[0] = c.real();
+            (data[nz * ny * x + nz * y + z])[1] = c.imag();
         }
 
         T& get_compl(int x, int y, int z)
         {
-            return data[nx * ny * x + nx * y + z];
+            return data[nz * ny * x + nz * y + z];
         }
 
         decltype(data.data()) get_raw_ptr()
@@ -65,24 +67,26 @@ namespace containers
         {
             auto a = fak[0];
             auto b = fak[1];
-
-            for(auto& i : data)
+#pragma omp parallel for
+            for(int i = 0; i < nx*ny*nz; i++)
             {
-                auto x = i[0];
-                auto y = i[1];
-                i[0] = a * x - b * y;
-                i[1] = y * a + x * b ;
+
+                auto x = (data[i])[0];
+                auto y = (data[i])[1];
+                (data[i])[0] = a * x - b * y;
+                (data[i])[1] = y * a + x * b ;
             }
+
         }
 
         void mul_by_compl(int x, int y, int z, std::complex<double> c)
         {
-            auto a = (data[nx*ny * x + nx * y + z])[0];
-            auto b = (data[nx*ny * x + nx * y +z])[1];
+            auto a = (data[nz * ny * x + nz * y + z])[0];
+            auto b = (data[nz * ny * x + nz * y + z])[1];
             auto l = c.real();
             auto m = c.imag();
-            (data[nx*ny * x + nx * y + z])[0] = a * l - m * b;
-            (data[nx*ny * x + nx * y + z])[1] = a * m + b * l;
+            (data[nz * ny * x + nz * y + z])[0] = a * l - m * b;
+            (data[nz * ny * x + nz * y + z])[1] = a * m + b * l;
 
         }
 
@@ -130,12 +134,12 @@ namespace containers
 
         void set(int x, int y, int z, const double& d)
         {
-            data[nx * ny * x + nx * y + z] = d;
+            data[nz * ny * x + nz * y + z] = d;
         }
 
         double get(int x, int y, int z)
         {
-            return data[nx * ny * x + nx * y + z];
+            return data[nz * ny * x + nz * y + z];
         }
 
         double* get_raw_ptr()
@@ -143,91 +147,7 @@ namespace containers
             return data.data();
         }
     };
-    /*
-     *  This is a just in case partial template specialization
-     *  which uses fftw_malloc instead of an std::vector
-    template<>
-    class Array3D<fftw_complex >
-    {
-        public:
-        Array3D(int nx, int ny, int nz) : nx(nx), ny(ny), nz(nz)
-        {
-            data = (fftw_complex*) fftw_malloc(nx * ny * nz * sizeof(fftw_complex));
-        }
-        ~Array3D()
-        {
-            free(data);
-        }
-
-        void set_compl(int x, int y, int z, fftw_complex& val)
-        {
-            (data[nx * ny * x + nx * y + z])[0] = val[0];
-            (data[nx * ny * x + nx * y + z])[1] = val[1];
-        }
-
-        void set_compl(int x, int y, int z, std::complex<double> c)
-        {
-            (data[nx * ny * x + nx * y + z])[0] = c.real();
-            (data[nx * ny * x + nx * y + z])[1] = c.imag();
-        }
-
-        fftw_complex& get_compl(int x, int y, int z)
-        {
-            return data[nx * ny * x + nx * y + z];
-        }
-
-        fftw_complex* get_raw_ptr()
-        {
-            return data;
-        }
-
-        void norm(const fftw_complex& fak)
-        {
-            auto a = fak[0];
-            auto b = fak[1];
-
-            for(int i = 0; i < nx*ny*nz; i++)
-            {
-                auto x = (data[i])[0];
-                auto y = (data[i])[1];
-                (data[i])[0] = a * x - b * y;
-                (data[i])[1] = y * a + x * b ;
-            }
-        }
-
-        void mul_by_compl(int x, int y, int z, std::complex<double> c)
-        {
-            auto a = (data[nx*ny * x + nx * y + z])[0];
-            auto b = (data[nx*ny * x + nx * y +z])[1];
-            auto l = c.real();
-            auto m = c.imag();
-            data[nx*ny * x + nx * y + z][0] = a * l - m * b;
-            data[nx*ny * x + nx * y + z][1] = a * m + b * l;
-
-        }
-
-        const size_t getNx() const
-        {
-            return nx;
-        }
-
-        const size_t getNy() const
-        {
-            return ny;
-        }
-
-        const size_t getNz() const
-        {
-            return nz;
-        }
 
 
-        private:
-        int nx, ny, nz;
-        fftw_complex* data;
-
-
-
-    };*/
 
 }

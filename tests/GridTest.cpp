@@ -17,7 +17,7 @@ TEST(GridTest, ContructorTest)
 
     double t0 = 0.0;
     double t1 = 241;
-    Grid::Grid<2> g(x0, x1, nx, y0, y1, ny, t0, t1, nt);
+    Grid::Grid<2> g(x0, x1, y0, y1, nx, ny, t0, t1, nt);
 
     ASSERT_EQ(g.x0, x0);
     ASSERT_EQ(g.x1, x1);

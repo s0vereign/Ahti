@@ -19,12 +19,12 @@
 #include "math/ScalarProd.h"
 #include "math/TimeFt.h"
 #include "math/RecontructWV.hpp"
-#include "worker/StaticCalcs1D.hpp"
+#include "solvers/StaticCalcs1D.hpp"
 #include "output/SaveStep.hpp"
 #include "output/SaveCoeff.hpp"
+#include <iostream>
 
-
-namespace Worker
+namespace solvers
 {
     using std::complex;
     using std::vector;
@@ -33,7 +33,7 @@ namespace Worker
 
 
     template <typename DIST, typename POT>
-    void start_serial_worker(Grid<1> g, DIST psi, POT V)
+    void solve(Grid::Grid<2> g, T_DIST psi, T_POT V, int num_threads)
     {
         vector<complex<double>> coeff(g.nx);
         vector<complex<double>> psi_t(g.nx);
@@ -65,17 +65,18 @@ namespace Worker
         for(int k = 0; k  < g.nt; k++)
             frames[k] = (complex<double> *) malloc(sizeof(complex<double>)*g.nx);
 
+        double t = g.t0;
+        const double dt = g.dt;
         for(int i = 0; i < g.nt; i++)
 		{
 
             recalc_coeff(l, g, coeff, psi_t);
-			//IO::save_coeff(0, coeff);
 			math::evolve_coeff(coeff, g.nx, g.x1-g.x0, l, g.dt);
 			std::fill(psi_t.begin(), psi_t.end(), 0);
 			math::vals_ev(psi_t, coeff, l, g, V);
 
 			shift_res(psi_t);
-			math::phase_fac(l, g, V, psi_t);
+            math::phase_fac(l, g, V, psi_t, t);
 
 
 			recalc_coeff(l, g, coeff, psi_t);
@@ -93,11 +94,11 @@ namespace Worker
             // real and imaginary part of the wave-function
 			ex_im_rl(psi_t);
 			DEBUG("Currently in timestep " << i);
-            if(i % 100 == 0)
+            if(i % 10 == 0)
 			    IO::save_step_serial(g, psi_t, i, fl);
             save_frame(frames, psi_t, i);
             ex_im_rl(psi_t);
-
+            t += dt;
 
 		}
 

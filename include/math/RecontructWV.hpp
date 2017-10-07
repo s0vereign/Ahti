@@ -18,8 +18,8 @@ namespace math
         const double dt = g.dt;
         const int nt = g.nt;
 
-        double t = g.tmin;
-        double T = g.tmax;
+        double t = g.t0;
+        double T = g.t0;
         complex<double> iu(0,1);
         for(int n = 0; n < g.nx; n++)
         {

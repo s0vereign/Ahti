@@ -6,8 +6,23 @@
 
 namespace math
 {
+
+    template<typename POT>
+    inline
+    auto
+    V_int(const double& x,
+          const double& y,
+          const double& z,
+          POT V,
+          const double& t,
+          const double & dt)
+    -> std::complex<double>
+    {
+        return dt/2.0 * (V(x,y,z,t) + V(x,y,z,t+dt));
+    }
+
     template<typename T_CONT, typename POT>
-    void apply_spatial_op(T_CONT& data, POT V, Grid::Grid<3> g)
+    void apply_spatial_op(T_CONT &data, POT V, Grid::Grid<3> g, const double &t)
     {
         using std::complex;
 
@@ -17,26 +32,30 @@ namespace math
         const double dt = g.dt;
         const complex<double> iu(0.0,1.0);
 
-        double x = g.x0;
-        double y = g.y0;
-        double z = g.z0;
-
-        for(int i = 0; i < data.getNx(); i++)
+#pragma omp parallel
         {
-            for(int j = 0; j < data.getNy(); j++)
-            {
-                for(int k = 0; k < data.getNz(); k++)
-                {
-                    data.mul_by_compl(i,j,k, std::exp(-iu * dt/2.0 * V(x,y,z)));
-                    z+=dz;
-                }
-                z = g.z0;
-                y += dy;
-            }
+            double x = g.x0;
+            double y = g.y0;
+            double z = g.z0;
 
-            y = g.y0;
-            x += dx;
-        }
+#pragma omp for
+            for(int i = 0; i < data.getNx(); i++)
+            {
+                x = i * dx + g.x0;
+                for(int j = 0; j < data.getNy(); j++)
+                {
+                    for(int k = 0; k < data.getNz(); k++)
+                    {
+                        data.mul_by_compl(i,j,k, std::exp(-iu * 0.5 * V_int(x,y,z,V,t,dt)));
+                        z+=dz;
+                    }
+                    z = g.z0;
+                    y += dy;
+                }
+
+                y = g.y0;
+            }
+        }; // OMP PARALLEL
     };
 
     template<typename T_CONT>
@@ -61,6 +80,9 @@ namespace math
 
         complex<double> iu(0.0,1.0);
 
+#pragma omp parallel private(px,py,pz)
+        {
+#pragma omp for
         for(int i = 0; i < nx; i++)
         {
             for(int j = 0; j < ny; j++)
@@ -98,5 +120,7 @@ namespace math
                 }
             }
         }
+
+        }// OMP PARALLEL
     }
 }

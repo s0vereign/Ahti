@@ -44,22 +44,22 @@ class CLoader2D(Loader2D):
 
 def main():
 
-    l = CLoader2D(1000,1000,"../../cmake-build-default/bin/first.h5")
+    l = CLoader2D(2000,2000,"../../cmake-build-default/bin/first.h5")
     d = l.get_complex_data("/real","/imag")
-    x = np.arange(-6.0,6.0,12.0/1000)
-    y = np.arange(-6.0,6.0,12.0/1000)
+    x = np.arange(-6.0,6.0,12.0/2000)
+    y = np.arange(-6.0,6.0,12.0/2000)
     gaussian = lambda x: 0.7511255444649425*np.exp(-0.5*x**2)
     psi_1 = lambda x,g: g(x) * 1/np.sqrt(2) * 2 * x
     X,Y = np.meshgrid(x,y)
 
     analytic = gaussian(X) * gaussian(Y)
     analytic = np.complex128(analytic)
-    analytic *= np.exp(-1j *0.0001 * 1000)
+    analytic *= np.exp(-1j * 0.001 * 1000)
 
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     #ax = fig.gca()
-    surf = ax.plot_surface(X,Y, np.abs(analytic.imag - d.imag ),cmap=cm.magma_r,linewidth=1,antialiased=False)
+    surf = ax.plot_surface(X,Y, np.abs(d.real - analytic.real), cmap=cm.magma_r,linewidth=1,antialiased=False)
 
     #im = plt.imshow(d.real - analytic.real, )
     fig.colorbar(surf, shrink=0.5, aspect=5)

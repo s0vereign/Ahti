@@ -9,11 +9,11 @@
 #define DEBUG_ENABLED
 #include "../debug/DebugDef.h"
 
-namespace Worker
+namespace solvers
 {
 
     template <typename T_CONT, typename  T_DIST>
-    void init_psi(T_CONT& vals, T_DIST p, Grid::Grid<2> g)
+    void init_psi(T_CONT& vals, T_DIST& p, Grid::Grid<2> g)
     {
         double x = g.x0;
         double y = g.y0;
@@ -21,6 +21,8 @@ namespace Worker
         const int ny = g.ny;
         const double dx = g.dx;
         const double dy = g.dy;
+        const double t0 = g.t0;
+
 
         for(int i = 0; i < nx; i++)
         {

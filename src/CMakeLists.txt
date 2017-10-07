@@ -7,13 +7,15 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0)
 ############
 # Change the C Flags
 ############
-option(DEBUG_BUILD "Enables debug macros and disables Optimizations" ON)
+option(DEBUG_BUILD "Enables debug macros and disables Optimizations" On)
+
 
 ######
 #set(CMAKE_COLOR_MAKEFILE ON)
 ######
 IF(DEBUG_BUILD)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -ggdb -O0")
+	message(-- Using Debug configuration)
 else(DEBUG_BUILD)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 	message("-- Using optimization")
@@ -65,7 +67,22 @@ include(CTest)
 #############
 
 
-SET(MAIN_SRC_FILE "main.cpp" ../include/worker/StaticCalcs2D.hpp ../include/containers/Array2D.hpp ../include/math/CMultFFTW.hpp ../include/output/SaveGrid2D.hpp ../include/math/Operators2D.hpp ../include/math/NormGrid.hpp ../include/containers/Array3D.hpp ../include/output/SaveGrid3D.hpp ../include/math/Operators3D.hpp ../include/worker/StaticCalcs3D.hpp ../include/worker/SerialWorker3D.hpp)
+SET(MAIN_SRC_FILE 				main.cpp
+		../include/solvers/StaticCalcs2D.hpp
+								../include/containers/Array2D.hpp
+								../include/math/CMultFFTW.hpp
+								../include/output/SaveGrid2D.hpp
+								../include/math/Operators2D.hpp
+								../include/math/NormGrid.hpp
+								../include/containers/Array3D.hpp
+								../include/output/SaveGrid3D.hpp
+								../include/math/Operators3D.hpp
+		../include/solvers/StaticCalcs3D.hpp
+		../include/solvers/Split_Solver_3D.hpp
+								../include/quantumsystems/Harmonicoscillator.hpp
+								quantumsystems/Harmonicoscillator.cpp
+								../include/quantumsystems/dist-harm-osc.hpp
+								quantumsystems/dist-harm-osc.cpp )
 
 
 
@@ -77,7 +94,7 @@ file(GLOB HEADER_SRCS "../include/communication/Ring.hpp"
                       "../include/grid/*.hpp"
                       "../include/math/*.hpp"
                       "../include/math/*.h"
-                      "../include/worker/*.hpp")
+                      "../include/solvers/*.hpp")
 
 
 
@@ -85,7 +102,7 @@ file(GLOB HEADER_SRCS "../include/communication/Ring.hpp"
 # Add the CMake custom modules
 ######
 LIST(APPEND CMAKE_MODULE_PATH "../utils/cmake")
-
+LIST(APPEND CMAKE_PREFIX_PATH "../utils/fftw3")
 ###############
 # Find Package OpenMPI
 ###############
@@ -109,71 +126,48 @@ endif(HDF5_FOUND)
 ###########
 # Find FFTW
 ###########
-FIND_PACKAGE(FFTW REQUIRED)
-if(FFTW_FOUND)
+
+option(custom_FFTW "Use a custom FFTW version compiled with --enable-openmp in utils folder" ON)
+if(custom_FFTW)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/../utils/fftw3/include)
+
+ADD_LIBRARY(libfftw3 STATIC IMPORTED)
+SET_PROPERTY(TARGET libfftw3 PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../utils/fftw3/lib/libfftw3.a)
+
+ADD_LIBRARY(libfftw3_omp STATIC IMPORTED)
+SET_PROPERTY(TARGET libfftw3_omp PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../utils/fftw3/lib/libfftw3_omp.a)
+
+SET(FFTW_LIBRARIES "")
+SET(FFTW_OMP_FLAGS "")
+else(custom_FFTW)
+
+FIND_LIBRARY(FFTW REQUIRED)
 	include_directories(${FFTW_INCLUDES})
-endif(FFTW_FOUND)
+	
+	SET(FFTW_OMP_FLAGS "-lfftw3_omp -lfftw3 -lm")
+	if(APPLE)
+     		set(FFTW_OMP_FLAGS "-L/usr/local/Cellar/fftw/3.3.6-pl2/lib ${FFTW_OMP_FLAGS}")
+     	endif()
+	message("FFTW LINKS = ${FFTW_LIBRARIES}")
+endif(custom_FFTW)
 
 
 
 ##########
 # Find OpenMP
 ##########
-find_package(OpenMP)
+find_package(OpenMP REQUIRED)
 if (OPENMP_FOUND)
 	set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
 	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
 
-##########
-# Find libsplash (Used later maybe!)
-##########
-#set(CMAKE_MODULE_PATH  ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/../utils/cmake)
-
-#set(Splash_USE_STATIC_LIBS ON)
-#find_package(Splash)
-
-#if(Splash_FOUND)
-#    include_directories(${Splash_INCLUDE_DIRS})
-#    set(LIBS ${LIBS} ${Splash_LIBRARIES})
-#endif(Splash_FOUND)
 
 ############
 # User include directories
 ############
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 
-##############
-# Find Boost
-##############
-FIND_PACKAGE(Boost REQUIRED unit_test_framework)
-if(Boost_FOUND)
-	message(Boost_INCLUDE_DIRS)
-	include_directories(${Boost_INCLUDE_DIRS})
-	ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
-
-endif(Boost_FOUND)
-
-#############
-# Add executable
-#############
-#LIST(REMOVE_DUPLICATES CUDA_NVCC_FLAGS)
-#STRING(REPLACE "-arch=sm_20" "" CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS})
-#message("${CUDA_NVCC_FLAGS}")
-
-
-
-#IF(CUDA_FOUND)
-#message("${CUDA_NVCC_FLAGS}")
-#message("${CMAKE_CXX_FLAGS}")
-#STRING(REPLACE "-std=c++11" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-#message("Current flags: ")
-#message("${CUDA_NVCC_FLAGS}")
-#message("${CMAKE_CXX_FLAGS}")
-
-#ELSE(CUDA_FOUND)
-#STRING(REPLACE "14" "11" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-#ENDIF(CUDA_FOUND)
 
 #########
 # Find GoogleTest
@@ -186,18 +180,31 @@ ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE} ${HEADER_SRCS})
 set_target_properties(ahti PROPERTIES
 							RUNTIME_OUTPUT_DIRECTORY
 							${CMAKE_BINARY_DIR}/bin)
+if(custom_FFTW)
 TARGET_LINK_LIBRARIES(
     ahti
 	${MPI_LIBRARIES}
-	#${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 	${HDF5_LIBRARIES}
 	${HDF5_CXX_LIBRARIES}
 	${HDF5_C_LIBRARIES}
 	${FFTW_LIBRARIES}
 	${HDF5_HL_LIBRARIES}
-	${FFTW_LIBRARIES}
+	libfftw3
+	libfftw3_omp
 )
-
+else(custom_FFTW)
+    TARGET_LINK_LIBRARIES(
+            ahti
+            ${MPI_LIBRARIES}
+            ${HDF5_LIBRARIES}
+            ${HDF5_CXX_LIBRARIES}
+            ${HDF5_C_LIBRARIES}
+            ${FFTW_LIBRARIES}
+            ${HDF5_HL_LIBRARIES}
+            ${FFTW_LIBRARIES}
+            ${FFTW_OMP_FLAGS}
+    )
+endif(custom_FFTW)
 option(TOTEST "Enable test build!" OFF)
 
 
