@@ -2,6 +2,8 @@ sudo: required
 
 services:
   - docker
+language:
+  cpp
 
 env:
   - DOCKER_IMG_PATH="Docker/deb"
