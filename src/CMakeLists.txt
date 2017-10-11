@@ -142,10 +142,12 @@ SET(FFTW_OMP_FLAGS "")
 else(custom_FFTW)
 
 FIND_LIBRARY(FFTW REQUIRED)
+	message("${FFTW_INCLUDES}")
 	include_directories(${FFTW_INCLUDES})
 	
 	SET(FFTW_OMP_FLAGS "-lfftw3_omp -lfftw3 -lm")
 	if(APPLE)
+			include_directories("/usr/local/Cellar/fftw/3.3.6-pl2/include")
      		set(FFTW_OMP_FLAGS "-L/usr/local/Cellar/fftw/3.3.6-pl2/lib ${FFTW_OMP_FLAGS}")
      	endif()
 	message("FFTW LINKS = ${FFTW_LIBRARIES}")

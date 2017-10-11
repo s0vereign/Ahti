@@ -33,13 +33,12 @@ namespace solvers
 
 
     template <typename DIST, typename POT>
-    void solve(Grid::Grid<2> g, T_DIST psi, T_POT V, int num_threads)
+    void solve(Grid<1> g, DIST psi, POT V, int num_threads)
     {
         vector<complex<double>> coeff(g.nx);
         vector<complex<double>> psi_t(g.nx);
 
         vector<complex<double>> corr_fun(g.nt);
-        vector<complex<double>> spec_fun(g.nt);
 
 
 
@@ -59,11 +58,12 @@ namespace solvers
 
         // This is a framebuffer to save each timestep in memory,
         // This is required when reconstructing the initial wave-functions
-        complex<double>** frames;
-        frames = (complex<double> **) malloc(sizeof(complex<double>*)*g.nt);
+        // Commented out for performance reasons so that spectra can be calculated
+        //complex<double>** frames;
+        //frames = (complex<double> **) malloc(sizeof(complex<double>*)*g.nt);
 
-        for(int k = 0; k  < g.nt; k++)
-            frames[k] = (complex<double> *) malloc(sizeof(complex<double>)*g.nx);
+        //for(int k = 0; k  < g.nt; k++)
+        //    frames[k] = (complex<double> *) malloc(sizeof(complex<double>)*g.nx);
 
         double t = g.t0;
         const double dt = g.dt;
@@ -96,19 +96,38 @@ namespace solvers
 			DEBUG("Currently in timestep " << i);
             if(i % 10 == 0)
 			    IO::save_step_serial(g, psi_t, i, fl);
-            save_frame(frames, psi_t, i);
+            //save_frame(frames, psi_t, i);
+            corr_fun[i] = math::scalar_prod(psi_t, psi, g, l);
             ex_im_rl(psi_t);
             t += dt;
 
 		}
 
-        std::cout << "Finished! Cleaning up!" << std::endl;
+        DEBUG("Finished, cleaning up.");
+        H5Fclose(fl);
 
-        for(int k = 0; k < g.nt; k++)
-        {
-            free(frames[k]);
-        }
-        free(frames);
+        weigh_corr_fun(corr_fun, g);
+        vector<complex<double>> spec_fun(g.nt);
+
+
+        DEBUG("Calculating Spectrum...");
+        // Create Spectral function with FFTW
+        fftw_complex* in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*corr_fun.size());
+        fftw_complex* out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*corr_fun.size());
+        cast_std_to_fftw(corr_fun, in);
+        fftw_plan p = fftw_plan_dft_1d(spec_fun.size(), in, out, FFTW_FORWARD, FFTW_ESTIMATE);
+        fftw_execute(p);
+        fftw_destroy_plan(p);
+        cast_fftwc_to_stdc(out, spec_fun);
+
+        DEBUG("Done! Saving Spectrum...");
+        fl = H5Fcreate("spec_fun.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+        IO::save_step_serial(g, spec_fun, 0, fl);
+        H5Fclose(fl);
+        fftw_free(in);
+        fftw_free(out);
+        DEBUG("Done!")
+
 
     }
 }
