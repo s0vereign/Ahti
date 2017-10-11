@@ -41,7 +41,7 @@ main(int argc, char **argv)
     };
     auto phi = [psi_0, psi_1, psi_2, inv_sqrt_two](std::complex<double> x)
     {
-        return 0.57735026918962573*(psi_0(x)+psi_1(x)+psi_2(x));
+        return 1.0/sqrt(3.0)*(psi_0(x) + psi_1(x)+psi_2(x));
     };
 
     auto pot_fun = [](double x)
@@ -49,9 +49,10 @@ main(int argc, char **argv)
         return std::complex<double>(x * x / 2.0, 0);
     };
 
-    const double dt = 1.256637;
-    const double Nt = 500;
-    Grid::Grid<1> g(-8.0, 8.0, 2000, 0.0, dt*Nt, Nt);
+    //const double dt = 1.256637;
+    const double dt = 0.12566370614359174;
+    const double Nt = 5000;
+    Grid::Grid<1> g(-6.0, 6.0, 1000, 0.0, dt*Nt, Nt);
     Worker::start_serial_worker(g, phi, pot_fun);
 
 

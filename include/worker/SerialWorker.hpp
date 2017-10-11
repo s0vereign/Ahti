@@ -85,9 +85,9 @@ namespace Worker
 	  	DEBUG("Finished, cleaning up.");
         H5Fclose(fl);
         DEBUG("Saving Correlation function...");
-        fl = H5Fcreate("corr_fun.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
-        IO::save_step_serial(g, corr_fun, 0, fl);
-        H5Fclose(fl);
+        //fl = H5Fcreate("corr_fun.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+        //IO::save_step_serial(g, corr_fun, 0, fl);
+        //H5Fclose(fl);
 
         weigh_corr_fun(corr_fun, g);
         vector<complex<double>> spec_fun(g.nt);
@@ -100,12 +100,16 @@ namespace Worker
         cast_std_to_fftw(corr_fun, in);
         fftw_plan p = fftw_plan_dft_1d(spec_fun.size(), in, out, FFTW_FORWARD, FFTW_ESTIMATE);
         fftw_execute(p);
-        fftw_destroy_plan(p);
-        cast_fftwc_to_stdc(out, spec_fun);
 
+        cast_fftwc_to_stdc(out, spec_fun);
+        fftw_free(in);
+        fftw_free(out);
         DEBUG("Done! Saving Spectrum...");
         fl = H5Fcreate("spec_fun.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
-        IO::save_step_serial(g, spec_fun, 0, fl);
+        DEBUG("In saving step!");
+        IO::save_corr_serial(g, spec_fun, 0, fl);
+
+        DEBUG("In closing step!");
         H5Fclose(fl);
         DEBUG("Done!")
 

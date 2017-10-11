@@ -22,15 +22,11 @@ namespace IO
                  vector<double>& real, 
                  vector<double>& imag)
                  {
-                     auto it_real = real.begin();
-                     auto it_imag = imag.begin();
-                     for(auto& j : recv_buf)
-                     {
-                         *it_real = j.real();
-                         *it_imag = j.imag();
-                         it_real++;
-                         it_imag++;
-                     }
+                    for(int i = 0; i < recv_buf.size(); i++)
+                    {
+                        real[i] = recv_buf[i].real();
+                        imag[i] = recv_buf[i].imag();
+                    }
                  }
 
 
@@ -72,6 +68,7 @@ namespace IO
 
     void save_step_serial(Grid<1> g, vector<complex<double>>& res, int step, hid_t floc)
     {
+
         vector<double> real(g.nx);
         vector<double> imag(g.nx);
         recast(res, real, imag);
@@ -80,6 +77,21 @@ namespace IO
         string d_name_imag = "/dset"+to_string(step)+"imag";
         H5LTmake_dataset(floc, d_name_real.c_str(), 1, &size, H5T_NATIVE_DOUBLE, real.data());
         H5LTmake_dataset(floc, d_name_imag.c_str(), 1, &size, H5T_NATIVE_DOUBLE, imag.data());
+
+    }
+
+    void save_corr_serial(Grid<1> g, vector<complex<double>>& res, int step, hid_t floc)
+    {
+
+        vector<double> real(g.nt);
+        vector<double> imag(g.nt);
+        recast(res, real, imag);
+        hsize_t size = res.size();
+        string d_name_real = "/dset"+to_string(step)+"real";
+        string d_name_imag = "/dset"+to_string(step)+"imag";
+        H5LTmake_dataset(floc, d_name_real.c_str(), 1, &size, H5T_NATIVE_DOUBLE, real.data());
+        H5LTmake_dataset(floc, d_name_imag.c_str(), 1, &size, H5T_NATIVE_DOUBLE, imag.data());
+
     }
 
 }
