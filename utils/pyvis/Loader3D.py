@@ -22,7 +22,7 @@ class Loader3D:
             self.file = h5py.File(self.loc,"r")
         except:
             print("Error! File does not exist")
-            exit()
+            sys.exit()
 
         try:
             data = np.array(self.file[id])

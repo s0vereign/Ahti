@@ -35,7 +35,7 @@ main(int argc, char **argv)
     using qsystems::harmosc::Psi0;
     using qsystems::harmosc::Psi1;
     using qsystems::harmosc::Psi2;
-    using V = qsystems::distosc::VD_3D;
+    using V = qsystems::harmosc::V_3D;
 
 
     auto phi = [](const std::complex<double>& x,
@@ -67,9 +67,10 @@ main(int argc, char **argv)
 
     double a1 = 0.1;
     double w1 = 2 * M_PI/1000;
-    V pot_fun(w1, w1, w1, a1, a1, a1);
+    //V pot_fun(w1, w1, w1, a1, a1, a1);
+    V pot_fun;
     const double dt = 0.001;
-    const double Nt = 1000;
+    const double Nt = 100;
 
     const double xmax = 6.0;
     const double xmin = -6.0;
@@ -77,9 +78,9 @@ main(int argc, char **argv)
     const double ymin = xmin;
     const double zmax = xmax;
     const double zmin = xmin;
-    const int nx = 500;
-    const int ny = 500;
-    const int nz = 300;
+    const int nx = 200;
+    const int ny = 200;
+    const int nz = 200;
 
 
     Grid::Grid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);

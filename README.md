@@ -13,4 +13,9 @@
 
 **I**n Various environments
 
- 
+
+## Physical Background
+
+The time-dependent schrödinger equation is one of the fundamental postulated of quantum mechanics, 
+which describes the time-evolution of the state $| \psi \rangle$ in the system characterized by the
+Hamiltonopertor $\hat{H}$.
