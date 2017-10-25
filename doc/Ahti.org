@@ -1,0 +1,47 @@
+#+LATEX_CLASS: article
+#+LATEX_COMPILER: xelatex
+#+TITLE: Project Ahti
+#+AUTHOR: Maximilian Böhme
+
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER: \hypersetup{colorlinks=true,allcolors=blue}
+#+LATEX_HEADER: \usepackage[numbered]{bookmark}
+#+LATEX_HEADER: \usepackage{cleveref}
+
+#+OPTIONS: toc:nil title:nil
+
+\maketitle 
+\newpage
+\tableofcontents
+\newpage
+
+* What is Ahti? 
+
+Ahti is a HPC-solver for the Time-Dependent Schrödinger Equation(TDSE). The following document 
+explains the structure of the project and the implementation.
+
+** Introduction
+
+The Time-dependent Schrödinger equation 
+
+\begin{align}\label{eq:tdse}
+	i \frac{ \partial }{ \partial t } | \psi \rangle &= \hat{H} | \psi \rangle 
+\end{align}
+
+where the Hamiltonian $\hat{H}$ for most systems has the form
+
+\begin{align}
+\hat{H} &= \frac{\hat{P}^2}{2 m } + V(\textbf{r},t) 
+\end{align}
+
+and $| \psi \rangle$ is the current state of the system. The TDSE thus determines
+the time-evolution of the system. Ahti aims to solve the stationary Schrödinger Equation(SE) 
+in order to determine the Eigenenergies and Eigenstates of the an arbitrary Quantum-mechanical
+system as well as the case of a time-dependent disturbance $W(\textbs{r},t)$ acting on the system.
+
+** Numerical methods
+
+The theoretical groundwork used in this project was developed in [[https://arxiv.org/abs/1012.3911][Bauke et al.]] and 
+[[http://www.sciencedirect.com/science/article/pii/0021999182900912][Feith et al.]]. This document assumes the reader is familiar with the split-operator 
+method and the spectral method. 
