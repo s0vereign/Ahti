@@ -11,6 +11,45 @@
 #include "../include/quantumsystems/Harmonicoscillator.hpp"
 #include "../include/quantumsystems/dist-harm-osc.hpp"
 
+
+/** @file main.cpp
+ *  @author Maximilian Böhme
+ *  @brief The file containing the main function
+ * */
+
+
+/**
+ * @brief The main function. The entry point and currently where the simulation configuration is done.
+ *
+ * The main method is the basic configuration point in the project.
+ * In order to define a system one has to include the desired headers
+ * contained in the ../include/quantumsystems folder. This will provide the
+ * desired potential function objects as well as some Eigenfunctions if the
+ * system has a analytical solution. The next dependency is the choice of the
+ * solver-rountine. This depends in the spatial dimensionality of the system.
+ * Currently the project only provides the split-operator method in order to
+ * solve a system to up to three dimensions. The general unit system the code
+ * currently uses is the atomic unit system. If you aren't familiar with this
+ * particular unit system, please read: https://en.wikipedia.org/wiki/Atomic_units.
+ *
+ * The argc argument specifies in the current implementation the number of OpenMP
+ * threads the code uses. So for instane the call
+ * ./ahti 4
+ * will start a simulation with 4 OpenMP threads.
+ *
+ * In order to configure a simulation the user has to specify a grid of the
+ * corresponding dimensionality. The headers are located in the ../include/grid
+ * folder. In order to create a grid-spec object please refer to the documentation
+ * of the corresponding headers.
+ *
+ * So in a nutshell:
+ * 1. Include all the desired headers
+ * 2. Instantiate the function objects of the test-wave-function and the potential
+ * 3. Specify the grid parameters by instantiating a grid object
+ * 4. Call the solver function
+ *
+ * @return: int code which indicates if the program ran succsessfull
+ */
 int
 main(int argc, char **argv)
 {
