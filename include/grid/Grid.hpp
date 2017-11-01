@@ -119,7 +119,8 @@ namespace Grid
          *@brief Constructor which specifies a 3D Grid
          * x_0_i is always the starting point of the spatial time Interval
          * x_1_i is always the end point of the interval in dimension i
-         * n_i is alwas the number of gridpoints in the interval. IMPORTANT: The endpoint is not included!
+         * n_i is alwas the number of gridpoints in the interval(Both spatial- and time-grid).
+         * IMPORTANT: The endpoint is not included!
          * @param x0
          * @param x1
          * @param y0
