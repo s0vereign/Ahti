@@ -68,7 +68,7 @@ include(CTest)
 
 
 SET(MAIN_SRC_FILE 				main.cpp
-		../include/solvers/StaticCalcs2D.hpp
+		                        ../include/solvers/StaticCalcs2D.hpp
 								../include/containers/Array2D.hpp
 								../include/math/CMultFFTW.hpp
 								../include/output/SaveGrid2D.hpp
@@ -77,13 +77,14 @@ SET(MAIN_SRC_FILE 				main.cpp
 								../include/containers/Array3D.hpp
 								../include/output/SaveGrid3D.hpp
 								../include/math/Operators3D.hpp
-		../include/solvers/StaticCalcs3D.hpp
-		../include/solvers/Split_Solver_3D.hpp
+                                ../include/solvers/StaticCalcs3D.hpp
+                                ../include/solvers/Split_Solver_3D.hpp
 								../include/quantumsystems/Harmonicoscillator.hpp
 								quantumsystems/Harmonicoscillator.cpp
-								../include/quantumsystems/dist-harm-osc.hpp
-								quantumsystems/dist-harm-osc.cpp )
-
+								quantumsystems/dist-harm-osc.cpp
+                                ../include/containers/Array1D.hpp
+                                containers/Array1D.cpp
+                                )
 
 
 ##############
@@ -171,13 +172,10 @@ endif()
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 
 
-#########
-# Find GoogleTest
-#########
-include_directories(../utils/googletest/googletest/include)
 
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+message(${MAIN_SRC_FILE})
 ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE} ${HEADER_SRCS})
 set_target_properties(ahti PROPERTIES
 							RUNTIME_OUTPUT_DIRECTORY
@@ -193,6 +191,7 @@ TARGET_LINK_LIBRARIES(
 	${HDF5_HL_LIBRARIES}
 	libfftw3
 	libfftw3_omp
+    impl
 )
 else(custom_FFTW)
     TARGET_LINK_LIBRARIES(
@@ -212,6 +211,12 @@ option(TOTEST "Enable test build!" OFF)
 
 IF(TOTEST)
 
+
+    #########
+    # Find GoogleTest
+    #########
+    include_directories(../utils/googletest/googletest/include)
+
 file(GLOB TEST_SRCS ../tests/*.cpp)
 
 foreach(testSrc ${TEST_SRCS})
@@ -221,12 +226,33 @@ foreach(testSrc ${TEST_SRCS})
 endforeach(testSrc)
 
 ADD_EXECUTABLE(runtests ${TEST_SRCS})
-target_link_libraries(  runtests
-                        ${HDF5_LIBRARIES}
-                        ${FFTW_LIBRARIES}
-                        ${HDF5_HL_LIBRARIES}
-                        gtest_main
-        )
+if(custom_FFTW)
+	TARGET_LINK_LIBRARIES(
+			runtests
+			${MPI_LIBRARIES}
+			${HDF5_LIBRARIES}
+			${HDF5_CXX_LIBRARIES}
+			${HDF5_C_LIBRARIES}
+			${FFTW_LIBRARIES}
+			${HDF5_HL_LIBRARIES}
+			libfftw3
+			libfftw3_omp
+			gtest_main
+	)
+else(custom_FFTW)
+	TARGET_LINK_LIBRARIES(
+			runtests
+			${MPI_LIBRARIES}
+			${HDF5_LIBRARIES}
+			${HDF5_CXX_LIBRARIES}
+			${HDF5_C_LIBRARIES}
+			${FFTW_LIBRARIES}
+			${HDF5_HL_LIBRARIES}
+			${FFTW_LIBRARIES}
+			${FFTW_OMP_FLAGS}
+			gtest_main
+	)
+endif(custom_FFTW)
 set_target_properties(runtests PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/tests)
 add_test(NAME runtests COMMAND ${CMAKE_BINARY_DIR}/tests/runtests)

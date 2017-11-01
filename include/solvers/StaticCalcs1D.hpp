@@ -12,7 +12,7 @@
 #include "math/FourierCoeff.hpp"
 #include "math/CoeffEv.hpp"
 #include "math/ValsEv.hpp"
-
+#include "containers/Array1D.hpp"
 
 #include "debug/DebugDef.h"
 #include "output/SaveStep.hpp"
@@ -80,15 +80,15 @@ namespace solvers
     };
 
     template<typename T_VAL, typename DIST>
-    void init_psi(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, DIST d, T_VAL& psi)
+    void init_psi(Grid::Grid<1> g, DIST d, T_VAL& psi)
     {
-        double x = lgrid.x0;
+
+        double x = g.x0;
         double dx = g.dx;
 
-
-        for(size_t i = 0; i < psi.size(); i++)
+        for(size_t i = 0; i < psi.get_nx(); i++)
         {
-            psi[i] = d(x);
+            psi.set_stdc(i, d(x));
             x += dx;
         }
     };
