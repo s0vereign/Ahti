@@ -8,7 +8,7 @@
 #include "hdf5.h"
 #include "hdf5_hl.h"
 
-#include "grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "grid/LocalGrid.hpp"
 
 
@@ -16,7 +16,7 @@ namespace IO
 {
 
     using namespace std;
-    using Grid::Grid;
+    using Grid::CGrid;
 
     void recast( vector<complex < double > >& recv_buf, 
                  vector<double>& real, 
@@ -37,7 +37,7 @@ namespace IO
     void save_step       (
                           int mpi_r,
                           int mpi_s,
-                          Grid<1> g,
+                          CGrid<1> g,
                           vector<complex<double>>& lres,
                           int step,
                           hid_t& floc
@@ -70,7 +70,7 @@ namespace IO
 
     };
 
-    void save_step_serial(Grid<1> g, vector<complex<double>>& res, int step, hid_t floc)
+    void save_step_serial(CGrid<1> g, vector<complex<double>>& res, int step, hid_t floc)
     {
         vector<double> real(g.nx);
         vector<double> imag(g.nx);

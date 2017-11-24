@@ -7,7 +7,7 @@
 
 #define DEBUG_ENABLED
 #include "../include/containers/Array1D.hpp"
-#include "../include/grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "solvers/Split_Solver_1D.hpp"
 #include "../include/quantumsystems/Harmonicoscillator.hpp"
 #include "../include/quantumsystems/dist-harm-osc.hpp"
@@ -125,9 +125,9 @@ main(int argc, char **argv)
     const int nz = 300;
 
 
-    //Grid::Grid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
-    //Grid::Grid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
-    Grid::Grid<1> g(xmin, xmax, nx, 0, dt*Nt, Nt);
+    //CGrid::CGrid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
+    //CGrid::CGrid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
+    Grid::CGrid<1> g(xmin, xmax, nx, 0, dt*Nt, Nt);
     solvers::solve(g, psi1D, pot_fun, num_threads);
     std::cout << "dt was " << g.dt << std::endl;
     return EXIT_SUCCESS;

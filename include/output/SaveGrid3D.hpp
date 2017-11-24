@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 
-#include "../grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "../containers/Array3D.hpp"
 
 
@@ -18,7 +18,7 @@ namespace IO
 
 
         template<typename T, typename T_ATOMIC>
-        void cast_to_double(Array3D<T> &psi, Array3D<T_ATOMIC> &real, Array3D<T_ATOMIC> &imag, Grid::Grid<3> g)
+        void cast_to_double(Array3D<T> &psi, Array3D<T_ATOMIC> &real, Array3D<T_ATOMIC> &imag, Grid::CGrid<3> g)
         {
 
             for(int i = 0; i < g.nx; i++)
@@ -37,7 +37,7 @@ namespace IO
         }
 
         template<typename T>
-        void save_grid_3D(Array3D<T>& psi, Grid::Grid<3> g, string fname)
+        void save_grid_3D(Array3D<T>& psi, Grid::CGrid<3> g, string fname)
         {
             Array3D<double> real(g.nx, g.ny, g.nz);
             Array3D<double> imag(g.nx, g.ny, g.nz);

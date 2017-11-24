@@ -2,7 +2,7 @@
 
 #include <complex>
 
-#include "../grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 
 namespace math
 {
@@ -22,7 +22,7 @@ namespace math
     }
 
     template<typename T_CONT, typename POT>
-    void apply_spatial_op(T_CONT &data, POT V, Grid::Grid<3> g, const double &t)
+    void apply_spatial_op(T_CONT &data, POT V, Grid::CGrid<3> g, const double &t)
     {
         using std::complex;
 
@@ -59,7 +59,7 @@ namespace math
     };
 
     template<typename T_CONT>
-    void apply_FT_op(T_CONT& data, Grid::Grid<3> g)
+    void apply_FT_op(T_CONT& data, Grid::CGrid<3> g)
     {
         using std::complex;
 

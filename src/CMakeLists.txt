@@ -83,7 +83,7 @@ SET(MAIN_SRC_FILE 				main.cpp
 								quantumsystems/Harmonicoscillator.cpp
 								quantumsystems/dist-harm-osc.cpp
                                 ../include/containers/Array1D.hpp
-                                )
+        ../include/math/Operators1D.hpp)
 
 
 ##############

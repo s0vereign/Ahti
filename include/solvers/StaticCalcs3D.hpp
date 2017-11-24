@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "../containers/Array3D.hpp"
 
 namespace solvers
 {
     template<typename DIST>
     void init_psi(containers::Array3D<fftw_complex> &psi,
-                      Grid::Grid<3> g,
+                      Grid::CGrid<3> g,
                       DIST f,
                       containers::Array3D<fftw_complex> &psi_ks)
     {

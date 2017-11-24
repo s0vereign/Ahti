@@ -25,7 +25,7 @@ namespace containers
             int get_nx();
             T* get_raw_ptr();
             void mult_data(int x, T val);
-
+            void mult_data(int x, std::complex<double> z);
     };
 
 }
@@ -63,6 +63,15 @@ void containers::Array1D<T>::mult_data(int x, T val)
     double y1 = val[1];
     data[x][0] = a * x1 - b * y1;
     data[x][1] = y1 * a + b * x1;
+}
+
+template<typename T>
+void containers::Array1D<T>::mult_data(int x, std::complex<double> z)
+{
+    std::complex<double> f = {data[x][0], data[x][1]};
+    f *= z;
+    data[x][0] = f.real();
+    data[x][1] = f.imag();
 }
 
 template <typename T>

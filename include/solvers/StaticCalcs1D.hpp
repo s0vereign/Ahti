@@ -7,7 +7,7 @@
 #include <assert.h>
 #include <fftw3.h>
 
-#include "grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "grid/LocalGrid.hpp"
 #include "math/FourierCoeff.hpp"
 #include "math/CoeffEv.hpp"
@@ -52,7 +52,7 @@ namespace solvers
 	};
 
     template<typename DIST>
-    void calc_coeff(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, DIST d,vector<complex<double> >& res)
+    void calc_coeff(Grid::LocalGrid<1> lgrid, Grid::CGrid<1> g, DIST d,vector<complex<double> >& res)
     {
         const int n0 = lgrid.nx0  - g.nx / 2 + 1;
         double dx = lgrid.dx;
@@ -66,7 +66,7 @@ namespace solvers
     };
 
     template<typename T_VAL, typename T_IN>
-    void recalc_coeff(Grid::LocalGrid<1> lgrid, Grid::Grid<1> g, T_VAL& coef, T_IN psi)
+    void recalc_coeff(Grid::LocalGrid<1> lgrid, Grid::CGrid<1> g, T_VAL& coef, T_IN psi)
     {
         const int n0 = lgrid.nx0 - g.nx / 2 + 1;
         double dx = lgrid.dx;
@@ -80,7 +80,7 @@ namespace solvers
     };
 
     template<typename T_VAL, typename DIST>
-    void init_psi(Grid::Grid<1> g, DIST d, T_VAL& psi)
+    void init_psi(Grid::CGrid<1> g, DIST d, T_VAL& psi)
     {
 
         double x = g.x0;
@@ -93,7 +93,7 @@ namespace solvers
         }
     };
 
-    void norm_function(vector<complex<double>>& res, Grid::Grid<1> g)
+    void norm_function(vector<complex<double>>& res, Grid::CGrid<1> g)
     {
         // Uses trapezoidal rule in order to norm res
         const double dx = g.dx;
@@ -115,7 +115,7 @@ namespace solvers
 
     template<typename DIST, typename POT>
     void time_evo(  Grid::LocalGrid<1> lgrid, 
-                    Grid::Grid<1> g,
+                    Grid::CGrid<1> g,
                     DIST d,
                     POT p,
                     vector<complex<double>>& vals, 
@@ -181,7 +181,7 @@ namespace solvers
     };
 
     template<typename T_VAL>
-    void weigh_corr_fun(T_VAL& corr_fun, Grid::Grid<1> g)
+    void weigh_corr_fun(T_VAL& corr_fun, Grid::CGrid<1> g)
     {
         for(unsigned int i = 0; i < g.nt; i ++)
         {

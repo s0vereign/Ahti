@@ -4,13 +4,13 @@
 #include <complex>
 #include <vector>
 
-#include "grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "FourierCoeff.hpp"
 
 
 namespace math
 {
-    //using namespace Grid;
+    //using namespace CGrid;
     template<typename T_G, typename T_VAL>
     void time_ft(T_G g, T_VAL& corr_fun, T_VAL& spec_fun)
     {

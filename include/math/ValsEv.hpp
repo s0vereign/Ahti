@@ -4,7 +4,7 @@
 #include <vector>
 #include <cassert>
 
-#include "grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "grid/LocalGrid.hpp"
 
 
@@ -19,7 +19,7 @@ namespace math{
     using std::vector;
     using std::exp;
     using Grid::LocalGrid;
-    using Grid::Grid;
+    using Grid::CGrid;
 
     int get_n(int n, int gnx)
     {
@@ -30,7 +30,7 @@ namespace math{
     void vals_ev(vector<complex<double> >& vals,
                  vector<complex<double> >& coef,
                  const LocalGrid<1>& lgrid,
-                 const Grid<1>& grid,
+                 const CGrid<1>& grid,
                  POT p
                  )
     {
@@ -76,7 +76,7 @@ namespace math{
     }
 
 	template<typename POT>
-	void phase_fac(LocalGrid<1> lgrid, Grid<1> g, POT p, vector <complex<double>> &vals, const double &t)
+	void phase_fac(LocalGrid<1> lgrid, CGrid<1> g, POT p, vector <complex<double>> &vals, const double &t)
 	{
 
   		double x  = lgrid.x0;
