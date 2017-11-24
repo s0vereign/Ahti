@@ -172,6 +172,10 @@ endif()
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 
 
+#########
+# Find GoogleTest
+#########
+include_directories(../utils/googletest/googletest/include)
 
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -222,7 +226,7 @@ file(GLOB TEST_SRCS ../tests/*.cpp)
 foreach(testSrc ${TEST_SRCS})
 	get_filename_component(testName ${testSrc} NAME_WE)
 	message("-- ${testName} registered!")
-
+h
 endforeach(testSrc)
 
 ADD_EXECUTABLE(runtests ${TEST_SRCS})
