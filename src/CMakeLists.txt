@@ -174,6 +174,8 @@ INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 #########
 # Find GoogleTest
 #########
+
+
 include_directories(../utils/googletest/googletest/include)
 
 
@@ -222,9 +224,16 @@ endforeach(testSrc)
 
 ADD_EXECUTABLE(runtests ${TEST_SRCS})
 target_link_libraries(  runtests
+                        ${MPI_LIBRARIES}
                         ${HDF5_LIBRARIES}
+                        ${HDF5_CXX_LIBRARIES}
+                        ${HDF5_C_LIBRARIES}
                         ${FFTW_LIBRARIES}
                         ${HDF5_HL_LIBRARIES}
+                        ${FFTW_LIBRARIES}
+                        ${FFTW_OMP_FLAGS}
+                        libfftw3
+                        libfftw3_omp
                         gtest_main
         )
 set_target_properties(runtests PROPERTIES
