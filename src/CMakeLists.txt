@@ -83,7 +83,6 @@ SET(MAIN_SRC_FILE 				main.cpp
 								quantumsystems/Harmonicoscillator.cpp
 								quantumsystems/dist-harm-osc.cpp
                                 ../include/containers/Array1D.hpp
-                                containers/Array1D.cpp
                                 )
 
 
@@ -185,17 +184,17 @@ set_target_properties(ahti PROPERTIES
 							RUNTIME_OUTPUT_DIRECTORY
 							${CMAKE_BINARY_DIR}/bin)
 if(custom_FFTW)
+
 TARGET_LINK_LIBRARIES(
     ahti
-	${MPI_LIBRARIES}
-	${HDF5_LIBRARIES}
-	${HDF5_CXX_LIBRARIES}
-	${HDF5_C_LIBRARIES}
-	${FFTW_LIBRARIES}
-	${HDF5_HL_LIBRARIES}
-	libfftw3
-	libfftw3_omp
-    impl
+        ${MPI_LIBRARIES}
+        ${HDF5_LIBRARIES}
+        ${HDF5_CXX_LIBRARIES}
+        ${HDF5_C_LIBRARIES}
+        ${FFTW_LIBRARIES}
+        ${HDF5_HL_LIBRARIES}
+        libfftw3_omp
+        libfftw3
 )
 else(custom_FFTW)
     TARGET_LINK_LIBRARIES(
@@ -226,7 +225,7 @@ file(GLOB TEST_SRCS ../tests/*.cpp)
 foreach(testSrc ${TEST_SRCS})
 	get_filename_component(testName ${testSrc} NAME_WE)
 	message("-- ${testName} registered!")
-h
+
 endforeach(testSrc)
 
 ADD_EXECUTABLE(runtests ${TEST_SRCS})
@@ -239,8 +238,8 @@ if(custom_FFTW)
 			${HDF5_C_LIBRARIES}
 			${FFTW_LIBRARIES}
 			${HDF5_HL_LIBRARIES}
-			libfftw3
-			libfftw3_omp
+            libfftw3_omp
+            libfftw3
 			gtest_main
 	)
 else(custom_FFTW)
