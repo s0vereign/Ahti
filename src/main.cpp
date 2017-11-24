@@ -6,6 +6,7 @@
 
 
 #define DEBUG_ENABLED
+#include "../include/containers/Array1D.hpp"
 #include "../include/grid/Grid.hpp"
 #include "solvers/Split_Solver_1D.hpp"
 #include "../include/quantumsystems/Harmonicoscillator.hpp"

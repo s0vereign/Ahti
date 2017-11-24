@@ -13,11 +13,11 @@ namespace math
     using std::complex;
 
     template<typename T_CONT, typename T_DIST>
-    auto scalar_prod(const T_CONT& psi_t, T_DIST psi, Grid<1> g, LocalGrid<1> l)
+    auto scalar_prod(const T_CONT& psi_t, T_DIST psi, Grid<1> g)
     -> complex<double>
     {
         double h = g.dx;
-        double x = l.x0;
+        double x = g.x0;
         using std::complex;
 
         complex<double> res(0,0);
@@ -28,8 +28,8 @@ namespace math
             x+= h;
         }
 
-        res -= 0.5 * std::conj(psi(l.x0)) * psi_t[0];
-        res -= 0.5 * std::conj(psi(l.x1)) * psi_t[g.nx-1];
+        res -= 0.5 * std::conj(psi(g.x0)) * psi_t[0];
+        res -= 0.5 * std::conj(psi(g.x1)) * psi_t[g.nx-1];
         res *= h;
 
         return res;
