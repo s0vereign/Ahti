@@ -9,7 +9,7 @@
 #define DEBUG_ENABLED
 #include "../debug/DebugDef.h"
 
-#include "../grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "StaticCalcs3D.hpp"
 #include "../output/SaveGrid3D.hpp"
 #include "../containers/Array3D.hpp"
@@ -22,7 +22,7 @@ namespace solvers
     using containers::Array3D;
 
     template<typename T_DIST, typename T_POT>
-    void solve(Grid::Grid<3> g, T_DIST p0, T_POT V, int num_threads)
+    void solve(Grid::CGrid<3> g, T_DIST p0, T_POT V, int num_threads)
     {
         Array3D<fftw_complex > psi(g.nx, g.ny, g.nz);
         Array3D<fftw_complex > psi_ks(g.nx, g.ny, g.nz);

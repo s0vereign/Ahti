@@ -11,7 +11,7 @@ namespace Grid
      * @tparam d spatial Dimension of the grid
      */
     template<int d>
-    struct Grid
+    struct CGrid
     {
     };
 
@@ -23,7 +23,7 @@ namespace Grid
      *
      */
     template<>
-    struct Grid<1>
+    struct CGrid<1>
     {
         double x0, x1;
         double dx;
@@ -42,7 +42,7 @@ namespace Grid
         * @param tmax_ end time
         * @param nt_  number of timesteps
         */
-        Grid(double x0_,
+        CGrid(double x0_,
              double x1_,
              int nx_,
              double tmin_,
@@ -60,7 +60,7 @@ namespace Grid
      * @brief Template specification of the 2D grid
      */
     template<>
-    struct Grid<2>
+    struct CGrid<2>
     {
         double x0, x1, dx;
         double y0, y1, dy;
@@ -83,7 +83,7 @@ namespace Grid
          * @param tmax_
          * @param nt_
          */
-        Grid(double x0_,
+        CGrid(double x0_,
                      double x1_,
                      double y0_,
                      double y1_,
@@ -106,7 +106,7 @@ namespace Grid
      * @brief Template specification of the 3D grid
      */
     template<>
-    struct Grid<3>
+    struct CGrid<3>
     {
         double x0, x1;
         double y0, y1;
@@ -134,7 +134,7 @@ namespace Grid
          * @param tmax
          * @param nt
          */
-        Grid(double x0,
+        CGrid(double x0,
              double x1,
              double y0,
              double y1,

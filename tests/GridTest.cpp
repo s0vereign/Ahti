@@ -1,4 +1,4 @@
-#include "../include/grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 
 #include "gtest/gtest.h"
 
@@ -17,7 +17,7 @@ TEST(GridTest, ContructorTest)
 
     double t0 = 0.0;
     double t1 = 241;
-    Grid::Grid<2> g(x0, x1, y0, y1, nx, ny, t0, t1, nt);
+    Grid::CGrid<2> g(x0, x1, y0, y1, nx, ny, t0, t1, nt);
 
     ASSERT_EQ(g.x0, x0);
     ASSERT_EQ(g.x1, x1);
@@ -47,7 +47,7 @@ TEST(GridTest, ContructorTest3D)
     double dy = (y1 - y0) / ny;
     double dz = (z1 - z0) / nz;
     double dt = (t1 - t0) / nt;
-    Grid::Grid<3> g(x0, x1, y0, y1, z0, z1, nx, ny, nz, t0, t1, nt);
+    Grid::CGrid<3> g(x0, x1, y0, y1, z0, z1, nx, ny, nz, t0, t1, nt);
     ASSERT_EQ(g.x0, x0);
     ASSERT_EQ(g.x1, x1);
     ASSERT_EQ(g.y0, y0);

@@ -4,7 +4,7 @@
 #include <complex>
 
 #include "../containers/Array2D.hpp"
-#include "../grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "../math/CMultFFTW.hpp"
 #define DEBUG_ENABLED
 #include "../debug/DebugDef.h"
@@ -13,7 +13,7 @@ namespace solvers
 {
 
     template <typename T_CONT, typename  T_DIST>
-    void init_psi(T_CONT& vals, T_DIST& p, Grid::Grid<2> g)
+    void init_psi(T_CONT& vals, T_DIST& p, Grid::CGrid<2> g)
     {
         double x = g.x0;
         double y = g.y0;

@@ -4,7 +4,7 @@
 #include <vector>
 
 
-#include "../grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "../grid/LocalGrid.hpp"
 
 namespace math
@@ -13,7 +13,7 @@ namespace math
     using std::complex;
 
     template<typename T_CONT, typename T_DIST>
-    auto scalar_prod(const T_CONT& psi_t, T_DIST psi, Grid<1> g)
+    auto scalar_prod(const T_CONT& psi_t, T_DIST psi, CGrid<1> g)
     -> complex<double>
     {
         double h = g.dx;

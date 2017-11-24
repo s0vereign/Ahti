@@ -4,7 +4,7 @@
 #include <complex>
 #include <vector>
 
-#include "../grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 
 
 namespace math
@@ -13,7 +13,7 @@ namespace math
     using std::vector;
 
 
-    void reconstruct_wv(complex<double>** frames, vector<complex<double> >& res, Grid<1>& g, double E)
+    void reconstruct_wv(complex<double>** frames, vector<complex<double> >& res, CGrid<1>& g, double E)
     {
         const double dt = g.dt;
         const int nt = g.nt;

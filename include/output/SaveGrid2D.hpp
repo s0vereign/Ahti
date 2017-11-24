@@ -7,7 +7,7 @@
 #include "hdf5_hl.h"
 
 
-#include "../grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "../grid/LocalGrid.hpp"
 #include "../containers/Array2D.hpp"
 
@@ -28,7 +28,7 @@ namespace IO
         }
     }
 
-    void save_grid_2d(containers::Array2D<fftw_complex>& vals, Grid::Grid<2> g, std::string fname)
+    void save_grid_2d(containers::Array2D<fftw_complex>& vals, Grid::CGrid<2> g, std::string fname)
     {
 
         containers::Array2D<double> realp(g.nx, g.ny);

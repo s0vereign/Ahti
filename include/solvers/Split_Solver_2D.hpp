@@ -12,7 +12,7 @@
 #include <fftw3.h>
 
 
-#include "../grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "../grid/LocalGrid.hpp"
 #include "StaticCalcs2D.hpp"
 #include "../containers/Array2D.hpp"
@@ -29,7 +29,7 @@ namespace solvers
     using containers::Array2D;
 
     template<typename T_DIST, typename T_POT>
-    void solve(Grid::Grid<2> g, T_DIST p0, T_POT V, int num_threads)
+    void solve(Grid::CGrid<2> g, T_DIST p0, T_POT V, int num_threads)
     {
 
         fftw_init_threads();

@@ -4,7 +4,7 @@
 #include "../include/containers/Array3D.hpp"
 #include "../include/output/SaveGrid2D.hpp"
 #include  "../include/output/SaveGrid3D.hpp"
-#include "../include/grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 
 #include "gtest/gtest.h"
 
@@ -62,7 +62,7 @@ TEST(IOTest, Casting3DTest)
         }
     }
 
-    Grid::Grid<3> g(0,0,0,0,0,0,nx,ny,nz,0,0,0);
+    Grid::CGrid<3> g(0,0,0,0,0,0,nx,ny,nz,0,0,0);
 
     IO::cast_to_double(a, b, c, g);
     for(int i = 0; i < nx; i++)

@@ -3,14 +3,14 @@
 #include <complex>
 #include <fftw3.h>
 
-#include "../grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "../containers/Array2D.hpp"
 #include "CMultFFTW.hpp"
 
 namespace math
 {
     template<typename T_CONT>
-    void norm_grid(Grid::Grid<2> g, T_CONT& data)
+    void norm_grid(Grid::CGrid<2> g, T_CONT& data)
     {
         const int nx = g.nx;
         const int ny = g.ny;

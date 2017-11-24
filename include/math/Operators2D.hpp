@@ -6,7 +6,7 @@
 #include <fftw3.h>
 
 
-#include "../grid/Grid.hpp"
+#include "grid/CGrid.hpp"
 #include "CMultFFTW.hpp"
 namespace math
 {
@@ -28,7 +28,7 @@ namespace math
 
     // Application of the free propagation function in
     template<typename T_CONT>
-    void apply_2D_TEFS_op(T_CONT& data, int step, Grid::Grid<2> g)
+    void apply_2D_TEFS_op(T_CONT& data, int step, Grid::CGrid<2> g)
     {
         using std::complex;
 
@@ -52,7 +52,7 @@ namespace math
 
 
         /*
-         * Iterate of the first half of the Grid
+         * Iterate of the first half of the CGrid
          * thus adding the offset to the momentum
          * space values.
          */
@@ -99,7 +99,7 @@ namespace math
     }
 
     template<typename T_CONT, typename POT>
-    void apply_spatial_operator(T_CONT &data, Grid::Grid<2> g, POT V, const double &t)
+    void apply_spatial_operator(T_CONT &data, Grid::CGrid<2> g, POT V, const double &t)
     {
         using std::complex;
 
