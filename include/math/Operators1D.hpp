@@ -21,7 +21,7 @@ namespace math
     }
 
     template<typename T_DATA, typename T_POT>
-    void spatial_step(Grid::CGrid<1> g, T_DATA psi_rs, T_POT V, double t)
+    void spatial_step(Grid::CGrid<1> g, T_DATA& psi_rs, T_POT V, double t)
     {
         double tau = g.dt;
         double x = g.x0;
@@ -38,7 +38,7 @@ namespace math
     };
 
     template<typename T_DATA>
-    void fourier_step(Grid::CGrid<1> g, T_DATA psi_ks)
+    void fourier_step(Grid::CGrid<1> g, T_DATA& psi_ks)
     {
         double tau = g.dt;
         double dp = 2 * M_PI / (g.nx * g.dx);
@@ -62,6 +62,16 @@ namespace math
 
             c = exp(-iu * p * p * 0.5 * tau);
             psi_ks.mult_data(i,c);
+        }
+    }
+
+    template<typename T_DATA>
+    void norm_ft(Grid::CGrid<1> g, T_DATA& psi)
+    {
+        complex<double> n(1.0/g.nx, 0);
+        for(uint i = 0; i < g.nx; i++)
+        {
+            psi.mult_data(i, n);
         }
     }
 }
