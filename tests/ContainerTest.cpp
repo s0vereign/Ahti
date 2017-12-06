@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "../include/containers/Array1D.hpp"
 #include "../include/containers/Array2D.hpp"
 #include "../include/containers/Array3D.hpp"
 #include "gtest/gtest.h"
@@ -66,3 +67,19 @@ TEST(ContainerTest, Array3DFFTWTest)
     }
 }
 
+TEST(ContainerTest, Array1DFFTWTest)
+{
+    int NX = 10;
+    containers::Array1D<fftw_complex> a(NX);
+
+    std::complex<double> c(1.0,1.3);
+    for(int i = 0; i < NX; i++)
+    {
+        a.set_stdc(i,c);
+    }
+    for(int i = 0; i< NX; i++)
+    {
+        ASSERT_EQ(1.0, a.get_real(i));
+        ASSERT_EQ(1.3, a.get_imag(i));
+    }
+}

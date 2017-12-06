@@ -112,7 +112,7 @@ main(int argc, char **argv)
     //V pot_fun(w1, w1, w1, a1, a1, a1);
     V pot_fun;
     const double dt = 0.001;
-    const double Nt = 1;
+    const double Nt = 10000;
 
     const double xmax = 6.0;
     const double xmin = -6.0;
