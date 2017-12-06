@@ -3,6 +3,7 @@
 #include <memory>
 #include <fftw3.h>
 #include <complex>
+#include <cassert>
 
 #include "../debug/DebugDef.h"
 
@@ -36,14 +37,14 @@ template<typename T>
 double containers::Array1D<T>::get_real(int x)
 {
     fftw_complex* temp = &data[x];
-    return *temp[0];
+    return (*temp)[0];
 }
 
 template<typename T>
 double containers::Array1D<T>::get_imag(int x)
 {
     fftw_complex* temp = &data[x];
-    return *temp[1];
+    return (*temp)[1];
 }
 
 template<typename T>
@@ -67,12 +68,12 @@ T* containers::Array1D<T>::get_raw_ptr()
 template<typename T>
 void containers::Array1D<T>::mult_data(int x, T val)
 {
-    double a = data[x][0];
-    double b = data[x][1];
+    double a = (data[x])[0];
+    double b = (data[x])[1];
     double x1 = val[0];
     double y1 = val[1];
-    data[x][0] = a * x1 - b * y1;
-    data[x][1] = y1 * a + b * x1;
+    (data[x])[0] = a * x1 - b * y1;
+    (data[x])[1] = y1 * a + b * x1;
 }
 
 template<typename T>
@@ -80,8 +81,8 @@ void containers::Array1D<T>::mult_data(int x, std::complex<double> z)
 {
     std::complex<double> f = {(data[x])[0], (data[x])[1]};
     f *= z;
-    data[x][0] = f.real();
-    data[x][1] = f.imag();
+    (data[x])[0] = f.real();
+    (data[x])[1] = f.imag();
 }
 
 template <typename T>
@@ -89,4 +90,6 @@ void containers::Array1D<T>::set_stdc(int x, std::complex<double> c)
 {
     (data[x])[0] = c.real();
     (data[x])[1] = c.imag();
+    assert((data[x])[0] == c.real());
+    assert((data[x])[1] == c.imag());
 }

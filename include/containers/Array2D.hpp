@@ -101,13 +101,14 @@ namespace containers
 
             double get_real(int x, int y)
             {
-                return data[x*nx + y][0];
-
+                fftw_complex* f = &data[x * nx + y];
+                return (*f)[0];
             }
 
             double get_imag(int x, int y)
             {
-                return data[x * nx + y][1];
+                fftw_complex* f = &data[x * nx + y];
+                return (*f)[1];
             }
 
             fftw_complex* get_raw_ptr()

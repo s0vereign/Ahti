@@ -50,14 +50,14 @@ namespace solvers
 
         fftw_plan ift = fftw_plan_dft_1d(g.nx, psi_ks.get_raw_ptr(), psi_rs.get_raw_ptr(), FFTW_BACKWARD, FFTW_ESTIMATE);
 
-
+        IO::save_step(g, psi_rs, 0);
         double t = g.t0;
         double dt = g.dt;
         for(uint i = 0; i < g.nt; i++)
         {
 
+            std::cout << "Currently in timestep " << i << std::endl;
             math::spatial_step(g, psi_rs, V, t);
-
             fftw_execute(ft);
             math::fourier_step(g, psi_ks);
             fftw_execute(ift);
@@ -66,7 +66,8 @@ namespace solvers
             t += dt;
 
         }
-        IO::save_step(g, psi_rs, 0);
+
+        IO::save_step(g, psi_rs, 1);
 
     }
 }

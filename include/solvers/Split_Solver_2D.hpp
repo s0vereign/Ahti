@@ -63,7 +63,6 @@ namespace solvers
 
         IO::save_grid_2d(psi, g, "first.h5");
 
-
         fftw_destroy_plan(ft);
         fftw_destroy_plan(ift);
         fftw_cleanup_threads();

@@ -24,8 +24,8 @@ def load_timestep(filepath,nt,dtype="wf"):
         sys.exit("dtype not recognized")
         return -1
     if (rl in file) and (im in file):
-        imag = np.array(file[rl])
-        real = np.array(file[im])
+        imag = np.array(file[im])
+        real = np.array(file[rl])
         res = real + 1j * imag
         file.close()
         return res
