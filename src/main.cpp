@@ -11,8 +11,6 @@
 #include "solvers/Split_Solver_1D.hpp"
 #include "../include/quantumsystems/Harmonicoscillator.hpp"
 #include "../include/quantumsystems/dist-harm-osc.hpp"
-
-
 /** @file main.cpp
  *  @author Maximilian Böhme
  *  @brief The file containing the main function
@@ -112,7 +110,7 @@ main(int argc, char **argv)
     //V pot_fun(w1, w1, w1, a1, a1, a1);
     V pot_fun;
     const double dt = 0.001;
-    const double Nt = 10000;
+    const double Nt = 1;
 
     const double xmax = 6.0;
     const double xmin = -6.0;

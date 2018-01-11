@@ -83,7 +83,7 @@ SET(MAIN_SRC_FILE 				main.cpp
 								quantumsystems/Harmonicoscillator.cpp
 								quantumsystems/dist-harm-osc.cpp
                                 ../include/containers/Array1D.hpp
-        ../include/math/Operators1D.hpp)
+        ../include/math/Operators1D.hpp ../include/quantumsystems/Hydrogen.hpp quantumsystems/Hydrogen.cpp ../include/math/Factorial.hpp ../include/math/CartToSpherical.hpp)
 
 
 ##############
@@ -122,6 +122,14 @@ if(HDF5_FOUND)
 	include_directories(${HDF5_INCLUDE_DIRS})
 endif(HDF5_FOUND)
 
+
+###########
+# Find Boost with Utility Libraries
+###########
+FIND_PACKAGE(Boost REQUIRED)
+if(BOOST_FOUND)
+    include_directories(${BOOST_INCLUDE_DIRS})
+endif(BOOST_FOUND)
 
 ###########
 # Find FFTW
