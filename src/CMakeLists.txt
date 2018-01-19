@@ -223,6 +223,7 @@ option(TOTEST "Enable test build!" OFF)
 IF(TOTEST)
 
 
+
     #########
     # Find GoogleTest
     #########
@@ -236,8 +237,16 @@ foreach(testSrc ${TEST_SRCS})
 
 endforeach(testSrc)
 
-ADD_EXECUTABLE(runtests ${TEST_SRCS})
+ADD_EXECUTABLE(runtests ${TEST_SRCS} ../tests/HydrogenTests.cpp ../tests/SphericalTests.cpp)
 if(custom_FFTW)
+    ###########
+    # Find Boost with Utility Libraries
+    ###########
+    FIND_PACKAGE(Boost REQUIRED)
+    if(BOOST_FOUND)
+        include_directories(${BOOST_INCLUDE_DIRS})
+    endif(BOOST_FOUND)
+
 	TARGET_LINK_LIBRARIES(
 			runtests
 			${MPI_LIBRARIES}
@@ -251,6 +260,14 @@ if(custom_FFTW)
 			gtest_main
 	)
 else(custom_FFTW)
+    ###########
+    # Find Boost with Utility Libraries
+    ###########
+    FIND_PACKAGE(Boost REQUIRED)
+    if(BOOST_FOUND)
+        include_directories(${BOOST_INCLUDE_DIRS})
+    endif(BOOST_FOUND)
+
 	TARGET_LINK_LIBRARIES(
 			runtests
 			${MPI_LIBRARIES}
