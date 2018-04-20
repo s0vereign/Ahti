@@ -5,11 +5,17 @@
 #include <boost/math/special_functions/spherical_harmonic.hpp>
 #include <boost/math/constants/constants.hpp>
 
-#include "../math/Factorial.hpp"
+
+
 namespace qsystems
 {
     namespace hydrogen
     {
+        /*
+         * Definition of the Hydrogen Potential.
+         * The potential is a simple functor which simply returns the Coulomb
+         * potential
+         */
         class Hplus_Pot
         {
         public:
@@ -20,6 +26,12 @@ namespace qsystems
 
         };
 
+
+        /*
+         * Definition of the spehrical harmonics which
+         * correspond to the angular factors in the solution
+         * for the hydrogen solution.
+         */
         struct Y_lm
         {
         public:
@@ -41,6 +53,9 @@ namespace qsystems
 
         };
 
+        /*
+         * Radial wavefunction functor
+         */
         struct R_nl
         {
         public:
@@ -61,12 +76,13 @@ namespace qsystems
 
         struct Psi_nlm
         {
-            public:
+        public:
 
             std::complex<double> operator()(const std::complex<double>& x,
                                             const std::complex<double>& y,
                                             const std::complex<double>& z);
             Psi_nlm(int n_, int l_, int m_);
+
         private:
             R_nl rad;
             Y_lm ang;

@@ -11,6 +11,8 @@
 #include "solvers/Split_Solver_1D.hpp"
 #include "../include/quantumsystems/Harmonicoscillator.hpp"
 #include "../include/quantumsystems/dist-harm-osc.hpp"
+#include "../include/quantumsystems/Hydrogen.hpp"
+
 /** @file main.cpp
  *  @author Maximilian Böhme
  *  @brief The file containing the main function
@@ -62,6 +64,7 @@ main(int argc, char **argv)
         std::cout << "Using serial execution" << std::endl;
         omp_set_num_threads(num_threads);
     }
+
     else
     {
         num_threads = atoi(argv[1]);

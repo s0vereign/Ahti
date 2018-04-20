@@ -56,7 +56,5 @@ TEST(SpericalTest, PhiTests)
         phi = math::phi(cart_r[0], cart_r[1], cart_r[2]);
         ASSERT_DOUBLE_EQ(theta, thetas[1]);
         ASSERT_DOUBLE_EQ(phi, phis[i]);
-
-
     }
 }
