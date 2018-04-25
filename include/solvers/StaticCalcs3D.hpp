@@ -21,12 +21,12 @@ namespace solvers
         const complex<double> iu(0.0,-1.0);
 
 
-#pragma omp parallel
+//#pragma omp parallel
         {
             double x = g.x0;
             double y = g.y0;
             double z = g.z0;
-        #pragma omp for
+//        #pragma omp for
         for(int i = 0; i < g.nx; i++)
         {
             x = i * dx + g.x0;

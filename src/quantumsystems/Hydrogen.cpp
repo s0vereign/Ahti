@@ -4,9 +4,9 @@
 #include "../../include/math/CartToSpherical.hpp"
 #include "../../include/math/Factorial.hpp"
 
-const std::complex<double> qsystems::hydrogen::Hplus_Pot::operator()(const std::complex<double>& x,
-                                                                   const std::complex<double>& y,
-                                                                   const std::complex<double>& z)
+const std::complex<double>
+qsystems::hydrogen::Hplus_Pot::operator()(const std::complex<double> &x, const std::complex<double> &y,
+                                          const std::complex<double> &z, double t)
 {
     return - 1.0 / sqrt(x.real()*x.real() + y.real() * y.real() + z.real() * z.real());
 };
@@ -29,29 +29,17 @@ const std::complex<double> qsystems::hydrogen::R_nl::operator()( int n, int l,
 
 };
 
-double qsystems::hydrogen::Y_lm::NLM(int l, int m)
-{
-
-    double f = (2*l+1)/2;
-    double s = math::fac(l - m)/ math::fac(l + m);
-
-    return sqrt(f*s);
-}
 
 const std::complex<double> qsystems::hydrogen::Y_lm::operator()(int l1, int m1,
                                                                 const std::complex<double> &x,
                                                                 const std::complex<double> &y,
                                                                 const std::complex<double> &z)
 {
-    double theta;
-    double phi;
+    double theta = math::theta(x, y, z);
+    double phi = math::phi(x, y, z);
 
-    theta = math::theta(x, y, z);
-    phi = math::phi(x, y, z);
-    auto iu = std::complex<double>(1.0,0);
+    return boost::math::spherical_harmonic(l1, m1, theta, phi);
 
-    double n = NLM(l1,m1);
-    return 1/sqrt(2*boost::math::constants::pi<double>()) * n * boost::math::legendre_p(l1 ,m1, cos(theta)) * std::exp(iu * double(m1));
 }
 
 const std::complex<double> qsystems::hydrogen::Y_lm::operator()(const std::complex<double> &x,
@@ -63,10 +51,8 @@ const std::complex<double> qsystems::hydrogen::Y_lm::operator()(const std::compl
 
     theta = math::theta(x, y, z);
     phi = math::phi(x, y, z);
-    auto iu = std::complex<double>(1.0,0);
 
-    return 1/sqrt(2*boost::math::constants::pi<double>()) * N * boost::math::legendre_p(l ,m, cos(theta)) * std::exp(iu * double(m));
-
+    return boost::math::spherical_harmonic(l, m, theta, phi);
 }
 
 qsystems::hydrogen::Psi_nlm::Psi_nlm(int n_, int l_, int m_) : n(n_), l(l_), m(m_), rad(n_, l_), ang(l_, m_) {};

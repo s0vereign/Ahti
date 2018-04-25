@@ -19,9 +19,10 @@ namespace qsystems
         class Hplus_Pot
         {
         public:
-            const std::complex<double> operator()(const std::complex<double>& x,
-                                                const std::complex<double>& y,
-                                                const std::complex<double>& z);
+            const std::complex<double> operator()(const std::complex<double> &x,
+                                                  const std::complex<double> &y,
+                                                  const std::complex<double> &z,
+                                                  double t);
             Hplus_Pot() = default;
 
         };
@@ -32,31 +33,30 @@ namespace qsystems
          * correspond to the angular factors in the solution
          * for the hydrogen solution.
          */
-        struct Y_lm
+        class Y_lm
         {
         public:
             Y_lm(int l_, int m_) : l(l_),m(m_) {};
+
             const std::complex<double>
                     operator()( int l1, int m1,
                                 const std::complex<double>& x,
                                 const std::complex<double>& y,
                                 const std::complex<double>& z);
+
             const std::complex<double>
                     operator()(const std::complex<double>& x,
                                const std::complex<double>& y,
                                const std::complex<double>& z);
         private:
-            double
-            NLM(int l, int m);
-            int m,l;
-            const double N = NLM(l,m);
+            int l,m;
 
         };
 
         /*
          * Radial wavefunction functor
          */
-        struct R_nl
+        class R_nl
         {
         public:
             R_nl(int n_, int l_): n(n_), l(l_){};

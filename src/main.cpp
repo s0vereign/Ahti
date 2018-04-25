@@ -8,7 +8,7 @@
 #define DEBUG_ENABLED
 #include "../include/containers/Array1D.hpp"
 #include "grid/CGrid.hpp"
-#include "solvers/Split_Solver_1D.hpp"
+#include "solvers/Split_Solver_3D.hpp"
 #include "../include/quantumsystems/Harmonicoscillator.hpp"
 #include "../include/quantumsystems/dist-harm-osc.hpp"
 #include "../include/quantumsystems/Hydrogen.hpp"
@@ -76,7 +76,7 @@ main(int argc, char **argv)
     using qsystems::harmosc::Psi0;
     using qsystems::harmosc::Psi1;
     using qsystems::harmosc::Psi2;
-    using V = qsystems::harmosc::V_1D;
+    using V = qsystems::hydrogen::Hplus_Pot;
 
 
     auto phi = [](const std::complex<double>& x,
@@ -108,6 +108,8 @@ main(int argc, char **argv)
         return p0(x);
     };
 
+    auto psi_rad = qsystems::hydrogen::Psi_nlm(1, 0, 0);
+
     double a1 = 0.1;
     double w1 = 2 * M_PI/1000;
     //V pot_fun(w1, w1, w1, a1, a1, a1);
@@ -121,15 +123,16 @@ main(int argc, char **argv)
     const double ymin = xmin;
     const double zmax = xmax;
     const double zmin = xmin;
-    const int nx = 1000;
-    const int ny = 500;
-    const int nz = 300;
+    const int nx = 200;
+    const int ny = 200;
+    const int nz = 200;
 
 
-    //CGrid::CGrid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
+    Grid::CGrid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
     //CGrid::CGrid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
-    Grid::CGrid<1> g(xmin, xmax, nx, 0, dt*Nt, Nt);
-    solvers::solve(g, psi1D, pot_fun, num_threads);
+    //Grid::CGrid<1> g(xmin, xmax, nx, 0, dt*Nt, Nt);
+    solvers::solve(g, psi_rad, pot_fun, num_threads);
+
     std::cout << "dt was " << g.dt << std::endl;
     return EXIT_SUCCESS;
 
