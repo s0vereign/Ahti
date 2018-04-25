@@ -108,7 +108,7 @@ main(int argc, char **argv)
         return p0(x);
     };
 
-    auto psi_rad = qsystems::hydrogen::Psi_nlm(1, 0, 0);
+    auto psi_rad = qsystems::hydrogen::Psi_nlm(2, 1, 1);
 
     double a1 = 0.1;
     double w1 = 2 * M_PI/1000;
