@@ -38,11 +38,6 @@ namespace qsystems
         public:
             Y_lm(int l_, int m_) : l(l_),m(m_) {};
 
-            const std::complex<double>
-                    operator()( int l1, int m1,
-                                const std::complex<double>& x,
-                                const std::complex<double>& y,
-                                const std::complex<double>& z);
 
             const std::complex<double>
                     operator()(const std::complex<double>& x,
@@ -60,10 +55,6 @@ namespace qsystems
         {
         public:
             R_nl(int n_, int l_): n(n_), l(l_){};
-            const std::complex<double> operator()(  int n, int l,
-                                                    const std::complex<double>& x_,
-                                                    const std::complex<double>& y_,
-                                                    const std::complex<double>& z_);
 
             const std::complex<double> operator()(  const std::complex<double>& x_,
                                                     const std::complex<double>& y_,

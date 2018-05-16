@@ -108,17 +108,17 @@ main(int argc, char **argv)
         return p0(x);
     };
 
-    auto psi_rad = qsystems::hydrogen::Psi_nlm(2, 1, 1);
+    auto psi_rad = qsystems::hydrogen::Psi_nlm(4, 1, -1);
 
     double a1 = 0.1;
     double w1 = 2 * M_PI/1000;
-    //V pot_fun(w1, w1, w1, a1, a1, a1);
+
     V pot_fun;
     const double dt = 0.001;
     const double Nt = 1;
 
-    const double xmax = 6.0;
-    const double xmin = -6.0;
+    const double xmax = 20.0;
+    const double xmin = -20.0;
     const double ymax = xmax;
     const double ymin = xmin;
     const double zmax = xmax;
@@ -128,9 +128,12 @@ main(int argc, char **argv)
     const int nz = 200;
 
 
+
     Grid::CGrid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
+
     //CGrid::CGrid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
     //Grid::CGrid<1> g(xmin, xmax, nx, 0, dt*Nt, Nt);
+
     solvers::solve(g, psi_rad, pot_fun, num_threads);
 
     std::cout << "dt was " << g.dt << std::endl;
