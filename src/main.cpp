@@ -108,7 +108,7 @@ main(int argc, char **argv)
         return p0(x);
     };
 
-    auto psi_rad = qsystems::hydrogen::Psi_nlm(4, 1, -1);
+    auto psi_rad = qsystems::hydrogen::Psi_nlm(4, 2, 1);
 
     double a1 = 0.1;
     double w1 = 2 * M_PI/1000;
@@ -117,8 +117,8 @@ main(int argc, char **argv)
     const double dt = 0.001;
     const double Nt = 1;
 
-    const double xmax = 20.0;
-    const double xmin = -20.0;
+    const double xmax = 30.0;
+    const double xmin = -30.0;
     const double ymax = xmax;
     const double ymin = xmin;
     const double zmax = xmax;
