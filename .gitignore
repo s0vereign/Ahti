@@ -2,6 +2,8 @@ utils/pyvis/.ipynb_checkpoints/
 # subprojects
 utils/graybat
 utils/alpaka
+utils/googletest
+utils/fftw3
 .vscode
 # build folder
 build/
