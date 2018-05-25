@@ -108,14 +108,14 @@ main(int argc, char **argv)
         return p0(x);
     };
 
-    auto psi_rad = qsystems::hydrogen::Psi_nlm(4, 2, 1);
+    auto psi_rad = qsystems::hydrogen::Psi_nlm(2, 1, -1);
 
     double a1 = 0.1;
     double w1 = 2 * M_PI/1000;
 
     V pot_fun;
     const double dt = 0.001;
-    const double Nt = 1;
+    const double Nt = 1000;
 
     const double xmax = 30.0;
     const double xmin = -30.0;
