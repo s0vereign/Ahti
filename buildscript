@@ -1,0 +1,23 @@
+# This assumes spack is installed and activated and also that
+# GCC/7.3.0 is in you compilers.yaml. Don't forget to add gcc/7.3.0 
+# to the modules
+
+
+spack install hdf5%gcc@7.3.0
+spack install boost%gcc@7.3.0
+spack install fftw%gcc@7.3.0 +openmp
+
+cd utils/
+git clone https://github.com/google/googletest.git
+cd ..
+
+
+
+# All the necessary dependencies
+module load gcc/7.3.0
+module load cmake
+spack load hdf5%gcc@7.3.0
+spack load boost%gcc@7.3.0
+spack load fftw%gcc@7.3.0
+
+
