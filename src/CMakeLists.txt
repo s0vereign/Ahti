@@ -22,7 +22,7 @@ else(DEBUG_BUILD)
 ENDIF(DEBUG_BUILD)
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wpedantic")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wnarrowing")
@@ -121,11 +121,12 @@ endif(MPI_FOUND)
 ############
 # Find HDF5
 ############
+set(HDF5_USE_STATIC_LIBRARIES ON)
+set(HDF5_FIND_DEBUG ON)
 FIND_PACKAGE(HDF5 REQUIRED COMPONENTS HL)
 if(HDF5_FOUND)
 	include_directories(${HDF5_INCLUDE_DIRS})
 endif(HDF5_FOUND)
-
 
 ###########
 # Find Boost with Utility Libraries
@@ -149,8 +150,8 @@ SET_PROPERTY(TARGET libfftw3 PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR
 ADD_LIBRARY(libfftw3_omp STATIC IMPORTED)
 SET_PROPERTY(TARGET libfftw3_omp PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../utils/fftw3/lib/libfftw3_omp.a)
 
-SET(FFTW_LIBRARIES "")
-SET(FFTW_OMP_FLAGS "")
+#SET(FFTW_OMP_FLAGS "")
+
 else(custom_FFTW)
 
 FIND_LIBRARY(FFTW REQUIRED)
@@ -158,10 +159,10 @@ FIND_LIBRARY(FFTW REQUIRED)
 	include_directories(${FFTW_INCLUDES})
 	
 	SET(FFTW_OMP_FLAGS "-lfftw3_omp -lfftw3 -lm")
-	if(APPLE)
-			include_directories("/usr/local/Cellar/fftw/3.3.6-pl2/include")
-     		set(FFTW_OMP_FLAGS "-L/usr/local/Cellar/fftw/3.3.6-pl2/lib ${FFTW_OMP_FLAGS}")
-     	endif()
+if(APPLE)
+	include_directories("/usr/local/Cellar/fftw/3.3.6-pl2/include")
+    set(FFTW_OMP_FLAGS "-L/usr/local/Cellar/fftw/3.3.6-pl2/lib ${FFTW_OMP_FLAGS}")
+endif()
 	message("FFTW LINKS = ${FFTW_LIBRARIES}")
 endif(custom_FFTW)
 
@@ -191,7 +192,7 @@ include_directories(../utils/googletest/googletest/include)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 message(${MAIN_SRC_FILE})
-ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE} ${HEADER_SRCS})
+ADD_EXECUTABLE(ahti ${MAIN_SRC_FILE} ${HEADER_SRCS} )
 set_target_properties(ahti PROPERTIES
 							RUNTIME_OUTPUT_DIRECTORY
 							${CMAKE_BINARY_DIR}/bin)
