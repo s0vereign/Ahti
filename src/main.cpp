@@ -8,7 +8,7 @@
 #define DEBUG_ENABLED
 #include "../include/containers/Array1D.hpp"
 #include "grid/CGrid.hpp"
-#include "solvers/Split_Solver_3D.hpp"
+#include "solvers/Split_Solver_2D.hpp"
 #include "../include/quantumsystems/Harmonicoscillator.hpp"
 #include "../include/quantumsystems/dist-harm-osc.hpp"
 #include "../include/quantumsystems/Hydrogen.hpp"
@@ -73,68 +73,63 @@ main(int argc, char **argv)
         omp_set_num_threads(num_threads);
     }
 
+
+    // Get the initial states from the corresponding namespaces
+    // These are the first three states for the harmonic oscillator
     using qsystems::harmosc::Psi0;
     using qsystems::harmosc::Psi1;
     using qsystems::harmosc::Psi2;
-    using V = qsystems::hydrogen::Hplus_Pot;
+
+    // This is the disturbed harmonic oscillaor potential
+    using V = qsystems::distosc::VD_2D;
 
 
-    auto phi = [](const std::complex<double>& x,
-                  const std::complex<double>& y,
-                  const std::complex<double>& z)
-    {
-        Psi2 p2;
-        Psi1 p1;
-        Psi0 p0;
-
-        return p0(x) * p0(y) * p0(z);
-    };
-
+    // Build the initial state
     auto phi2D = [](const std::complex<double>& x,
                   const std::complex<double>& y)
     {
-        Psi2 p2;
-        Psi1 p1;
         Psi0 p0;
-
-        return p0(x) * p0(y);
+        const std::complex<double> x0 = 1.0;
+        const std::complex<double> y0 = -1.0;
+        return p0(x - x0) * p0(y - y0);
     };
 
-    auto psi1D = [](const std::complex<double>& x)
-    {
-        Psi0 p0;
-        Psi1 p1;
-        Psi2 p2;
-        return p0(x);
-    };
 
-    auto psi_rad = qsystems::hydrogen::Psi_nlm(2, 1, -1);
 
+    // Define the disturbance paramteres
     double a1 = 0.1;
+
+    // Define the disturbance frequency
     double w1 = 2 * M_PI/1000;
 
-    V pot_fun;
+
+    // Create the Disturbed harmonic oscillator functor
+    V pot_fun(w1, w1, a1, a1);
+
+
+    // Define the Time Grid parameters
     const double dt = 0.001;
     const double Nt = 1000;
 
+
+    // Define the Grid paramters
     const double xmax = 30.0;
     const double xmin = -30.0;
     const double ymax = xmax;
     const double ymin = xmin;
-    const double zmax = xmax;
-    const double zmin = xmin;
     const int nx = 200;
     const int ny = 200;
-    const int nz = 200;
 
 
 
-    Grid::CGrid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
+    //Grid::CGrid<3> g(xmin, xmax, ymin, ymax, zmin, zmax, nx, ny, nz, 0, Nt*dt, Nt);
 
-    //CGrid::CGrid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
+    // Contruct the cartesian grid
+    Grid::CGrid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
     //Grid::CGrid<1> g(xmin, xmax, nx, 0, dt*Nt, Nt);
 
-    solvers::solve(g, psi_rad, pot_fun, num_threads);
+    // do the time evolution    
+    solvers::solve(g, phi2D, pot_fun, num_threads);
 
     std::cout << "dt was " << g.dt << std::endl;
     return EXIT_SUCCESS;
