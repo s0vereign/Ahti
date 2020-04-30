@@ -2,17 +2,17 @@
 
 const std::complex<double> qsystems::harmosc::Psi0::operator()(const std::complex<double> &x)
 {
-    return inv_fthsqrt_pi * std::exp(- x * x / 2.0);
+    return inv_fthsqrt_pi * std::exp(- x * x * w / 2.0);
 }
 
 const std::complex<double>  qsystems::harmosc::Psi1::operator()(const std::complex<double> &x)
 {
-    return p0(x) * inv_sqrt_two * (2.0 * x);
+    return p0(x) * inv_sqrt_two * (p0.sqrt_w* 2.0 * x)  ;
 }
 
 const std::complex<double>  qsystems::harmosc::Psi2::operator()(const std::complex<double> &x)
 {
-    return p0(x) * inv_sqrt_eight * (4.0 * x * x - 2.0);
+    return p0(x) * inv_sqrt_eight * (4.0 * p0.w * x * x - 2.0);
 }
 
 const std::complex<double> qsystems::harmosc::V_1D::operator()(const std::complex<double> &x, const double &t)

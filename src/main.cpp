@@ -84,23 +84,24 @@ main(int argc, char **argv)
     using V = qsystems::distosc::VD_2D;
 
 
+    // Define the disturbance paramteres
+    double a1 = 0.1;
+
+    // Define the disturbance frequency
+    double w1 = 2 * M_PI/1000;
+
+
     // Build the initial state
-    auto phi2D = [](const std::complex<double>& x,
-                  const std::complex<double>& y)
+    auto phi2D = [w1](const std::complex<double>& x,
+                    const std::complex<double>& y)
     {
-        Psi0 p0;
+        Psi0 p0(w1);
         const std::complex<double> x0 = 1.0;
         const std::complex<double> y0 = -1.0;
         return p0(x - x0) * p0(y - y0);
     };
 
 
-
-    // Define the disturbance paramteres
-    double a1 = 0.1;
-
-    // Define the disturbance frequency
-    double w1 = 2 * M_PI/1000;
 
 
     // Create the Disturbed harmonic oscillator functor
@@ -128,7 +129,7 @@ main(int argc, char **argv)
     Grid::CGrid<2> g(xmin, xmax, ymin, ymax, nx, ny, 0, dt*Nt, Nt);
     //Grid::CGrid<1> g(xmin, xmax, nx, 0, dt*Nt, Nt);
 
-    // do the time evolution    
+    // do the time evolution
     solvers::solve(g, phi2D, pot_fun, num_threads);
 
     std::cout << "dt was " << g.dt << std::endl;
