@@ -96,9 +96,12 @@ main(int argc, char **argv)
                     const std::complex<double>& y)
     {
         Psi0 p0(w1);
-        const std::complex<double> x0 = 1.0;
-        const std::complex<double> y0 = -1.0;
-        return p0(x - x0) * p0(y - y0);
+        Psi1 p1(w1);
+
+        const std::complex<double> x0 = 0.0;
+        const std::complex<double> y0 = 0.0;
+        const double inv_sqrt2 = 1.0/sqrt(2.0);
+        return inv_sqrt2 * p0(x - x0) * p0(y - y0) + p1(x - x0) * p1(y - y0);
     };
 
 
