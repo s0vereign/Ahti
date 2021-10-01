@@ -43,3 +43,8 @@ cmake-build-release/
 *.out
 *.app
 __pycache__
+
+
+fftw-3.3.10.tar.gz
+fftw-3.3.10.tar.gz.1
+fftw-3.3.10/

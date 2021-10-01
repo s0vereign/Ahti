@@ -8,3 +8,5 @@ cd fftw-3.3.10
 ./configure --prefix=$PWD/../fftw3 --enable-openmp
 make -j $NUM_CORES
 make install
+cd ..
+rm -rf fftw-3.3.10.tar.gz  fftw-3.3.10
