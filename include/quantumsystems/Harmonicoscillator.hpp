@@ -1,6 +1,7 @@
 #pragma once
 
 #include <complex>
+#include <cmath>
 
 namespace qsystems
 {
@@ -12,7 +13,12 @@ namespace qsystems
             const double inv_fthsqrt_pi = 0.7511255444649425;
 
             public:
-            Psi0() = default;
+            const double w;
+            const double sqrt_w;
+            Psi0(double w) : w(w), sqrt_w(sqrt(w))
+            {
+            };
+
             const std::complex<double>
             operator()(const std::complex<double> &x);
         };
@@ -25,7 +31,7 @@ namespace qsystems
             const double inv_sqrt_two = 0.70710678118654757;
 
             public:
-            Psi1() : p0() {};
+            Psi1(double w) : p0(w)  {};
 
             const std::complex<double>
             operator()(const std::complex<double> &x);
