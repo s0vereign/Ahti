@@ -1,13 +1,13 @@
 ############
 # Use CMake 3.3.0
 ############
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.11.0)
 
 
 ############
 # Change the C Flags
 ############
-option(DEBUG_BUILD "Enables debug macros and disables Optimizations" On)
+option(DEBUG_BUILD "Enables debug macros and disables Optimizations" Off)
 
 
 ######
@@ -51,14 +51,29 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wvolatile-register-var")
 
 
 
+##########
+# Add utitlity libraries
+#########
+
+FetchContent_Declare(
+		googletest
+		URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+FetchContent_Declare(matplotplusplus
+		GIT_REPOSITORY https://github.com/alandefreitas/matplotplusplus
+		GIT_TAG origin/master) # or whatever tag you want
+FetchContent_GetProperties(matplotplusplus)
 
 
+FetchContent_Declare(
+		fftw3
+		URL
+)
 
-############
-# Define project
-############
-
-PROJECT(ahti)
 enable_testing()
 include(CTest)
 
@@ -187,7 +202,7 @@ INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/../include/")
 #########
 # Find GoogleTest
 #########
-include_directories(../utils/googletest/googletest/include)
+#include_directories(../utils/googletest/googletest/include)
 
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
